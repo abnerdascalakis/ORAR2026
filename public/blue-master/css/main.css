@@ -727,7 +727,7 @@ ul.external li a:hover {
 
 
 #testimonials {
-    background-image: url(../img/parallax/testimonial.jpg);
+    background-image: url(/assets/forjados.jpeg);
     padding: 0;
     color: #fff;
 }
@@ -897,7 +897,7 @@ ul.external li a:hover {
 ==================================================================*/
 
 #social {
-    background-image: url(../img/slider/banner.jpg);
+    background-image: url(/assets/abertura.jpeg);
     padding: 0;
 }
 
