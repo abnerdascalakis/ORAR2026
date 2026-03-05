@@ -1,404 +1,59 @@
- 
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
-    <head>
-    	<!-- meta character set -->
-        <meta charset="utf-8">
-		<!-- Always force latest IE rendering engine or request Chrome Frame -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>ORAR 2026</title>		
-		<!-- Meta Description -->
-        <meta name="description" content="Blue One Page Creative HTML5 Template">
-        <meta name="keywords" content="one page, single page, onepage, responsive, parallax, creative, business, html5, css3, css3 animation">
-        <meta name="author" content="Muhammad Morshed">
-		
-		<!-- Mobile Specific Meta -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<!-- CSS
-		================================================== -->
-		
-		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
-		
-		<!-- Fontawesome Icon font -->
-        <link rel="stylesheet" href="/blue-master/css/font-awesome.min.css">
-		<!-- bootstrap.min -->
-        <link rel="stylesheet" href="/blue-master/css/jquery.fancybox.css">
-		<!-- bootstrap.min -->
-        <link rel="stylesheet" href="/blue-master/css/bootstrap.min.css">
-		<!-- bootstrap.min -->
-        <link rel="stylesheet" href="/blue-master/css/owl.carousel.css">
-		<!-- bootstrap.min -->
-        <link rel="stylesheet" href="/blue-master/css/slit-slider.css">
-		<!-- bootstrap.min -->
-        <link rel="stylesheet" href="/blue-master/css/animate.css">
-		<!-- Main Stylesheet -->
-        <link rel="stylesheet" href="/blue-master/css/main.css">
-
-		<!-- Modernizer Script for old Browsers -->
-        <script src="/blue-master/js/modernizr-2.6.2.min.js"></script>
-
-    </head>
-	
-    <body id="body">
-
-		<!-- preloader -->
-		<div id="preloader">
-            <div class="loder-box">
-            	<div class="battery"></div>
+<main>
+  <section class="p-0">
+    <div id="orarCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active position-relative">
+          <%= image_tag "abertura.jpeg", class: "d-block w-100 orar-hero-image", alt: "Abertura ORAR 2026" %>
+          <div class="carousel-caption d-flex h-100 w-100 top-0 start-0 orar-hero-overlay">
+            <div class="container my-auto text-center">
+              <h1 class="display-3 fw-bold text-white">ORAR 2026</h1>
+              <p class="lead text-white mb-0">Olimpíada Regional Adventista de Rondônia</p>
             </div>
-		</div>
-		<!-- end preloader -->
+          </div>
+        </div>
+        <div class="carousel-item position-relative">
+          <%= image_tag "investidura.jpeg", class: "d-block w-100 orar-hero-image", alt: "Investidura ORAR 2026" %>
+          <div class="carousel-caption d-flex h-100 w-100 top-0 start-0 orar-hero-overlay">
+            <div class="container my-auto text-center">
+              <h1 class="display-3 fw-bold text-white">ORAR 2026</h1>
+              <p class="lead text-white mb-0">Olimpíada Regional Adventista de Rondônia</p>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item position-relative">
+          <%= image_tag "humaita.jpeg", class: "d-block w-100 orar-hero-image", alt: "Humaitá ORAR 2026" %>
+          <div class="carousel-caption d-flex h-100 w-100 top-0 start-0 orar-hero-overlay">
+            <div class="container my-auto text-center">
+              <h1 class="display-3 fw-bold text-white">ORAR 2026</h1>
+              <p class="lead text-white mb-0">Olimpíada Regional Adventista de Rondônia</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#orarCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#orarCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Próxima</span>
+      </button>
+    </div>
+  </section>
 
-        <!--
-        Fixed Navigation
-        ==================================== -->
-        <%= render "shared/navbar" %>
-        <!--
-        End Fixed Navigation
-        ==================================== -->
-		
-		<main class="site-content" role="main">
-		
-        <!--
-        Home Slider
-        ==================================== -->
-		
-		<section id="home-slider">
-            <div id="slider" class="sl-slider-wrapper">
-
-				<div class="sl-slider">
-				
-					<div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25" data-slice1-scale="2" data-slice2-scale="2">
-
-						<div class="bg-img bg-img-1" style="background-image: url('<%= asset_path("abertura.jpeg") %>');"></div>
-
-						<div class="slide-caption">
-                            <div class="caption-content">
-                                <h2 class="animated fadeInDown">ORAR 2026!</h2>
-                                <span class="animated fadeInDown">Olimpiada Regional Adventista de Rondônia</span>
-                            </div>
-                        </div>
-						
-					</div>
-					
-					<div class="sl-slide" data-orientation="vertical" data-slice1-rotation="10" data-slice2-rotation="-15" data-slice1-scale="1.5" data-slice2-scale="1.5">
-					
-						<div class="bg-img bg-img-2" style="background-image: url('<%= asset_path("investidura.jpeg") %>');"></div>
-						<div class="slide-caption">
-                            <div class="caption-content">
-                                <h2>ORAR 2026!</h2>
-                                <span>Olimpiada Regional Adventista de Rondônia</span>
-                            </div>
-                        </div>
-						
-					</div>
-					
-					<div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="3" data-slice2-rotation="3" data-slice1-scale="2" data-slice2-scale="1">
-						
-						<div class="bg-img bg-img-3" style="background-image: url('<%= asset_path("humaita.jpeg") %>');"></div>
-						<div class="slide-caption">
-                            <div class="caption-content">
-                                <h2>ORAR 2026!</h2>
-                                <span>Olimpiada Regional Adventista de Rondônia</span>
-                            </div>
-                        </div>
-
-					</div>
-
-				</div><!-- /sl-slider -->
-
-                <!-- 
-                <nav id="nav-arrows" class="nav-arrows">
-                    <span class="nav-arrow-prev">Previous</span>
-                    <span class="nav-arrow-next">Next</span>
-                </nav>
-                -->
-                
-                <nav id="nav-arrows" class="nav-arrows hidden-xs hidden-sm visible-md visible-lg">
-                    <a href="javascript:;" class="sl-prev">
-                        <i class="fa fa-angle-left fa-3x"></i>
-                    </a>
-                    <a href="javascript:;" class="sl-next">
-                        <i class="fa fa-angle-right fa-3x"></i>
-                    </a>
-                </nav>
-                
-
-				<nav id="nav-dots" class="nav-dots visible-xs visible-sm hidden-md hidden-lg">
-					<span class="nav-dot-current"></span>
-					<span></span>
-					<span></span>
-				</nav>
-
-			</div><!-- /slider-wrapper -->
-		</section>
-		
-        <!--
-        End Home SliderEnd
-        ==================================== -->
-			
-			
-			<!-- end about section -->
-			
-			
-			<!-- Service section -->
-			<section id="service">
-				<div class="container">
-					<div class="row">
-					
-						<div class="sec-title text-center">
-							<h2 class="wow animated bounceInLeft">Service</h2>
-							<p class="wow animated bounceInRight">The Key Features of our Job</p>
-						</div>
-						
-						<div class="col-md-3 col-sm-6 col-xs-12 text-center wow animated zoomIn">
-							<div class="service-item">
-								<div class="service-icon">
-									<i class="fa fa-home fa-3x"></i>
-								</div>
-								<h3>Support</h3>
-								<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-							</div>
-						</div>
-					
-						<div class="col-md-3 col-sm-6 col-xs-12 text-center wow animated zoomIn" data-wow-delay="0.3s">
-							<div class="service-item">
-								<div class="service-icon">
-									<i class="fa fa-tasks fa-3x"></i>
-								</div>
-								<h3>Well Documented</h3>
-								<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-							</div>
-						</div>
-					
-						<div class="col-md-3 col-sm-6 col-xs-12 text-center wow animated zoomIn" data-wow-delay="0.6s">
-							<div class="service-item">
-								<div class="service-icon">
-									<i class="fa fa-clock-o fa-3x"></i>
-								</div>
-								<h3>Design UI/UX</h3>
-								<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-							</div>
-						</div>
-					
-						<div class="col-md-3 col-sm-6 col-xs-12 text-center wow animated zoomIn" data-wow-delay="0.9s">
-							<div class="service-item">
-								<div class="service-icon">
-									<i class="fa fa-heart fa-3x"></i>
-								</div>
-								
-								<h3>Web Security</h3>
-								<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>							
-							</div>
-						</div>
-						
-					</div>
-				</div>
-			</section>
-			<!-- end Service section -->
-			
-			<!-- portfolio section -->
-			<section id="portfolio">
-				<div class="container">
-					<div class="row">
-					
-						<div class="sec-title text-center wow animated fadeInDown">
-							<h2>Fotos do Último ORAR</h2>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-						</div>
-						
-
-						<ul class="project-wrapper wow animated fadeInUp">
-							<li class="portfolio-item">
-								<%= image_tag "ulisses.jpeg", class: "img-responsive", alt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat" %>
-								<figcaption class="mask">
-									<h3>Wall street</h3>
-									<p>Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. </p>
-								</figcaption>
-								<ul class="external">
-									<li><a class="fancybox" title="Araund The world" data-fancybox-group="works" href="<%= asset_path('ulisses.jpeg') %>"><i class="fa fa-search"></i></a></li>
-									<li><a href=""><i class="fa fa-link"></i></a></li>
-								</ul>
-							</li>
-							
-							<li class="portfolio-item">
-								<%= image_tag "candeias.jpeg", class: "img-responsive", alt: "Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. " %>
-								<figcaption class="mask">
-									<h3>Wall street</h3>
-									<p>Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. </p>
-								</figcaption>
-								<ul class="external">
-									<li><a class="fancybox" title="Wall street" href="<%= asset_path('candeias.jpeg') %>" data-fancybox-group="works" ><i class="fa fa-search"></i></a></li>
-									<li><a href=""><i class="fa fa-link"></i></a></li>
-								</ul>
-							</li>
-							
-							<li class="portfolio-item">
-								<%= image_tag "setimus.jpeg", class: "img-responsive", alt: "Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. " %>
-								<figcaption class="mask">
-									<h3>Wall street</h3>
-									<p>Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. </p>
-								</figcaption>
-								<ul class="external">
-									<li><a class="fancybox" title="Behind The world" data-fancybox-group="works" href="<%= asset_path('setimus.jpeg') %>"><i class="fa fa-search"></i></a></li>
-									<li><a href=""><i class="fa fa-link"></i></a></li>
-								</ul>
-							</li>
-							
-							<li class="portfolio-item">
-								<%= image_tag "forjados.jpeg", class: "img-responsive", alt: "Lorem Ipsum is simply dummy text of the printing and typesetting ndustry." %>
-								<figcaption class="mask">
-									<h3>Wall street</h3>
-									<p>Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. </p>
-								</figcaption>
-								<ul class="external">
-									<li><a class="fancybox" title="Wall street 4" data-fancybox-group="works" href="<%= asset_path('forjados.jpeg') %>"><i class="fa fa-search"></i></a></li>
-									<li><a href=""><i class="fa fa-link"></i></a></li>
-								</ul>
-							</li>
-							
-							<li class="portfolio-item">
-								<%= image_tag "volei.jpeg", class: "img-responsive", alt: "Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. " %>
-								<figcaption class="mask">
-									<h3>Wall street</h3>
-									<p>Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. </p>
-								</figcaption>
-								<ul class="external">
-									<li><a class="fancybox" title="Wall street 5" data-fancybox-group="works" href="<%= asset_path('volei.jpeg') %>"><i class="fa fa-search"></i></a></li>
-									<li><a href=""><i class="fa fa-link"></i></a></li>
-								</ul>
-							</li>
-							
-							<li class="portfolio-item">
-								<%= image_tag "eldorado.jpeg", class: "img-responsive", alt: "Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. " %>
-								<figcaption class="mask">
-									<h3>Wall street</h3>
-									<p>Lorem Ipsum is simply dummy text of the printing and typesetting ndustry. </p>
-								</figcaption>
-								<ul class="external">
-									<li><a class="fancybox" title="Wall street 6" data-fancybox-group="works" href="<%= asset_path('eldorado.jpeg') %>"><i class="fa fa-search"></i></a></li>
-									<li><a href=""><i class="fa fa-link"></i></a></li>
-								</ul>
-							</li>
-						</ul>
-						
-					</div>
-				</div>
-			</section>
-			<!-- end portfolio section -->
-			
-			<!-- Price section -->
-			<section id="price">
-				<div class="container">
-					<div class="row">
-					
-						<div class="sec-title text-center wow animated fadeInDown">
-							<h2>Lotes</h2>
-							<p>Our price for your company</p>
-						</div>
-						
-						<div class="col-md-4 wow animated fadeInUp">
-							<div class="price-table text-center">
-								<span>Primeiro lote</span>
-								<div class="value">
-									<span>R$</span>
-									<span>70,00</span><br>
-								</div>
-								<ul>
-									<li><a href="#">sign up</a></li>
-								</ul>
-							</div>
-						</div>
-						
-						<div class="col-md-4 wow animated fadeInUp" data-wow-delay="0.4s">
-							<div class="price-table featured text-center">
-								<span>Segundo lote</span>
-								<div class="value">
-									<span>R$</span>
-									<span>90,00</span><br>
-								</div>
-								<ul>
-									<li><a href="#">sign up</a></li>
-								</ul>
-							</div>
-						</div>
-						
-						<div class="col-md-4 wow animated fadeInUp" data-wow-delay="0.8s">
-							<div class="price-table text-center">
-								<span>Terceiro lote</span>
-								<div class="value">
-									<span>R$</span>
-									<span>110,00</span><br>
-								</div>
-								<ul>
-									<li><a href="#">sign up</a></li>
-								</ul>
-							</div>
-						</div>
-		
-					</div>
-				</div>
-			</section>
-			<!-- end Price section -->
-		</main>
-		
-		<footer id="footer">
-			<div class="container">
-				<div class="row text-center">
-					<div class="footer-content">
-						<div class="wow animated fadeInDown">
-							<p>Acompanhe nosso intagram</p>
-						</div>
-						<form action="#" method="post" class="subscribe-form wow animated fadeInUp">
-							<div class="input-field">
-								
-								
-							</div>
-						</form>
-						<div class="footer-social">
-							<ul>
-								<li class="wow animated zoomIn"><a href="#"><i class="fa fa-thumbs-up fa-3x"></i></a></li>
-								<li class="wow animated zoomIn" data-wow-delay="0.3s"><a href="#"><i class="fa fa-twitter fa-3x"></i></a></li>
-								<li class="wow animated zoomIn" data-wow-delay="0.6s"><a href="#"><i class="fa fa-skype fa-3x"></i></a></li>
-								<li class="wow animated zoomIn" data-wow-delay="0.9s"><a href="#"><i class="fa fa-dribbble fa-3x"></i></a></li>
-								<li class="wow animated zoomIn" data-wow-delay="1.2s"><a href="#"><i class="fa fa-youtube fa-3x"></i></a></li>
-							</ul>
-						</div>
-						Criado por Abner
-						<p> <a >Promovido pelo Ministério Jovem</a> 
-							<br>Get More <a  target="_blank">Free Bootstrap Templates</a>
-						</p>
-					</div>
-				</div>
-			</div>
-		</footer>
-		
-		<!-- Essential jQuery Plugins
-		================================================== -->
-		<!-- Main jQuery -->
-        <script src="/blue-master/js/jquery-1.11.1.min.js"></script>
-		<!-- Twitter Bootstrap -->
-        <script src="/blue-master/js/bootstrap.min.js"></script>
-		<!-- Single Page Nav -->
-        <script src="/blue-master/js/jquery.singlePageNav.min.js"></script>
-		<!-- jquery.fancybox.pack -->
-        <script src="/blue-master/js/jquery.fancybox.pack.js"></script>
-		<!-- Google Map API -->
-		<script src="https://maps.google.com/maps/api/js?sensor=false"></script>
-		<!-- Owl Carousel -->
-        <script src="/blue-master/js/owl.carousel.min.js"></script>
-        <!-- jquery easing -->
-        <script src="/blue-master/js/jquery.easing.min.js"></script>
-        <!-- Fullscreen slider -->
-        <script src="/blue-master/js/jquery.slitslider.js"></script>
-        <script src="/blue-master/js/jquery.ba-cond.min.js"></script>
-		<!-- onscroll animation -->
-        <script src="/blue-master/js/wow.min.js"></script>
-		<!-- Custom Functions -->
-        <script src="/blue-master/js/main.js"></script>
-    </body>
-</html>
+  <section class="py-5">
+    <div class="container">
+      <div class="text-center mb-4">
+        <h2 class="fw-bold mb-2">Fotos do Último ORAR</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4"><%= image_tag "ulisses.jpeg", class: "img-fluid rounded shadow-sm w-100", alt: "Ulisses" %></div>
+        <div class="col-md-6 col-lg-4"><%= image_tag "candeias.jpeg", class: "img-fluid rounded shadow-sm w-100", alt: "Candeias" %></div>
+        <div class="col-md-6 col-lg-4"><%= image_tag "setimus.jpeg", class: "img-fluid rounded shadow-sm w-100", alt: "Setimus" %></div>
+        <div class="col-md-6 col-lg-4"><%= image_tag "forjados.jpeg", class: "img-fluid rounded shadow-sm w-100", alt: "Forjados" %></div>
+        <div class="col-md-6 col-lg-4"><%= image_tag "volei.jpeg", class: "img-fluid rounded shadow-sm w-100", alt: "Volei" %></div>
+        <div class="col-md-6 col-lg-4"><%= image_tag "eldorado.jpeg", class: "img-fluid rounded shadow-sm w-100", alt: "Eldorado" %></div>
+      </div>
+    </div>
+  </section>
+</main>
