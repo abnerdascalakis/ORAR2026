@@ -10,4 +10,7 @@ class HomeController < ApplicationController
 
   def inscricoes_modalidades
   end
+
+  def footer
+  end
 end
