@@ -9,20 +9,11 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
-:root {
-  --orar-primary: #003366;
-  --orar-navbar-height: 94px;
-}
-
-body {
-  padding-top: var(--orar-navbar-height);
-}
-
 .orar-navbar {
- background: linear-gradient(135deg, #052252 0%, #2e6de7 100%);
-    color: white;
-    padding: 20px;
-    font-family: sans-serif
+  background: linear-gradient(135deg, #2C4464, #3F5F8A, #5F7FA8);
+  color: white;
+  padding: 20px;
+  font-family: sans-serif;
 }
 
 .orar-navbar .navbar-brand,
