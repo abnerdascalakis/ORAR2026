@@ -1,0 +1,99 @@
+<div class="slider">
+  <div class="slide-track">
+    <% images = [
+      "investidura.jpeg",
+      
+
+    ] %>
+
+    <% (images + images).each do |image| %>
+      <div class="slide">
+        <%= image_tag image_path(image), class: "d-block w-100 img", alt: "Evento", style: "object-fit: contain; height: 100%; width: 100%;" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<style>
+  .slider {
+    background: #F3F4F6 !important; /* Forçando a cor */
+    background-color: #F3F4F6 !important; /* Garantindo compatibilidade */
+    height: 400px;
+    margin: auto;
+    position: relative;
+    width: 90%;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  .slide-track {
+    display: flex;
+    width: calc(400px * 10);
+    animation: scroll 20s linear infinite;
+  }
+
+  .slide-track, .slide {
+    background: #F3F4F6 !important;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-400px * 5));
+    }
+  }
+  .slide {
+    height: 350px;
+    width: 400px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    perspective: 100px;
+  }
+  .img {
+    width: 100%;
+    height: 100%;
+    transition: transform 1s;
+    object-fit: contain;
+  }
+  .img:hover {
+    transform: translateZ(15px);
+  }
+  /* GRADIENTE SHADOWS*/
+  .slider::before,
+  .slider::after {
+    background: linear-gradient(to right, #F3F4F6 0%, rgba(255, 255, 255, 0) 100%);
+    content: "";
+    height: 100%;
+    position: absolute;
+    width: 20%; /* Mantém o tamanho do gradiente */
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .slider::before {
+    left: -1px; /* Ajuste leve para a esquerda */
+    top: 0;
+  }
+  .slider::after{
+    right: -1px;
+    top: 0;
+    transform: rotateZ(180deg);
+  }
+
+ @media (max-width: 768px) {
+  .slider::before, .slider::after {
+    width: 25%; /* Ajuste o gradiente para telas menores */
+  }
+  
+  .slider::before {
+    left: -5px; /* Garantir que a borda não fique desalinhada no início */
+  }
+
+  .slider::after {
+    right: -5px; /* Garantir que a borda não fique desalinhada no final */
+  }
+}
+</style>
