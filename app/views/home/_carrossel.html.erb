@@ -1,0 +1,54 @@
+<% images = ["abertura.jpeg", "investidura.jpeg", "humaita.jpeg"] %>
+
+<div id="orarCarousel" class="carousel slide carousel-fade orar-full-carousel" data-bs-ride="carousel" data-bs-interval="4500" data-bs-touch="true" data-bs-pause="false">
+  <div class="carousel-inner">
+    <% images.each_with_index do |image, index| %>
+      <div class="carousel-item <%= "active" if index.zero? %>">
+        <%= image_tag image, class: "d-block w-100 orar-full-image", alt: "ORAR 2026" %>
+      </div>
+    <% end %>
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#orarCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Anterior</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#orarCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Próxima</span>
+  </button>
+</div>
+
+<style>
+  .orar-full-carousel {
+    width: 100%;
+    height: calc(100svh - var(--orar-navbar-height, 88px));
+    min-height: 460px;
+    background: #0f0f0f;
+    overflow: hidden;
+  }
+
+  .orar-full-carousel .carousel-inner,
+  .orar-full-carousel .carousel-item {
+    height: 100%;
+  }
+
+  .orar-full-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .orar-full-carousel .carousel-control-prev,
+  .orar-full-carousel .carousel-control-next {
+    width: 7%;
+  }
+
+  @media (max-width: 768px) {
+    .orar-full-carousel {
+      height: 72svh;
+      min-height: 340px;
+    }
+  }
+</style>

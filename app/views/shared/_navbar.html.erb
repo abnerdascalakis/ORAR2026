@@ -1,0 +1,18 @@
+<nav class="navbar navbar-light orar-navbar navbar-expand-lg fixed-top border-bottom border-secondary-subtle shadow-sm">
+  <div class="container">
+    <%= link_to "ORAR 2026", root_path, class: "navbar-brand fw-bold fs-3" %>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#orarNavbar" aria-controls="orarNavbar" aria-expanded="false" aria-label="Alternar navegação">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="orarNavbar">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fs-5">
+        <li class="nav-item"><%= link_to "Home", root_path, class: "nav-link" %></li>
+        <li class="nav-item"><%= link_to "Roteiro ORAR", roteiro_orar_path, class: "nav-link" %></li>
+        <li class="nav-item"><%= link_to "Inscrições", inscricoes_path, class: "nav-link" %></li>
+        <li class="nav-item"><%= link_to "Insc. Modalidades", inscricoes_modalidades_path, class: "nav-link" %></li>
+      </ul>
+    </div>
+  </div>
+</nav>
