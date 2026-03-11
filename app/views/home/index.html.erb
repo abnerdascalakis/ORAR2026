@@ -1,59 +1,178 @@
 <main>
   <section class="p-0">
-    <div id="orarCarousel" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active position-relative">
-          <%= image_tag "abertura.jpeg", class: "d-block w-100 orar-hero-image", alt: "Abertura ORAR 2026" %>
-          <div class="carousel-caption d-flex h-100 w-100 top-0 start-0 orar-hero-overlay">
-            <div class="container my-auto text-center">
-              <h1 class="display-3 fw-bold text-white">ORAR 2026</h1>
-              <p class="lead text-white mb-0">Olimpíada Regional Adventista de Rondônia</p>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item position-relative">
-          <%= image_tag "investidura.jpeg", class: "d-block w-100 orar-hero-image", alt: "Investidura ORAR 2026" %>
-          <div class="carousel-caption d-flex h-100 w-100 top-0 start-0 orar-hero-overlay">
-            <div class="container my-auto text-center">
-              <h1 class="display-3 fw-bold text-white">ORAR 2026</h1>
-              <p class="lead text-white mb-0">Olimpíada Regional Adventista de Rondônia</p>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item position-relative">
-          <%= image_tag "humaita.jpeg", class: "d-block w-100 orar-hero-image", alt: "Humaitá ORAR 2026" %>
-          <div class="carousel-caption d-flex h-100 w-100 top-0 start-0 orar-hero-overlay">
-            <div class="container my-auto text-center">
-              <h1 class="display-3 fw-bold text-white">ORAR 2026</h1>
-              <p class="lead text-white mb-0">Olimpíada Regional Adventista de Rondônia</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#orarCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Anterior</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#orarCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Próxima</span>
-      </button>
-    </div>
+    <%= render "home/carrossel" %>
   </section>
 
   <section class="py-5">
     <div class="container">
       <div class="text-center mb-4">
-        <h2 class="fw-bold mb-2">Fotos do Último ORAR</h2>
+        <h2 class="fw-bold mb-2">Fotos do Ultimo ORAR</h2>
       </div>
+
+      <% galeria_imagens = [
+        ["ulisses.jpeg", "Ulisses"],
+        ["candeias.jpeg", "Candeias"],
+        ["setimus.jpeg", "Setimus"],
+        ["forjados.jpeg", "Forjados"],
+        ["volei.jpeg", "Volei"],
+        ["eldorado.jpeg", "Eldorado"]
+      ] %>
+
       <div class="row g-4">
-        <div class="col-md-6 col-lg-4"><%= image_tag "ulisses.jpeg", class: "img-fluid rounded shadow-sm w-100", alt: "Ulisses" %></div>
-        <div class="col-md-6 col-lg-4"><%= image_tag "candeias.jpeg", class: "img-fluid rounded shadow-sm w-100", alt: "Candeias" %></div>
-        <div class="col-md-6 col-lg-4"><%= image_tag "setimus.jpeg", class: "img-fluid rounded shadow-sm w-100", alt: "Setimus" %></div>
-        <div class="col-md-6 col-lg-4"><%= image_tag "forjados.jpeg", class: "img-fluid rounded shadow-sm w-100", alt: "Forjados" %></div>
-        <div class="col-md-6 col-lg-4"><%= image_tag "volei.jpeg", class: "img-fluid rounded shadow-sm w-100", alt: "Volei" %></div>
-        <div class="col-md-6 col-lg-4"><%= image_tag "eldorado.jpeg", class: "img-fluid rounded shadow-sm w-100", alt: "Eldorado" %></div>
+        <% galeria_imagens.each do |image, alt_text| %>
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="orar-galeria-card shadow-sm rounded-3">
+              <%= responsive_asset_picture(
+                image,
+                alt: alt_text,
+                sizes: "(min-width: 992px) 33vw, (min-width: 576px) 50vw, 100vw",
+                width: 7008,
+                height: 4672,
+                picture_class: "orar-galeria-midia",
+                img_class: "orar-galeria-imagem",
+                aspect_ratio: "4 / 3"
+              ) %>
+            </div>
+          </div>
+        <% end %>
       </div>
     </div>
+
+    <div class="container mt-5">
+      <h2 class="d-flex align-items-center justify-content-center gap-2 mb-4">
+        <span aria-hidden="true">
+          <i class="bi bi-chat-dots-fill"></i>
+        </span>
+        Perguntas Frequentes
+      </h2>
+
+      <div class="row g-4 justify-content-center orar-faq-grid">
+        <div class="col-12 col-lg-6">
+          <div class="card shadow-sm faq-card" onclick="toggleAnswer(this)">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-10">
+                  <h5 class="fw-bold text-secondary mb-0">1. O que e o ORAR?</h5>
+                </div>
+                <div class="col-2 text-end">
+                  <i class="bi bi-plus-lg text-secondary" aria-hidden="true"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <p class="text-secondary mt-3 mb-0">
+                  As olimpiadas regionais Adventistas de Rondonia, <strong>ORAR</strong>, sao iniciativas do ministerio jovem para promover evolucao fisica, mental e espiritual dos jovens. O objetivo e proporcionar um ambiente saudavel e estimulante para o desenvolvimento integral dos participantes, fortalecendo a integracao entre as regioes do estado.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <div class="card shadow-sm faq-card" onclick="toggleAnswer(this)">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-10">
+                  <h5 class="fw-bold text-secondary mb-0">2. Quem pode participar?</h5>
+                </div>
+                <div class="col-2 text-end">
+                  <i class="bi bi-plus-lg text-secondary" aria-hidden="true"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <ul class="text-secondary mt-3 mb-0">
+                  <li>Todos aqueles que frequentam regularmente uma sociedade jovem.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <div class="card shadow-sm faq-card" onclick="toggleAnswer(this)">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-10">
+                  <h5 class="fw-bold text-secondary mb-0">3. Quando e onde vai ser o ORAR 2026?</h5>
+                </div>
+                <div class="col-2 text-end">
+                  <i class="bi bi-plus-lg text-secondary" aria-hidden="true"></i>
+                </div>
+              </div>
+              <div class="faq-answer">
+                <ul class="text-secondary mt-3 mb-0">
+                  <li>O ORAR 2026 sera realizado no IFRO (Instituto Federal de Rondonia), no periodo de [Data Inicio] a [Data Fim].</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleAnswer(card) {
+        const answer = card.querySelector(".faq-answer");
+        const icon = card.querySelector("i");
+
+        answer.classList.toggle("active");
+
+        if (answer.classList.contains("active")) {
+          icon.classList.remove("bi-plus-lg");
+          icon.classList.add("bi-dash-lg");
+        } else {
+          icon.classList.remove("bi-dash-lg");
+          icon.classList.add("bi-plus-lg");
+        }
+      }
+    </script>
+
+    <style>
+      .orar-galeria-card {
+        overflow: hidden;
+        background: #f8f9fa;
+      }
+
+      .orar-galeria-midia {
+        display: block;
+        width: 100%;
+      }
+
+      .orar-galeria-imagem {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .faq-card {
+        cursor: pointer;
+        border: none;
+        border-radius: 10px;
+      }
+
+      .faq-card:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+      }
+
+      .faq-answer.active {
+        max-height: 220px;
+      }
+
+      @media (max-width: 768px) {
+        .faq-card h5 {
+          font-size: 1rem;
+        }
+
+        .faq-card i {
+          font-size: 1.2rem;
+        }
+      }
+    </style>
   </section>
 </main>

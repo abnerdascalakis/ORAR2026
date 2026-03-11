@@ -1,24 +1,26 @@
-# README
+# ORAR 2026
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Identidade visual
 
-Things you may want to cover:
+Esta paleta passa a ser o padrao visual do projeto.
 
-* Ruby version
+### Cores principais
 
-* System dependencies
+- Azul marinho: `#163A63`
+- Azul medio: `#2E5F95`
+- Azul claro: `#5E86B5`
+- Azul gelo: `#8FAFCE`
+- Gelo claro: `#D9E6F5`
+- Off-white: `#F3F0E6`
 
-* Configuration
+### Diretriz de uso
 
-* Database creation
+- Priorizar degradês e combinacoes entre os tons de azul e off-white.
+- Usar essa identidade em navbar, footer, botoes, cards, sessoes e novas paginas.
+- Manter o visual com referencia institucional e esportiva, inspirado no backdrop oficial do evento.
 
-* Database initialization
+### Evitar
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Nao usar amarelo como cor-base da interface.
+- Nao usar laranja como cor-base da interface.
+- Nao usar lilas como cor-base da interface.
