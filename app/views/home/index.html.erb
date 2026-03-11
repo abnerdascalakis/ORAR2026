@@ -2,6 +2,60 @@
   <section class="p-0">
     <%= render "home/carrossel" %>
   </section>
+  <section class="orar-lotes-section py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="orar-section-kicker mb-2">Inscricoes</p>
+        <h1 class="display-5 fw-semibold mb-2">Escolha seu lote</h1>
+        <p class="text-secondary mb-0">Garanta sua vaga no ORAR 2026 com o lote disponivel no momento da inscricao.</p>
+      </div>
+
+      <div class="row g-4 align-items-stretch">
+        <div class="col-12 col-lg-4">
+          <article class="card orar-lote-card h-100 text-center">
+            <div class="card-body p-4 d-flex flex-column">
+              <p class="orar-lote-etiqueta mb-3">Primeiro lote</p>
+              <div class="orar-lote-preco mb-4">
+                <span class="orar-lote-moeda">R$</span>
+                <span class="orar-lote-valor">70,00</span>
+              </div>
+              <p class="orar-lote-descricao text-secondary mb-4">Período de .</p>
+              <a href="#" class="btn orar-lote-botao mt-auto">Link de pagamento</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="col-12 col-lg-4">
+          <article class="card orar-lote-card orar-lote-card--featured h-100 text-center">
+            <div class="card-body p-4 d-flex flex-column">
+              <span class="orar-lote-badge mx-auto mb-3">Mais procurado</span>
+              <p class="orar-lote-etiqueta mb-3">Segundo lote</p>
+              <div class="orar-lote-preco mb-4">
+                <span class="orar-lote-moeda">R$</span>
+                <span class="orar-lote-valor">90,00</span>
+              </div>
+              <p class="orar-lote-descricao mb-4">Opcao intermediaria para quem fizer a inscricao apos o primeiro lote.</p>
+              <a href="#" class="btn orar-lote-botao orar-lote-botao--featured mt-auto">Link de pagamento</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="col-12 col-lg-4">
+          <article class="card orar-lote-card h-100 text-center">
+            <div class="card-body p-4 d-flex flex-column">
+              <p class="orar-lote-etiqueta mb-3">Terceiro lote</p>
+              <div class="orar-lote-preco mb-4">
+                <span class="orar-lote-moeda">R$</span>
+                <span class="orar-lote-valor">110,00</span>
+              </div>
+              <p class="orar-lote-descricao text-secondary mb-4">Período de 19/10 - 01/11</p>
+              <a href="#" class="btn orar-lote-botao mt-auto">Link de pagamento</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="py-5">
     <div class="container">
@@ -127,6 +181,125 @@
     </script>
 
     <style>
+      .orar-lotes-section {
+        background:
+          radial-gradient(circle at top, rgba(217, 230, 245, 0.7), transparent 48%),
+          linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+      }
+
+      .orar-section-kicker {
+        color: #2a5788;
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .orar-lote-card {
+        border: 1px solid rgba(22, 58, 99, 0.08);
+        border-radius: 24px;
+        box-shadow: 0 18px 40px rgba(28, 54, 84, 0.08);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+
+      .orar-lote-card:hover {
+        box-shadow: 0 22px 48px rgba(28, 54, 84, 0.14);
+        transform: translateY(-4px);
+      }
+
+      .orar-lote-card--featured {
+        background: linear-gradient(160deg, #163a63 0%, #2a5788 100%);
+        border-color: rgba(22, 58, 99, 0.16);
+        color: #f3f0e6;
+      }
+
+      .orar-lote-badge {
+        background: rgba(243, 240, 230, 0.14);
+        border: 1px solid rgba(243, 240, 230, 0.28);
+        border-radius: 999px;
+        color: inherit;
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        padding: 0.45rem 0.9rem;
+        text-transform: uppercase;
+      }
+
+      .orar-lote-etiqueta {
+        color: inherit;
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .orar-lote-preco {
+        align-items: baseline;
+        display: flex;
+        gap: 0.35rem;
+        justify-content: center;
+      }
+
+      .orar-lote-moeda {
+        color: #2a5788;
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.4rem;
+        font-weight: 700;
+      }
+
+      .orar-lote-card--featured .orar-lote-moeda {
+        color: #f3f0e6;
+      }
+
+      .orar-lote-valor {
+        color: inherit;
+        font-family: "Montserrat", sans-serif;
+        font-size: clamp(2.5rem, 4vw, 3.5rem);
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .orar-lote-descricao {
+        font-size: 0.98rem;
+        line-height: 1.6;
+      }
+
+      .orar-lote-card--featured .orar-lote-descricao {
+        color: rgba(243, 240, 230, 0.82) !important;
+      }
+
+      .orar-lote-botao {
+        background: transparent;
+        border: 1px solid #2a5788;
+        border-radius: 999px;
+        color: #2a5788;
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        padding: 0.95rem 1.5rem;
+        text-transform: uppercase;
+      }
+
+      .orar-lote-botao:hover {
+        background: #2a5788;
+        color: #ffffff;
+      }
+
+      .orar-lote-botao--featured {
+        background: #f3f0e6;
+        border-color: #f3f0e6;
+        color: #163a63;
+      }
+
+      .orar-lote-botao--featured:hover {
+        background: transparent;
+        color: #f3f0e6;
+      }
+
       .orar-galeria-card {
         overflow: hidden;
         background: #f8f9fa;
@@ -165,6 +338,10 @@
       }
 
       @media (max-width: 768px) {
+        .orar-lotes-section .display-5 {
+          font-size: 2.2rem;
+        }
+
         .faq-card h5 {
           font-size: 1rem;
         }
