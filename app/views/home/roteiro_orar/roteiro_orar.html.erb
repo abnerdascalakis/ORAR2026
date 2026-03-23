@@ -1,10 +1,65 @@
-<main class="py-5">
-  <div class="container">
-    <div class="card border-0 shadow-sm">
-      <div class="card-body p-5 text-center">
-        <h1 class="h3 mb-2">Roteiro ORAR</h1>
-        <p class="text-secondary mb-0">ORAR22026</p>
+
+<% content_for :title, "Roteiro ORAR | ORAR 2026" %>
+
+<main class="py-5 mt-5">
+  <section class="container py-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-xl-10">
+        <div class="text-center mb-5">
+          <h1 class="display-5 fw-bold mb-3">Informacoes Gerais</h1>
+          
+        </div>
       </div>
     </div>
-  </div>
+
+    <div class="row justify-content-center g-4">
+      <div class="col-12 col-xl-10">
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4 p-lg-5">
+            <div class="text-center mb-4">
+              <h2 class="h1 fw-bold mb-2">Boletim Informativo ORAR</h2>
+              <p class="text-secondary mb-0">Previa completa do boletim informativo para leitura antes do download.</p>
+            </div>
+
+            <iframe
+              src="/pdfs/informativoORAR.pdf"
+              class="w-100 rounded border"
+              height="600
+              title="Boletim Informativo ORAR">
+            </iframe>
+
+            <div class="text-center mt-4">
+              <a href="/pdfs/informativoORAR.pdf" download class="btn btn-primary btn-lg px-4">
+                Baixar PDF
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-10">
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4 p-lg-5">
+            <div class="text-center mb-4">
+              <h2 class="h1 fw-bold mb-2">Programacao ORAR</h2>
+              <p class="text-secondary mb-0">Consulte o roteiro oficial do evento com uma area ampla para leitura.</p>
+            </div>
+
+            <iframe
+              src="/pdfs/roteiro.pdf"
+              class="w-100 rounded border"
+              height="600"
+              title="Programacao ORAR">
+            </iframe>
+
+            <div class="text-center mt-4">
+              <a href="/pdfs/roteiro.pdf" download class="btn btn-primary btn-lg px-4">
+                Baixar PDF
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
