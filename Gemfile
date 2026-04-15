@@ -68,3 +68,9 @@ end
 gem 'dotenv-rails'
 
 gem "pg", "~> 1.1"
+
+gem 'simple_form'
+
+gem 'devise'
+
+gem 'ransack'
