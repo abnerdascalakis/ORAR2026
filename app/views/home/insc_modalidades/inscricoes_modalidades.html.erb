@@ -1,10 +1,447 @@
-<main class="py-5">
-  <div class="container">
-    <div class="card border-0 shadow-sm">
-      <div class="card-body p-5 text-center">
-        <h1 class="h3 mb-2">Inscrições por Modalidade</h1>
-        <p class="text-secondary mb-0">ORAR22026</p>
+<% sexos = [["Masculino", 1], ["Feminino", 2]] %>
+<% grupos = [["Grupo A", 1], ["Grupo B", 2]] %>
+<% sociedades = [["Central de Porto Velho", 1], ["Nova Esperanca", 2], ["Boas Novas", 3]] %>
+<% modalidades = [["Futebol", 1], ["Volei", 2], ["Louvor", 3]] %>
+
+<main class="orar-inscricao-page py-5">
+  <section class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-xl-10">
+        <div class="orar-form-shell">
+          <div class="row g-0">
+            <div class="col-12 col-lg-4">
+              <aside class="orar-form-sidebar h-100">
+                <span class="orar-form-kicker">ORAR 2026</span>
+                <h1 class="display-6 fw-semibold mb-3">Inscricao multi-etapas para eventos</h1>
+                <p class="text-white-50 mb-4">
+                  Preencha seus dados, escolha as modalidades e finalize sua inscricao em um fluxo rapido, moderno e responsivo.
+                </p>
+
+                <div class="orar-side-card">
+                  <p class="small text-uppercase fw-semibold mb-2">Resumo da jornada</p>
+                  <ul class="list-unstyled mb-0 text-white-50">
+                    <li class="mb-2">1. Dados pessoais e vinculacao ao grupo</li>
+                    <li class="mb-2">2. Escolha de modalidades e envio do comprovante</li>
+                    <li>3. Confirmacao visual sem depender do backend</li>
+                  </ul>
+                </div>
+              </aside>
+            </div>
+
+            <div class="col-12 col-lg-8">
+              <div
+                class="orar-form-panel"
+                data-controller="multi-step-form"
+                data-multi-step-form-step-count-value="2"
+              >
+                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+                  <div>
+                    <p class="orar-section-kicker mb-2">Formulario de inscricao</p>
+                    <h2 class="h3 mb-1">Conclua sua participacao no ORAR</h2>
+                    <p class="text-secondary mb-0">Todos os campos marcados com * sao obrigatorios.</p>
+                  </div>
+                  <div class="orar-step-badge">
+                    <span data-multi-step-form-target="stepLabel">Etapa 1 de 2</span>
+                  </div>
+                </div>
+
+                <div class="orar-stepper mb-4" aria-label="Progresso do formulario">
+                  <div class="progress orar-stepper-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div
+                      class="progress-bar"
+                      data-multi-step-form-target="progressBar"
+                      style="width: 50%;"
+                    ></div>
+                  </div>
+
+                  <div class="orar-stepper-items mt-4">
+                    <button
+                      class="orar-stepper-item is-active"
+                      type="button"
+                      data-step-index="0"
+                      data-multi-step-form-target="indicator"
+                      data-action="multi-step-form#goToStep"
+                    >
+                      <span class="orar-stepper-circle">1</span>
+                      <span>
+                        <strong>Dados do Participante</strong>
+                        <small>Informacoes basicas</small>
+                      </span>
+                    </button>
+
+                    <button
+                      class="orar-stepper-item"
+                      type="button"
+                      data-step-index="1"
+                      data-multi-step-form-target="indicator"
+                      data-action="multi-step-form#goToStep"
+                    >
+                      <span class="orar-stepper-circle">2</span>
+                      <span>
+                        <strong>Modalidades</strong>
+                        <small>Finalizacao da inscricao</small>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  class="alert alert-danger d-none"
+                  role="alert"
+                  data-multi-step-form-target="errorSummary"
+                >
+                  Revise os campos obrigatorios destacados antes de continuar.
+                </div>
+
+                <div
+                  class="alert alert-success d-none"
+                  role="status"
+                  data-multi-step-form-target="successMessage"
+                >
+                  Interface validada com sucesso. Esta view esta pronta para ser integrada ao backend Rails.
+                </div>
+
+                <%= form_with scope: :inscricao, url: "#", method: :post, local: true, html: { class: "needs-validation", novalidate: true, data: { turbo: false, multi_step_form_target: "form", action: "submit->multi-step-form#submitForm" } } do |f| %>
+                  <section
+                    class="orar-step-panel is-active"
+                    data-step-index="0"
+                    data-multi-step-form-target="step"
+                  >
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                      <div>
+                        <h3 class="h4 mb-1">Dados do Participante</h3>
+                        <p class="text-secondary mb-0">Preencha as informacoes pessoais e de origem do participante.</p>
+                      </div>
+                    </div>
+
+                    <div class="alert alert-warning border-0 mb-4" role="note">
+                      Feedback visual de erro: ao tentar avancar sem preencher os obrigatorios, os campos serao destacados automaticamente.
+                    </div>
+
+                    <div class="row g-3">
+                      <div class="col-12 col-md-6">
+                        <%= f.label :nome_participante, "Nome do participante *", class: "form-label" %>
+                        <%= f.text_field :nome_participante, class: "form-control", placeholder: "Ex.: Maria Silva", required: true, data: { multi_step_form_target: "field" } %>
+                        <div class="invalid-feedback">Informe o nome do participante.</div>
+                      </div>
+
+                      <div class="col-12 col-md-6">
+                        <%= f.label :data_nascimento, "Data de nascimento *", class: "form-label" %>
+                        <%= f.date_field :data_nascimento, class: "form-control", required: true, data: { multi_step_form_target: "field" } %>
+                        <div class="invalid-feedback">Selecione a data de nascimento.</div>
+                      </div>
+
+                      <div class="col-12 col-md-6">
+                        <%= f.label :sexo_id, "Sexo *", class: "form-label" %>
+                        <%= f.select :sexo_id, options_for_select(sexos), { prompt: "Selecione" }, class: "form-select", required: true, data: { multi_step_form_target: "field" } %>
+                        <div class="invalid-feedback">Escolha uma opcao de sexo.</div>
+                      </div>
+
+                      <div class="col-12 col-md-6">
+                        <%= f.label :email, "Email *", class: "form-label" %>
+                        <%= f.email_field :email, class: "form-control", placeholder: "voce@email.com", required: true, data: { multi_step_form_target: "field" } %>
+                        <div class="invalid-feedback">Informe um email valido.</div>
+                      </div>
+
+                      <div class="col-12 col-md-6">
+                        <%= f.label :distrito, "Distrito *", class: "form-label" %>
+                        <%= f.text_field :distrito, class: "form-control", placeholder: "Ex.: Porto Velho Central", required: true, data: { multi_step_form_target: "field" } %>
+                        <div class="invalid-feedback">Informe o distrito do participante.</div>
+                      </div>
+
+                      <div class="col-12 col-md-6">
+                        <%= f.label :sociedade_jovem_id, "Sociedade jovem *", class: "form-label" %>
+                        <%= f.select :sociedade_jovem_id, options_for_select(sociedades), { prompt: "Selecione a sociedade" }, class: "form-select", required: true, data: { multi_step_form_target: "field" } %>
+                        <div class="invalid-feedback">Escolha uma sociedade jovem.</div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-4">
+                      <button type="button" class="btn btn-primary px-4" data-action="multi-step-form#nextStep">
+                        Proximo
+                      </button>
+                    </div>
+                  </section>
+
+                  <section
+                    class="orar-step-panel"
+                    data-step-index="1"
+                    data-multi-step-form-target="step"
+                    hidden
+                  >
+                    <div class="mb-4">
+                      <h3 class="h4 mb-1">Modalidades e Finalizacao</h3>
+                      <p class="text-secondary mb-0">Escolha uma ou mais modalidades e conclua o envio da inscricao.</p>
+                    </div>
+
+                    <div class="mb-4">
+                      <label class="form-label d-block">Modalidades *</label>
+                      <div class="row g-3">
+                        <% modalidades.each do |modalidade, id| %>
+                          <div class="col-12 col-md-4">
+                            <label class="orar-option-card form-check">
+                              <%= check_box_tag "inscricao[modalidade_ids][]", id, false, class: "form-check-input", data: { multi_step_form_target: "modalidadeField" } %>
+                              <span class="form-check-label"><%= modalidade %></span>
+                            </label>
+                          </div>
+                        <% end %>
+                      </div>
+                      <div class="invalid-feedback d-block d-none" data-multi-step-form-target="modalidadeError">
+                        Selecione ao menos uma modalidade.
+                      </div>
+                    </div>
+
+                      <div class="col-12">
+                        <div class="orar-terms-box">
+                          <div class="form-check mb-0">
+                            <%= f.check_box :aceito_termos, class: "form-check-input", required: true, data: { multi_step_form_target: "field" } %>
+                            <%= f.label :aceito_termos, "Aceito os termos *", class: "form-check-label" %>
+                            <div class="invalid-feedback">Voce precisa aceitar os termos antes de finalizar.</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mt-4">
+                      <button type="button" class="btn btn-secondary px-4" data-action="multi-step-form#previousStep">
+                        Voltar
+                      </button>
+
+                      <button type="submit" class="btn btn-primary px-4">
+                        Finalizar inscricao
+                      </button>
+                    </div>
+                  </section>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
+
+  <style>
+    .orar-inscricao-page {
+      background:
+        radial-gradient(circle at top left, rgba(42, 87, 136, 0.16), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(222, 184, 135, 0.18), transparent 28%),
+        linear-gradient(180deg, #f5f7fb 0%, #eef3f9 100%);
+      min-height: 100vh;
+    }
+
+    .orar-form-shell {
+      background: #ffffff;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      border-radius: 32px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+    }
+
+    .orar-form-sidebar {
+      background: linear-gradient(180deg, #163a63 0%, #244f81 55%, #2f6a9f 100%);
+      color: #f8fafc;
+      padding: 2.5rem;
+      position: relative;
+    }
+
+    .orar-form-sidebar::after {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), transparent 55%);
+      border-radius: 28px;
+      content: "";
+      inset: 1.25rem;
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .orar-form-sidebar > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .orar-form-kicker,
+    .orar-section-kicker {
+      color: #8cb7e2;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .orar-side-card {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 24px;
+      padding: 1.25rem;
+    }
+
+    .orar-form-panel {
+      padding: 2.5rem;
+    }
+
+    .orar-step-badge {
+      background: #eef4fb;
+      border-radius: 999px;
+      color: #2a5788;
+      font-size: 0.92rem;
+      font-weight: 700;
+      padding: 0.65rem 1rem;
+      white-space: nowrap;
+    }
+
+    .orar-stepper-progress {
+      background: #dbe6f4;
+      border-radius: 999px;
+      height: 0.5rem;
+      overflow: hidden;
+    }
+
+    .orar-stepper-progress .progress-bar {
+      background: linear-gradient(90deg, #2a5788 0%, #4d88c4 100%);
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+
+    .orar-stepper-items {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .orar-stepper-item {
+      align-items: center;
+      background: #f8fbff;
+      border: 1px solid #d9e4f0;
+      border-radius: 20px;
+      color: #5b6472;
+      display: flex;
+      gap: 0.9rem;
+      padding: 1rem 1.1rem;
+      text-align: left;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    .orar-stepper-item strong,
+    .orar-stepper-item small {
+      display: block;
+    }
+
+    .orar-stepper-item small {
+      color: #7b8794;
+      font-size: 0.82rem;
+      margin-top: 0.2rem;
+    }
+
+    .orar-stepper-item.is-active,
+    .orar-stepper-item.is-complete {
+      background: #eef4fb;
+      border-color: #a9c3de;
+      color: #163a63;
+    }
+
+    .orar-stepper-circle {
+      align-items: center;
+      background: #ffffff;
+      border: 2px solid #bfd1e3;
+      border-radius: 50%;
+      color: #2a5788;
+      display: inline-flex;
+      font-weight: 700;
+      height: 2.5rem;
+      justify-content: center;
+      min-width: 2.5rem;
+    }
+
+    .orar-stepper-item.is-active .orar-stepper-circle,
+    .orar-stepper-item.is-complete .orar-stepper-circle {
+      background: #2a5788;
+      border-color: #2a5788;
+      color: #ffffff;
+    }
+
+    .orar-step-panel {
+      display: none;
+    }
+
+    .orar-step-panel.is-active {
+      display: block;
+    }
+
+    .orar-option-card {
+      align-items: center;
+      background: #f8fbff;
+      border: 1px solid #d9e4f0;
+      border-radius: 18px;
+      display: flex;
+      gap: 0.75rem;
+      min-height: 72px;
+      padding: 1rem;
+    }
+
+    .orar-option-card .form-check-input {
+      float: none;
+      margin: 0;
+    }
+
+    .orar-option-card .form-check-label {
+      color: #22313f;
+      font-weight: 600;
+    }
+
+    .orar-terms-box {
+      background: #f8fbff;
+      border: 1px solid #d9e4f0;
+      border-radius: 18px;
+      padding: 1rem 1.1rem;
+    }
+
+    .form-control,
+    .form-select {
+      border-radius: 14px;
+      min-height: 3rem;
+      padding: 0.75rem 0.95rem;
+    }
+
+    .form-control:focus,
+    .form-select:focus,
+    .form-check-input:focus {
+      border-color: #7ca8d3;
+      box-shadow: 0 0 0 0.25rem rgba(42, 87, 136, 0.16);
+    }
+
+    .btn {
+      border-radius: 999px;
+      font-weight: 600;
+      min-width: 160px;
+      padding-block: 0.8rem;
+    }
+
+    @media (max-width: 991.98px) {
+      .orar-form-sidebar,
+      .orar-form-panel {
+        padding: 2rem;
+      }
+    }
+
+    @media (max-width: 767.98px) {
+      .orar-inscricao-page {
+        padding-inline: 0.35rem;
+      }
+
+      .orar-form-shell {
+        border-radius: 24px;
+      }
+
+      .orar-stepper-items {
+        grid-template-columns: 1fr;
+      }
+
+      .orar-form-sidebar,
+      .orar-form-panel {
+        padding: 1.5rem;
+      }
+    }
+  </style>
 </main>
