@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_15_000507) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_15_161802) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "a_distritos", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "nome"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "a_modalidades", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "limite"
+    t.string "nome"
+    t.datetime "updated_at", null: false
+  end
 
   create_table "a_sexos", id: :integer, default: -> { "nextval('g_sexos_id_seq'::regclass)" }, force: :cascade do |t|
     t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
@@ -20,6 +33,35 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_15_000507) do
     t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
 
     t.unique_constraint ["descricao"], name: "g_sexos_descricao_key"
+  end
+
+  create_table "a_sociedades", force: :cascade do |t|
+    t.bigint "a_distrito_id", null: false
+    t.datetime "created_at", null: false
+    t.string "nome"
+    t.datetime "updated_at", null: false
+    t.index ["a_distrito_id"], name: "index_a_sociedades_on_a_distrito_id"
+  end
+
+  create_table "inscricao_modalidades", force: :cascade do |t|
+    t.bigint "a_modalidade_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "inscricao_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["a_modalidade_id"], name: "index_inscricao_modalidades_on_a_modalidade_id"
+    t.index ["inscricao_id"], name: "index_inscricao_modalidades_on_inscricao_id"
+  end
+
+  create_table "inscricoes", force: :cascade do |t|
+    t.bigint "a_distrito_id", null: false
+    t.bigint "a_sexo_id", null: false
+    t.bigint "a_sociedade_id", null: false
+    t.datetime "created_at", null: false
+    t.string "nome"
+    t.datetime "updated_at", null: false
+    t.index ["a_distrito_id"], name: "index_inscricoes_on_a_distrito_id"
+    t.index ["a_sexo_id"], name: "index_inscricoes_on_a_sexo_id"
+    t.index ["a_sociedade_id"], name: "index_inscricoes_on_a_sociedade_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -33,4 +75,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_15_000507) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "a_sociedades", "a_distritos"
+  add_foreign_key "inscricao_modalidades", "a_modalidades"
+  add_foreign_key "inscricao_modalidades", "inscricoes"
+  add_foreign_key "inscricoes", "a_distritos"
+  add_foreign_key "inscricoes", "a_sexos"
+  add_foreign_key "inscricoes", "a_sociedades"
 end

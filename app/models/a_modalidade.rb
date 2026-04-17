@@ -1,0 +1,2 @@
+class AModalidade < ApplicationRecord
+end

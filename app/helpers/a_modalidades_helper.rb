@@ -1,0 +1,2 @@
+module AModalidadesHelper
+end

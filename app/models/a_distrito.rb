@@ -1,0 +1,2 @@
+class ADistrito < ApplicationRecord
+end

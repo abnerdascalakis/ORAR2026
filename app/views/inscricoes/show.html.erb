@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @inscricao %>
+
+<div>
+  <%= link_to "Edit this inscricao", edit_inscricao_path(@inscricao) %> |
+  <%= link_to "Back to inscricaos", inscricaos_path %>
+
+  <%= button_to "Destroy this inscricao", @inscricao, method: :delete %>
+</div>

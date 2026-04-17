@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :inscricoes
+  resources :a_modalidades
+  resources :a_sociedades
+  resources :a_distritos
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
