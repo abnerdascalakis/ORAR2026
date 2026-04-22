@@ -27,12 +27,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_15_161802) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "a_sexos", id: :integer, default: -> { "nextval('g_sexos_id_seq'::regclass)" }, force: :cascade do |t|
-    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
-    t.string "descricao", limit: 100, null: false
-    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
-
-    t.unique_constraint ["descricao"], name: "g_sexos_descricao_key"
+  create_table "a_sexos", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "nome", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "a_sociedades", force: :cascade do |t|

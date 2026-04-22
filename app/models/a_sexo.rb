@@ -1,6 +1,5 @@
 class ASexo < ApplicationRecord
-
   def to_s
-    descricao
+    nome
   end
 end

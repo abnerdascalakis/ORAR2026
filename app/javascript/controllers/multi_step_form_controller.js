@@ -51,10 +51,6 @@ export default class extends Controller {
       event.preventDefault()
       return
     }
-
-    event.preventDefault()
-    this.hideFeedback()
-    this.successMessageTarget.classList.remove("d-none")
   }
 
   refresh() {
@@ -109,6 +105,8 @@ export default class extends Controller {
 
   hideFeedback() {
     this.errorSummaryTarget.classList.add("d-none")
-    this.successMessageTarget.classList.add("d-none")
+    if (this.hasSuccessMessageTarget) {
+      this.successMessageTarget.classList.add("d-none")
+    }
   }
 }
