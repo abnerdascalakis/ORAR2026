@@ -1,0 +1,241 @@
+<% initials = current_user.email.to_s.split("@").first.to_s.split(/[._-]/).map { |part| part[0] }.join.upcase.first(2) %>
+
+<style>
+  .admin-shell {
+    min-height: 100vh;
+  }
+
+  .admin-topbar {
+    background:
+      linear-gradient(90deg, rgba(223, 235, 247, 0.12), rgba(223, 235, 247, 0) 18%),
+      linear-gradient(135deg, #163a63 0%, #2a5788 42%, #5e86b5 72%, #8fafce 100%);
+    min-height: 215px;
+  }
+
+  .admin-sidebar {
+    width: 280px;
+    background: #f8fbff;
+    border-right: 1px solid rgba(94, 134, 181, 0.18);
+  }
+
+  .admin-avatar {
+    width: 46px;
+    height: 46px;
+    background: linear-gradient(135deg, #2a5788 0%, #5e86b5 100%);
+  }
+
+  .admin-user-card {
+    background: rgba(217, 230, 245, 0.45);
+    border: 1px solid rgba(94, 134, 181, 0.2);
+  }
+
+  .admin-link {
+    color: #4d6278;
+    text-decoration: none;
+  }
+
+  .admin-link:hover {
+    color: #2a5788;
+  }
+
+  .admin-group-title {
+    font-size: 0.78rem;
+    color: #163a63;
+    letter-spacing: 0.02em;
+  }
+
+  .admin-content {
+    margin-left: 280px;
+  }
+
+  .admin-breadcrumb {
+    color: rgba(255, 255, 255, 0.88);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+
+  .admin-breadcrumb-sep {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .admin-page-title {
+    color: #ffffff;
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .admin-workspace {
+    min-height: calc(100vh - 215px);
+    background:
+      radial-gradient(circle at top, rgba(217, 230, 245, 0.55), transparent 28%),
+      linear-gradient(180deg, #f7f4ed 0%, #eef3f8 100%);
+  }
+
+  .admin-module-card {
+    border: 1px solid rgba(94, 134, 181, 0.18);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .admin-module-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.75rem 1.5rem rgba(22, 58, 99, 0.08);
+  }
+
+  .admin-module-icon {
+    width: 52px;
+    height: 52px;
+    background: rgba(217, 230, 245, 0.8);
+    color: #2a5788;
+  }
+
+  @media (max-width: 991.98px) {
+    .admin-sidebar {
+      width: 100%;
+      position: static !important;
+      min-height: auto !important;
+    }
+
+    .admin-content {
+      margin-left: 0;
+    }
+  }
+</style>
+
+<section class="admin-shell position-relative">
+  <aside class="admin-sidebar position-fixed top-0 start-0 h-100 d-none d-lg-flex flex-column justify-content-between py-4">
+    <div>
+      <div class="px-4 mb-4">
+        <span class="badge rounded-pill text-bg-success-subtle text-success fw-semibold">v2.2.0</span>
+      </div>
+
+      <div class="px-3 mb-4">
+        <div class="admin-user-card rounded-4 p-3">
+          <div class="d-flex align-items-center gap-3">
+            <div class="admin-avatar rounded-circle text-white fw-bold d-flex align-items-center justify-content-center">
+              <%= initials.presence || "AD" %>
+            </div>
+            <div>
+              <strong class="d-block text-dark"><%= current_user.email.to_s.split("@").first.to_s.titleize %></strong>
+              <span class="text-secondary">Administrador</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-4">
+        <p class="admin-group-title text-uppercase fw-bold mb-4">Acesso</p>
+
+        <div class="d-grid gap-2 mb-5">
+          <%= link_to '<span class="d-flex align-items-center gap-3"><i class="bi bi-globe fs-5"></i><span>Ir ao Site</span></span>'.html_safe, root_path, class: "admin-link d-flex align-items-center justify-content-between py-2" %>
+
+          <a href="#" class="admin-link d-flex align-items-center justify-content-between py-2">
+            <span class="d-flex align-items-center gap-3">
+              <i class="bi bi-house-door fs-5"></i>
+              <span>Home</span>
+            </span>
+          </a>
+        </div>
+
+        <p class="admin-group-title text-uppercase fw-bold mb-4">Administrador</p>
+
+        <div class="d-grid gap-2">
+          <% [
+            ["bi-grid-3x3-gap", "Modalidades"],
+            ["bi-card-checklist", "Inscricoes"],
+            ["bi-people", "Sociedades"],
+            ["bi-geo-alt", "Distritos"]
+          ].each do |icon, label| %>
+            <a href="#" class="admin-link d-flex align-items-center justify-content-between py-2">
+              <span class="d-flex align-items-center gap-3">
+                <i class="bi <%= icon %> fs-5"></i>
+                <span><%= label %></span>
+              </span>
+              <i class="bi bi-chevron-right small"></i>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="admin-content">
+    <header class="admin-topbar px-4 px-lg-5 pt-4">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <button type="button" class="btn text-white border-0 p-0 shadow-none">
+          <i class="bi bi-list fs-2"></i>
+        </button>
+
+        <div class="d-flex align-items-center gap-3">
+          <%= link_to '<i class="bi bi-house-door fs-5"></i>'.html_safe, root_path, class: "text-white text-decoration-none" %>
+          <%= link_to '<i class="bi bi-person-circle fs-4"></i>'.html_safe, destroy_user_session_path, data: { turbo_method: :delete }, class: "text-white text-decoration-none" %>
+        </div>
+      </div>
+
+      <div class="pb-5 pb-lg-4">
+        <div class="d-flex align-items-center gap-3 flex-wrap mb-2">
+          <a href="#" class="admin-breadcrumb">Home</a>
+          <span class="admin-breadcrumb-sep">&gt;</span>
+          <a href="#" class="admin-breadcrumb">Dashboard</a>
+          <span class="admin-breadcrumb-sep">&gt;</span>
+          <span class="admin-breadcrumb">Lista</span>
+        </div>
+
+        <h1 class="admin-page-title fw-bold mb-0">Dashboard</h1>
+      </div>
+    </header>
+
+    <main class="admin-workspace px-4 px-lg-5 py-4">
+      <div class="d-lg-none mb-4">
+        <div class="card border-0 shadow-sm rounded-4">
+          <div class="card-body">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="admin-avatar rounded-circle text-white fw-bold d-flex align-items-center justify-content-center">
+                <%= initials.presence || "AD" %>
+              </div>
+              <div>
+                <strong class="d-block text-dark"><%= current_user.email.to_s.split("@").first.to_s.titleize %></strong>
+                <span class="text-secondary">Administrador</span>
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <%= link_to '<i class="bi bi-globe me-2"></i>Ir ao Site'.html_safe, root_path, class: "btn btn-outline-secondary text-start" %>
+              <%= link_to '<i class="bi bi-box-arrow-right me-2"></i>Sair'.html_safe, destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-outline-danger text-start" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <% [
+          ["bi-grid-3x3-gap", "Modalidades", "Organize categorias, tipos e agrupamentos do evento."],
+          ["bi-card-checklist", "Inscricoes", "Centralize entradas, situacoes e acompanhamentos."],
+          ["bi-people", "Sociedades", "Gerencie sociedades vinculadas ao sistema."],
+          ["bi-geo-alt", "Distritos", "Estruture os distritos que participam do ORAR."]
+        ].each do |icon, title, description| %>
+          <div class="col-12 col-md-6 col-xl-3">
+            <div class="card admin-module-card border-0 rounded-4 shadow-sm h-100">
+              <div class="card-body p-4">
+                <div class="admin-module-icon rounded-4 d-inline-flex align-items-center justify-content-center mb-3">
+                  <i class="bi <%= icon %> fs-4"></i>
+                </div>
+
+                <h3 class="h5 fw-bold mb-2" style="color: #163a63;"><%= title %></h3>
+                <p class="text-secondary mb-4"><%= description %></p>
+
+                <span class="badge rounded-pill" style="background-color: #d9e6f5; color: #163a63;">
+                  Em breve
+                </span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="card border-0 rounded-4 shadow-sm mt-4">
+        <div class="card-body py-4 text-secondary">
+          Dashboard inicial pronto com os modulos principais do sistema. Quando voce fechar as tabelas, a gente liga cada card na rota e nas listagens reais.
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
