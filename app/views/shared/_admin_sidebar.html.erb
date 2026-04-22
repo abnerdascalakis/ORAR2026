@@ -1,0 +1,68 @@
+<% user_email = current_user.email.to_s %>
+<% user_name = user_email.split("@").first.to_s.titleize %>
+<% initials = user_email.split("@").first.to_s.split(/[._-]/).map { |part| part[0] }.join.upcase.first(2) %>
+
+<aside
+  class="offcanvas-lg offcanvas-start admin-sidebar"
+  tabindex="-1"
+  id="adminSidebar"
+  aria-labelledby="adminSidebarLabel"
+>
+  <div class="offcanvas-header px-4 pt-4 pb-2">
+    <span id="adminSidebarLabel" class="badge rounded-pill text-bg-success-subtle text-success fw-semibold">v2.2.0</span>
+    <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Fechar menu"></button>
+  </div>
+
+  <div class="offcanvas-body d-flex flex-column justify-content-between pt-2 pb-4">
+    <div>
+      <div class="px-2 mb-4">
+        <div class="admin-user-card rounded-4 p-3">
+          <div class="d-flex align-items-center gap-3">
+            <div class="admin-avatar rounded-circle text-white fw-bold d-flex align-items-center justify-content-center">
+              <%= initials.presence || "AD" %>
+            </div>
+            <div class="admin-sidebar-text">
+              <strong class="d-block text-dark"><%= user_name %></strong>
+              <span class="d-block text-secondary small"><%= user_email %></span>
+              <span class="text-secondary">Administrador</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-2">
+        <p class="admin-group-title admin-sidebar-text text-uppercase fw-bold mb-4">Acesso</p>
+
+        <div class="d-grid gap-2 mb-5">
+          <%= link_to '<span class="d-flex align-items-center gap-3"><i class="bi bi-globe fs-5"></i><span>Ir ao Site</span></span>'.html_safe, root_path, class: "admin-link d-flex align-items-center justify-content-between py-2 px-2 rounded-3" %>
+
+          <a href="#" class="admin-link d-flex align-items-center justify-content-between py-2 px-2 rounded-3">
+            <span class="d-flex align-items-center gap-3">
+              <i class="bi bi-house-door fs-5"></i>
+              <span>Home</span>
+            </span>
+          </a>
+        </div>
+
+        <p class="admin-group-title admin-sidebar-text text-uppercase fw-bold mb-4">Administrador</p>
+
+        <div class="d-grid gap-2">
+          <% [
+            ["bi-grid-3x3-gap", "Modalidades"],
+            ["bi-card-checklist", "Inscricoes"],
+            ["bi-people", "Sociedades"],
+            ["bi-geo-alt", "Distritos"]
+          ].each do |icon, label| %>
+            <a href="#" class="admin-link d-flex align-items-center justify-content-between py-2 px-2 rounded-3">
+              <span class="d-flex align-items-center gap-3">
+                <i class="bi <%= icon %> fs-5"></i>
+                <span><%= label %></span>
+              </span>
+              <i class="bi bi-chevron-right small"></i>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
