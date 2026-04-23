@@ -101,7 +101,7 @@
                   </div>
                 <% end %>
 
-                <%= form_with model: @inscricao, local: true, html: { class: "needs-validation", novalidate: true, data: { turbo: false, multi_step_form_target: "form", action: "submit->multi-step-form#submitForm" } } do |f| %>
+                <%= form_with model: @inscricao, url: inscricoes_path, local: true, html: { class: "needs-validation", novalidate: true, data: { turbo: false, multi_step_form_target: "form", action: "submit->multi-step-form#submitForm" } } do |f| %>
                   <section
                     class="orar-step-panel is-active"
                     data-step-index="0"

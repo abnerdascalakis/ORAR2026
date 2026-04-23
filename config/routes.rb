@@ -16,8 +16,6 @@ Rails.application.routes.draw do
 
   get "home", to: "home#index"
   get "roteiro_orar", to: "home#roteiro_orar"
-  get "inscricoes", to: "home#inscricoes"
-  get "inscricoes_modalidades", to: "home#inscricoes_modalidades"
   get "footer", to: "home#footer"
   root "home#index"
 end

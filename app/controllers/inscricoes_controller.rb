@@ -4,7 +4,10 @@ class InscricoesController < ApplicationController
 
   # GET /inscricoes or /inscricoes.json
   def index
-    @inscricoes = Inscricao.all
+    respond_to do |format|
+      format.html { redirect_to action: :new }
+      format.json { @inscricoes = Inscricao.all }
+    end
   end
 
   # GET /inscricaos/1 or /inscricaos/1.json
@@ -55,7 +58,7 @@ class InscricoesController < ApplicationController
     @inscricao.destroy!
 
     respond_to do |format|
-      format.html { redirect_to inscricaos_path, notice: "Inscricao was successfully destroyed.", status: :see_other }
+      format.html { redirect_to inscricoes_path, notice: "Inscricao was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end
   end
