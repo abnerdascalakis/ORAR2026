@@ -1,0 +1,328 @@
+<% user_email = current_user.email.to_s %>
+<% user_name = user_email.split("@").first.to_s.titleize %>
+<% initials = user_email.split("@").first.to_s.split(/[._-]/).map { |part| part[0] }.join.upcase.first(2) %>
+
+<style>
+  .admin-shell {
+    min-height: 100vh;
+  }
+
+  .admin-shell--collapsed .admin-sidebar {
+    width: 92px;
+  }
+
+  .admin-topbar {
+    background:
+      linear-gradient(90deg, rgba(223, 235, 247, 0.12), rgba(223, 235, 247, 0) 18%),
+      linear-gradient(135deg, #163a63 0%, #2a5788 42%, #5e86b5 72%, #8fafce 100%);
+    min-height: 215px;
+  }
+
+  .admin-sidebar {
+    width: 280px;
+    background: #f8fbff;
+    border-right: 1px solid rgba(94, 134, 181, 0.18);
+  }
+
+  .admin-avatar {
+    width: 46px;
+    height: 46px;
+    background: linear-gradient(135deg, #2a5788 0%, #5e86b5 100%);
+  }
+
+  .admin-user-card {
+    background: rgba(217, 230, 245, 0.45);
+    border: 1px solid rgba(94, 134, 181, 0.2);
+  }
+
+  .admin-link {
+    color: #4d6278;
+    text-decoration: none;
+  }
+
+  .admin-link:hover {
+    color: #2a5788;
+    background: rgba(217, 230, 245, 0.38);
+  }
+
+  .admin-shell--collapsed .admin-link {
+    justify-content: center !important;
+  }
+
+  .admin-shell--collapsed .admin-link > span {
+    gap: 0 !important;
+  }
+
+  .admin-shell--collapsed .admin-link span span,
+  .admin-shell--collapsed .admin-link .bi-chevron-right,
+  .admin-shell--collapsed .admin-sidebar-text {
+    display: none !important;
+  }
+
+  .admin-shell--collapsed .admin-user-card {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  .admin-shell--collapsed .admin-user-card .d-flex {
+    justify-content: center;
+  }
+
+  .admin-group-title {
+    font-size: 0.78rem;
+    color: #163a63;
+    letter-spacing: 0.02em;
+  }
+
+  .admin-content {
+    margin-left: 0;
+  }
+
+  .admin-breadcrumb {
+    color: rgba(255, 255, 255, 0.88);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+
+  .admin-breadcrumb-sep {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .admin-page-title {
+    color: #ffffff;
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .admin-workspace {
+    min-height: calc(100vh - 215px);
+    background:
+      radial-gradient(circle at top, rgba(217, 230, 245, 0.55), transparent 28%),
+      linear-gradient(180deg, #f7f4ed 0%, #eef3f8 100%);
+  }
+
+  .admin-module-card {
+    border: 1px solid rgba(94, 134, 181, 0.18);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .admin-module-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.75rem 1.5rem rgba(22, 58, 99, 0.08);
+  }
+
+  .admin-module-icon {
+    width: 52px;
+    height: 52px;
+    background: rgba(217, 230, 245, 0.8);
+    color: #2a5788;
+  }
+
+  .admin-profile-menu {
+    position: relative;
+  }
+
+  .admin-profile-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    color: #ffffff;
+    padding: 0.45rem 0.8rem 0.45rem 0.55rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .admin-profile-toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .admin-profile-toggle:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .admin-profile-dropdown {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    right: 0;
+    width: min(320px, 85vw);
+    background: #ffffff;
+    border: 1px solid rgba(94, 134, 181, 0.18);
+    border-radius: 22px;
+    box-shadow: 0 20px 48px rgba(15, 33, 56, 0.18);
+    padding: 1rem;
+    z-index: 20;
+  }
+
+  .admin-profile-email {
+    word-break: break-word;
+  }
+
+  .admin-profile-logout {
+    border-radius: 14px;
+  }
+
+  .admin-sidebar-toggle {
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .admin-sidebar .offcanvas-header,
+  .admin-sidebar .offcanvas-body {
+    background: #f8fbff;
+  }
+
+  @media (min-width: 992px) {
+    .admin-sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      transform: none;
+      visibility: visible;
+      border-right: 1px solid rgba(94, 134, 181, 0.18);
+      box-shadow: none;
+    }
+
+    .admin-sidebar .offcanvas-header .btn-close {
+      display: none;
+    }
+
+    .admin-content {
+      margin-left: 280px;
+      transition: margin-left 0.2s ease;
+    }
+
+    .admin-shell--collapsed .admin-content {
+      margin-left: 92px;
+    }
+  }
+</style>
+
+<section class="admin-shell position-relative" id="adminShell">
+  <%= render "shared/admin_sidebar" %>
+
+  <div class="admin-content">
+    <header class="admin-topbar px-4 px-lg-5 pt-4">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <button
+          type="button"
+          class="btn text-white border-0 p-0 shadow-none d-lg-none"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#adminSidebar"
+          aria-controls="adminSidebar"
+          aria-label="Abrir menu lateral"
+        >
+          <i class="bi bi-list fs-2"></i>
+        </button>
+
+        <button
+          type="button"
+          class="btn text-white border-0 p-0 shadow-none d-none d-lg-inline-flex admin-sidebar-toggle"
+          id="adminSidebarDesktopToggle"
+          aria-label="Retrair menu lateral"
+          aria-pressed="false"
+        >
+          <i class="bi bi-layout-sidebar-inset fs-4"></i>
+        </button>
+
+        <div class="d-flex align-items-center">
+          <details class="admin-profile-menu">
+            <summary class="admin-profile-toggle">
+              <span class="admin-avatar rounded-circle text-white fw-bold d-inline-flex align-items-center justify-content-center">
+                <%= initials.presence || "AD" %>
+              </span>
+              <span class="d-none d-md-inline text-start">
+                <strong class="d-block small"><%= user_name %></strong>
+                <span class="small text-white-50">Administrador</span>
+              </span>
+              <i class="bi bi-chevron-down small"></i>
+            </summary>
+
+            <div class="admin-profile-dropdown">
+              <div class="d-flex align-items-center gap-3 pb-3 border-bottom">
+                <div class="admin-avatar rounded-circle text-white fw-bold d-flex align-items-center justify-content-center">
+                  <%= initials.presence || "AD" %>
+                </div>
+                <div>
+                  <strong class="d-block text-dark"><%= user_name %></strong>
+                  <span class="d-block text-secondary admin-profile-email"><%= user_email %></span>
+                  <span class="small text-secondary">Administrador logado</span>
+                </div>
+              </div>
+
+              <div class="d-grid mt-3">
+                <%= link_to '<i class="bi bi-box-arrow-right me-2"></i>Sair'.html_safe, destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-outline-danger text-start admin-profile-logout" %>
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="pb-5 pb-lg-4">
+        <div class="d-flex align-items-center gap-3 flex-wrap mb-2">
+          <a href="#" class="admin-breadcrumb">Home</a>
+          <span class="admin-breadcrumb-sep">&gt;</span>
+          <a href="#" class="admin-breadcrumb">Dashboard</a>
+          <span class="admin-breadcrumb-sep">&gt;</span>
+          <span class="admin-breadcrumb">Lista</span>
+        </div>
+
+        <h1 class="admin-page-title fw-bold mb-0">Dashboard</h1>
+      </div>
+    </header>
+
+    <main class="admin-workspace px-4 px-lg-5 py-4">
+      <div class="row g-4">
+        <% [
+          ["bi-grid-3x3-gap", "Modalidades", "Organize categorias, tipos e agrupamentos do evento."],
+          ["bi-card-checklist", "Inscricoes", "Centralize entradas, situacoes e acompanhamentos."],
+          ["bi-people", "Sociedades", "Gerencie sociedades vinculadas ao sistema."],
+          ["bi-geo-alt", "Distritos", "Estruture os distritos que participam do ORAR."]
+        ].each do |icon, title, description| %>
+          <div class="col-12 col-md-6 col-xl-3">
+            <div class="card admin-module-card border-0 rounded-4 shadow-sm h-100">
+              <div class="card-body p-4">
+                <div class="admin-module-icon rounded-4 d-inline-flex align-items-center justify-content-center mb-3">
+                  <i class="bi <%= icon %> fs-4"></i>
+                </div>
+
+                <h3 class="h5 fw-bold mb-2" style="color: #163a63;"><%= title %></h3>
+                <p class="text-secondary mb-4"><%= description %></p>
+
+                <span class="badge rounded-pill" style="background-color: #d9e6f5; color: #163a63;">
+                  Em breve
+                </span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="card border-0 rounded-4 shadow-sm mt-4">
+        <div class="card-body py-4 text-secondary">
+          Dashboard inicial pronto com os modulos principais do sistema. Quando voce fechar as tabelas, a gente liga cada card na rota e nas listagens reais.
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const shell = document.getElementById("adminShell");
+    const toggle = document.getElementById("adminSidebarDesktopToggle");
+
+    if (!shell || !toggle) return;
+
+    toggle.addEventListener("click", () => {
+      const collapsed = shell.classList.toggle("admin-shell--collapsed");
+      toggle.setAttribute("aria-pressed", collapsed ? "true" : "false");
+      toggle.setAttribute("aria-label", collapsed ? "Expandir menu lateral" : "Retrair menu lateral");
+    });
+  })();
+</script>
