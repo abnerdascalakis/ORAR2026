@@ -1,180 +1,39 @@
 <% content_for :title, "Entrar | ORAR 2026" %>
 
-<style>
-  .orar-login-page {
-    min-height: 100vh;
-    background:
-      linear-gradient(135deg, rgba(16, 42, 74, 0.86), rgba(46, 95, 149, 0.62)),
-      url("<%= image_path('banner.jpg') %>") center/cover no-repeat;
-    position: relative;
-    overflow: hidden;
-  }
+<%= render "devise/shared/auth_card",
+           eyebrow: "Login",
+           title: "Acesse sua conta",
+           description: "Use seu e-mail e senha cadastrados para entrar no painel." do %>
+  <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "d-grid gap-3" }) do |f| %>
+    <%= f.error_notification %>
 
-  .orar-login-page::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at 20% 18%, rgba(243, 240, 230, 0.16), transparent 24%),
-      radial-gradient(circle at 78% 22%, rgba(217, 230, 245, 0.2), transparent 18%),
-      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0, rgba(255, 255, 255, 0.06) 1px, transparent 1px, transparent 14px),
-      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 1px, transparent 1px, transparent 14px);
-    pointer-events: none;
-  }
+    <%= f.input :email,
+                label: "E-mail",
+                required: false,
+                autofocus: true,
+                input_html: { autocomplete: "email", class: "orar-auth-input px-3" },
+                label_html: { class: "fw-semibold text-dark" },
+                wrapper_html: { class: "mb-0" } %>
 
-  .orar-login-panel {
-    position: relative;
-    z-index: 1;
-    min-height: 100vh;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-  }
+    <%= f.input :password,
+                label: "Senha",
+                required: false,
+                input_html: { autocomplete: "current-password", class: "orar-auth-input px-3" },
+                label_html: { class: "fw-semibold text-dark" },
+                wrapper_html: { class: "mb-0" } %>
 
-  .orar-login-brand {
-    color: #f3f0e6;
-    max-width: 420px;
-  }
+    <% if devise_mapping.rememberable? %>
+      <%= f.input :remember_me,
+                  as: :boolean,
+                  label: "Lembrar de mim",
+                  wrapper_html: { class: "mb-0" },
+                  label_html: { class: "text-secondary" } %>
+    <% end %>
 
-  .orar-login-chip {
-    background: rgba(243, 240, 230, 0.14);
-    border: 1px solid rgba(243, 240, 230, 0.22);
-    color: #f3f0e6;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
+    <%= f.submit "Entrar", class: "btn orar-auth-button fw-semibold" %>
+  <% end %>
 
-  .orar-login-card {
-    background: rgba(255, 255, 255, 0.94);
-    border: 1px solid rgba(217, 230, 245, 0.7);
-    border-radius: 28px;
-    box-shadow: 0 30px 70px rgba(15, 33, 56, 0.24);
-    backdrop-filter: blur(10px);
-  }
-
-  .orar-login-title {
-    color: #163a63;
-  }
-
-  .orar-login-input {
-    border: 1px solid rgba(94, 134, 181, 0.25);
-    border-radius: 16px;
-    min-height: 54px;
-  }
-
-  .orar-login-input:focus {
-    border-color: #2a5788;
-    box-shadow: 0 0 0 0.25rem rgba(42, 87, 136, 0.15);
-  }
-
-  .orar-login-button {
-    background: linear-gradient(135deg, #163a63 0%, #2a5788 100%);
-    border: 0;
-    border-radius: 16px;
-    color: #f3f0e6;
-    min-height: 54px;
-  }
-
-  .orar-login-button:hover,
-  .orar-login-button:focus {
-    background: linear-gradient(135deg, #112d4d 0%, #244b76 100%);
-    color: #f3f0e6;
-  }
-
-  .orar-login-logo {
-    background: rgba(255, 255, 255, 0.94);
-    border-radius: 22px;
-    display: inline-block;
-    padding: 0.9rem 1.15rem;
-    box-shadow: 0 18px 44px rgba(14, 32, 54, 0.18);
-  }
-
-  .orar-login-copy {
-    color: rgba(243, 240, 230, 0.82);
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-
-  @media (max-width: 991.98px) {
-    .orar-login-page {
-      background-position: center top;
-    }
-
-    .orar-login-panel {
-      min-height: auto;
-    }
-
-    .orar-login-brand {
-      max-width: 100%;
-      text-align: center;
-    }
-  }
-
-  @media (max-width: 575.98px) {
-    .orar-login-logo {
-      display: block;
-      width: 100%;
-      padding: 0.85rem 1rem;
-    }
-
-    .orar-login-card {
-      border-radius: 22px;
-    }
-
-    .orar-login-title {
-      font-size: 1.6rem;
-    }
-  }
-</style>
-
-<section class="orar-login-page">
-  <div class="container orar-login-panel d-flex align-items-center">
-    <div class="row align-items-center g-4 g-lg-5 w-100 py-5">
-      <div class="col-lg-7">
-        <span class="badge rounded-pill orar-login-chip px-3 py-2 mb-4">Area administrativa</span>
-        <div class="orar-login-brand">
-          <div class="orar-login-logo mb-4">
-            <strong class="d-block fs-3" style="color: #163a63;">ORAR 2026</strong>
-            <span class="text-secondary">Olimpiada Regional Adventista de Rondonia</span>
-          </div>
-
-          <p class="orar-login-copy mb-0">Acesso restrito ao painel administrativo do evento.</p>
-        </div>
-      </div>
-
-      <div class="col-lg-5">
-        <div class="orar-login-card p-4 p-lg-5">
-          <div class="mb-4">
-            <p class="text-uppercase fw-semibold mb-2" style="letter-spacing: 0.08em; color: #5e86b5;">Login</p>
-            <h2 class="orar-login-title fw-bold mb-2">Acesse sua conta</h2>
-            <p class="text-secondary mb-0">Use seu e-mail e senha cadastrados para entrar no painel.</p>
-          </div>
-
-          <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "d-grid gap-3" }) do |f| %>
-            <div>
-              <%= f.label :email, "E-mail", class: "form-label fw-semibold text-dark" %>
-              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control orar-login-input px-3" %>
-            </div>
-
-            <div>
-              <%= f.label :password, "Senha", class: "form-label fw-semibold text-dark" %>
-              <%= f.password_field :password, autocomplete: "current-password", class: "form-control orar-login-input px-3" %>
-            </div>
-
-            <% if devise_mapping.rememberable? %>
-              <div class="form-check">
-                <%= f.check_box :remember_me, class: "form-check-input" %>
-                <%= f.label :remember_me, "Lembrar de mim", class: "form-check-label text-secondary" %>
-              </div>
-            <% end %>
-
-            <%= f.submit "Entrar", class: "btn orar-login-button fw-semibold" %>
-          <% end %>
-
-          <div class="mt-4 pt-3 border-top">
-            <%= render "devise/shared/links" %>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="orar-auth-links mt-4 pt-3 border-top">
+    <%= render "devise/shared/links" %>
   </div>
-</section>
+<% end %>

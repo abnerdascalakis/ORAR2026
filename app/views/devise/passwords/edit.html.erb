@@ -1,25 +1,34 @@
-<h2>Change your password</h2>
+<% content_for :title, "Nova Senha | ORAR 2026" %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
+<%= render "devise/shared/auth_card",
+           eyebrow: "Senha",
+           title: "Defina uma nova senha",
+           description: "Escolha uma nova senha para recuperar o acesso ao painel." do %>
+  <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "d-grid gap-3" }) do |f| %>
+    <%= f.error_notification %>
+    <%= f.input :reset_password_token, as: :hidden %>
+    <%= f.full_error :reset_password_token %>
 
-  <div class="field">
-    <p><%= f.label :password, "New password" %></p>
-    <% if @minimum_password_length %>
-      <p><em>(<%= @minimum_password_length %> characters minimum)</em></p>
-    <% end %>
-    <p><%= f.password_field :password, autofocus: true, autocomplete: "new-password" %></p>
-  </div>
+    <%= f.input :password,
+                label: "Nova senha",
+                required: true,
+                autofocus: true,
+                hint: (@minimum_password_length.present? ? "Minimo de #{@minimum_password_length} caracteres." : nil),
+                input_html: { autocomplete: "new-password", class: "orar-auth-input px-3" },
+                label_html: { class: "fw-semibold text-dark" },
+                wrapper_html: { class: "mb-0" } %>
 
-  <div class="field">
-    <p><%= f.label :password_confirmation, "Confirm new password" %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
-  </div>
+    <%= f.input :password_confirmation,
+                label: "Confirmar nova senha",
+                required: true,
+                input_html: { autocomplete: "new-password", class: "orar-auth-input px-3" },
+                label_html: { class: "fw-semibold text-dark" },
+                wrapper_html: { class: "mb-0" } %>
 
-  <div class="actions">
-    <%= f.submit "Change my password" %>
+    <%= f.submit "Alterar senha", class: "btn orar-auth-button fw-semibold" %>
+  <% end %>
+
+  <div class="orar-auth-links mt-4 pt-3 border-top">
+    <%= render "devise/shared/links" %>
   </div>
 <% end %>
-
-<%= render "devise/shared/links" %>

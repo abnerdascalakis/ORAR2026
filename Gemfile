@@ -70,3 +70,7 @@ gem 'dotenv-rails'
 gem "pg", "~> 1.1"
 
 gem "devise"
+
+gem "simple_form"
+
+gem "ransack"

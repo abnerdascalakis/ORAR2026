@@ -1,42 +1,63 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<% content_for :title, "Minha Conta | ORAR 2026" %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<%= render "devise/shared/auth_card",
+           eyebrow: "Conta",
+           title: "Atualize seu cadastro",
+           description: "Revise seus dados de acesso e confirme sua senha atual para salvar alteracoes." do %>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "d-grid gap-3" }) do |f| %>
+    <%= f.error_notification %>
 
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
+    <%= f.input :email,
+                label: "E-mail",
+                required: true,
+                autofocus: true,
+                input_html: { autocomplete: "email", class: "orar-auth-input px-3" },
+                label_html: { class: "fw-semibold text-dark" },
+                wrapper_html: { class: "mb-0" } %>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div class="alert alert-warning mb-0" role="alert">
+        Aguardando confirmacao para: <strong><%= resource.unconfirmed_email %></strong>
+      </div>
+    <% end %>
+
+    <%= f.input :password,
+                label: "Nova senha",
+                required: false,
+                hint: @minimum_password_length.present? ? "Minimo de #{@minimum_password_length} caracteres. Deixe em branco se nao quiser alterar." : "Deixe em branco se nao quiser alterar.",
+                input_html: { autocomplete: "new-password", class: "orar-auth-input px-3" },
+                label_html: { class: "fw-semibold text-dark" },
+                wrapper_html: { class: "mb-0" } %>
+
+    <%= f.input :password_confirmation,
+                label: "Confirmar nova senha",
+                required: false,
+                input_html: { autocomplete: "new-password", class: "orar-auth-input px-3" },
+                label_html: { class: "fw-semibold text-dark" },
+                wrapper_html: { class: "mb-0" } %>
+
+    <%= f.input :current_password,
+                label: "Senha atual",
+                required: true,
+                hint: "Precisamos da sua senha atual para confirmar as alteracoes.",
+                input_html: { autocomplete: "current-password", class: "orar-auth-input px-3" },
+                label_html: { class: "fw-semibold text-dark" },
+                wrapper_html: { class: "mb-0" } %>
+
+    <%= f.submit "Salvar alteracoes", class: "btn orar-auth-button fw-semibold" %>
   <% end %>
 
-  <div class="field">
-    <p><%= f.label :password %> <i>(leave blank if you don't want to change it)</i></p>
-    <p><%= f.password_field :password, autocomplete: "new-password" %></p>
-    <% if @minimum_password_length %>
-      <p><em><%= @minimum_password_length %> characters minimum</em></p>
-    <% end %>
+  <div class="mt-4 pt-3 border-top">
+    <h3 class="h5 fw-bold mb-2" style="color: #163a63;">Cancelar minha conta</h3>
+    <p class="text-secondary mb-3">Se voce nao quiser mais manter acesso ao painel, pode remover sua conta.</p>
+    <%= button_to "Cancelar minha conta",
+                  registration_path(resource_name),
+                  data: { confirm: "Tem certeza?", turbo_confirm: "Tem certeza?" },
+                  method: :delete,
+                  class: "btn btn-outline-danger" %>
   </div>
 
-  <div class="field">
-    <p><%= f.label :password_confirmation %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i></p>
-    <p><%= f.password_field :current_password, autocomplete: "current-password" %></p>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
+  <div class="orar-auth-links mt-4 pt-3 border-top">
+    <%= link_to "Voltar", root_path %>
   </div>
 <% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>

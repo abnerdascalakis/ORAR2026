@@ -1,16 +1,24 @@
-<h2>Forgot your password?</h2>
+<% content_for :title, "Recuperar Senha | ORAR 2026" %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<%= render "devise/shared/auth_card",
+           eyebrow: "Recuperacao",
+           title: "Esqueceu sua senha?",
+           description: "Informe seu e-mail para receber as instrucoes de redefinicao." do %>
+  <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "d-grid gap-3" }) do |f| %>
+    <%= f.error_notification %>
 
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
+    <%= f.input :email,
+                label: "E-mail",
+                required: true,
+                autofocus: true,
+                input_html: { autocomplete: "email", class: "orar-auth-input px-3" },
+                label_html: { class: "fw-semibold text-dark" },
+                wrapper_html: { class: "mb-0" } %>
 
-  <div class="actions">
-    <%= f.submit "Send me password reset instructions" %>
+    <%= f.submit "Enviar instrucoes", class: "btn orar-auth-button fw-semibold" %>
+  <% end %>
+
+  <div class="orar-auth-links mt-4 pt-3 border-top">
+    <%= render "devise/shared/links" %>
   </div>
 <% end %>
-
-<%= render "devise/shared/links" %>
