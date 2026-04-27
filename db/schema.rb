@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_23_230000) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_27_025051) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -18,6 +18,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_230000) do
     t.datetime "created_at", null: false
     t.string "nome"
     t.datetime "updated_at", null: false
+  end
+
+  create_table "equipes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "modalidade_id", null: false
+    t.string "nome"
+    t.datetime "updated_at", null: false
+    t.index ["modalidade_id"], name: "index_equipes_on_modalidade_id"
   end
 
   create_table "eventos", force: :cascade do |t|
@@ -32,9 +40,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_230000) do
 
   create_table "inscricao_modalidades", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.bigint "equipe_id"
     t.bigint "inscricao_id", null: false
     t.bigint "modalidade_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["equipe_id"], name: "index_inscricao_modalidades_on_equipe_id"
     t.index ["inscricao_id"], name: "index_inscricao_modalidades_on_inscricao_id"
     t.index ["modalidade_id"], name: "index_inscricao_modalidades_on_modalidade_id"
   end
@@ -101,6 +111,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_230000) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "equipes", "modalidades"
+  add_foreign_key "inscricao_modalidades", "equipes"
   add_foreign_key "inscricao_modalidades", "inscricoes"
   add_foreign_key "inscricao_modalidades", "modalidades"
   add_foreign_key "inscricoes", "pessoas"
