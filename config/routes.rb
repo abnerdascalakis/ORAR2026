@@ -3,6 +3,14 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "dashboard#index"
+
+    resources :inscricoes, only: [ :index ]
+
+    resources :modalidades, only: [ :index, :show ] do
+      resources :equipes, module: :modalidades do
+        resources :membro_equipes, only: [ :create, :destroy ], module: :equipes
+      end
+    end
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -18,7 +26,7 @@ Rails.application.routes.draw do
   get "home", to: "home#index"
   get "roteiro_orar", to: "home#roteiro_orar"
   get "inscricoes", to: "home#inscricoes"
-  get "inscricoes_modalidades", to: "home#inscricoes_modalidades"
+  post "inscricoes", to: "home#create_inscricao"
   get "footer", to: "home#footer"
   root "home#index"
 end

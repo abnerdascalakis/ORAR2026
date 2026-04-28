@@ -1,0 +1,43 @@
+<% content_for :title, "Editar equipe | Admin" %>
+
+<% actions = capture do %>
+  <%= link_to admin_modalidade_equipe_path(@modalidade, @equipe), class: "btn btn-outline-light" do %>
+    <i class="bi bi-arrow-left me-2"></i>Voltar
+  <% end %>
+<% end %>
+
+<%= render layout: "shared/admin_shell", locals: {
+  title: "Editar equipe",
+  subtitle: "Atualize o nome da equipe #{@equipe.nome}.",
+  breadcrumbs: [
+    { label: "Home", path: admin_root_path },
+    { label: "Modalidades", path: admin_modalidades_path },
+    { label: @modalidade.nome, path: admin_modalidade_path(@modalidade) },
+    { label: @equipe.nome, path: admin_modalidade_equipe_path(@modalidade, @equipe) },
+    { label: "Editar" }
+  ],
+  actions: actions
+} do %>
+
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8 col-xl-6">
+      <div class="card border-0 rounded-4 shadow-sm">
+        <div class="card-header bg-white border-0 rounded-top-4 px-4 pt-4 pb-0">
+          <div class="d-flex align-items-center gap-3">
+            <div class="admin-card-icon rounded-4 d-inline-flex align-items-center justify-content-center">
+              <i class="bi bi-pencil fs-4"></i>
+            </div>
+            <div>
+              <h2 class="h5 fw-bold mb-1">Dados da equipe</h2>
+              <p class="text-secondary mb-0">Altere as informacoes principais.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body p-4">
+          <%= render "admin/modalidades/equipes/form" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

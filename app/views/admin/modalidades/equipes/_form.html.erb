@@ -1,0 +1,84 @@
+<%= form_with model: [ :admin, @modalidade, @equipe ] do |form| %>
+  <% if @equipe.errors.any? %>
+    <div class="alert alert-danger">
+      <strong>Confira os dados:</strong>
+      <ul class="mb-0 mt-2">
+        <% @equipe.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :nome, "Nome da equipe", class: "form-label fw-semibold" %>
+    <div class="input-group input-group-lg">
+      <span class="input-group-text"><i class="bi bi-shield-check"></i></span>
+      <%= form.text_field :nome, class: "form-control", autofocus: true, placeholder: "Ex: Time A" %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :distrito_id, "Distrito que a equipe representa", class: "form-label fw-semibold" %>
+    <div
+      class="position-relative"
+      data-controller="distrito-select"
+    >
+      <%= form.hidden_field :distrito_id, data: { distrito_select_target: "input" } %>
+
+      <div class="input-group input-group-lg">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Pesquisar distrito"
+          value="<%= @equipe.distrito&.nome %>"
+          autocomplete="off"
+          data-distrito-select-target="search"
+          data-action="input->distrito-select#filter focus->distrito-select#show"
+        >
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-action="distrito-select#clear"
+          title="Limpar distrito"
+        >
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div
+        class="admin-search-menu list-group shadow-sm d-none"
+        data-distrito-select-target="menu"
+      >
+        <% Distrito.order(:nome).each do |distrito| %>
+          <button
+            type="button"
+            class="list-group-item list-group-item-action d-flex align-items-center gap-2"
+            data-distrito-select-target="option"
+            data-distrito-id="<%= distrito.id %>"
+            data-distrito-name="<%= distrito.nome %>"
+            data-action="distrito-select#select"
+          >
+            <i class="bi bi-geo-alt text-primary"></i>
+            <span><%= distrito.nome %></span>
+          </button>
+        <% end %>
+
+        <div class="list-group-item text-secondary d-none" data-distrito-select-target="empty">
+          Nenhum distrito encontrado.
+        </div>
+      </div>
+    </div>
+    <div class="form-text">Esse distrito identifica a equipe, mas nao limita quem pode ser adicionado como membro.</div>
+  </div>
+
+  <div class="d-flex gap-2 flex-wrap pt-2">
+    <%= form.button class: "btn btn-primary" do %>
+      <i class="bi bi-check-circle me-2"></i>Salvar equipe
+    <% end %>
+    <%= link_to admin_modalidade_path(@modalidade), class: "btn btn-outline-secondary" do %>
+      <i class="bi bi-arrow-left me-2"></i>Cancelar
+    <% end %>
+  </div>
+<% end %>

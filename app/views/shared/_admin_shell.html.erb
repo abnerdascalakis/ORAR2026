@@ -1,0 +1,117 @@
+<% user_email = current_user.email.to_s %>
+<% user_name = user_email.split("@").first.to_s.titleize %>
+<% initials = user_email.split("@").first.to_s.split(/[._-]/).map { |part| part[0] }.join.upcase.first(2) %>
+<% breadcrumbs ||= [] %>
+<% subtitle ||= nil %>
+<% actions ||= nil %>
+
+<section class="admin-shell position-relative" id="adminShell">
+  <%= render "shared/admin_sidebar" %>
+
+  <div class="admin-content">
+    <header class="admin-topbar px-4 px-lg-5 pt-4">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <button
+          type="button"
+          class="btn text-white border-0 p-0 shadow-none d-lg-none"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#adminSidebar"
+          aria-controls="adminSidebar"
+          aria-label="Abrir menu lateral"
+        >
+          <i class="bi bi-list fs-2"></i>
+        </button>
+
+        <button
+          type="button"
+          class="btn text-white border-0 p-0 shadow-none d-none d-lg-inline-flex admin-sidebar-toggle"
+          id="adminSidebarDesktopToggle"
+          aria-label="Retrair menu lateral"
+          aria-pressed="false"
+        >
+          <i class="bi bi-layout-sidebar-inset fs-4"></i>
+        </button>
+
+        <div class="d-flex align-items-center">
+          <details class="admin-profile-menu">
+            <summary class="admin-profile-toggle">
+              <span class="admin-avatar rounded-circle text-white fw-bold d-inline-flex align-items-center justify-content-center">
+                <%= initials.presence || "AD" %>
+              </span>
+              <span class="d-none d-md-inline text-start">
+                <strong class="d-block small"><%= user_name %></strong>
+                <span class="small text-white-50">Administrador</span>
+              </span>
+              <i class="bi bi-chevron-down small"></i>
+            </summary>
+
+            <div class="admin-profile-dropdown">
+              <div class="d-flex align-items-center gap-3 pb-3 border-bottom">
+                <div class="admin-avatar rounded-circle text-white fw-bold d-flex align-items-center justify-content-center">
+                  <%= initials.presence || "AD" %>
+                </div>
+                <div>
+                  <strong class="d-block text-dark"><%= user_name %></strong>
+                  <span class="d-block text-secondary admin-profile-email"><%= user_email %></span>
+                  <span class="small text-secondary">Administrador logado</span>
+                </div>
+              </div>
+
+              <div class="d-grid mt-3">
+                <%= link_to '<i class="bi bi-box-arrow-right me-2"></i>Sair'.html_safe, destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-outline-danger text-start admin-profile-logout" %>
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column align-items-start gap-3 pb-5 pb-lg-4">
+        <div>
+          <div class="d-flex align-items-center gap-3 flex-wrap mb-2">
+            <% breadcrumbs.each_with_index do |breadcrumb, index| %>
+              <% if breadcrumb[:path].present? %>
+                <%= link_to breadcrumb[:label], breadcrumb[:path], class: "admin-breadcrumb" %>
+              <% else %>
+                <span class="admin-breadcrumb"><%= breadcrumb[:label] %></span>
+              <% end %>
+
+              <% unless index == breadcrumbs.length - 1 %>
+                <span class="admin-breadcrumb-sep">&gt;</span>
+              <% end %>
+            <% end %>
+          </div>
+
+          <h1 class="admin-page-title fw-bold mb-0"><%= title %></h1>
+          <% if subtitle.present? %>
+            <p class="admin-page-subtitle mb-0 mt-2"><%= subtitle %></p>
+          <% end %>
+        </div>
+
+        <% if actions.present? %>
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <%= actions %>
+          </div>
+        <% end %>
+      </div>
+    </header>
+
+    <main class="admin-workspace px-4 px-lg-5 py-4">
+      <%= yield %>
+    </main>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const shell = document.getElementById("adminShell");
+    const toggle = document.getElementById("adminSidebarDesktopToggle");
+
+    if (!shell || !toggle) return;
+
+    toggle.addEventListener("click", () => {
+      const collapsed = shell.classList.toggle("admin-shell--collapsed");
+      toggle.setAttribute("aria-pressed", collapsed ? "true" : "false");
+      toggle.setAttribute("aria-label", collapsed ? "Expandir menu lateral" : "Retrair menu lateral");
+    });
+  })();
+</script>

@@ -36,30 +36,30 @@
         <div class="d-grid gap-2 mb-5">
           <%= link_to '<span class="d-flex align-items-center gap-3"><i class="bi bi-globe fs-5"></i><span>Ir ao Site</span></span>'.html_safe, root_path, class: "admin-link d-flex align-items-center justify-content-between py-2 px-2 rounded-3" %>
 
-          <a href="#" class="admin-link d-flex align-items-center justify-content-between py-2 px-2 rounded-3">
+          <%= link_to admin_root_path, class: "admin-link d-flex align-items-center justify-content-between py-2 px-2 rounded-3" do %>
             <span class="d-flex align-items-center gap-3">
               <i class="bi bi-house-door fs-5"></i>
               <span>Home</span>
             </span>
-          </a>
+          <% end %>
         </div>
 
         <p class="admin-group-title admin-sidebar-text text-uppercase fw-bold mb-4">Administrador</p>
 
         <div class="d-grid gap-2">
           <% [
-            ["bi-grid-3x3-gap", "Modalidades"],
-            ["bi-card-checklist", "Inscricoes"],
-            ["bi-people", "Sociedades"],
-            ["bi-geo-alt", "Distritos"]
-          ].each do |icon, label| %>
-            <a href="#" class="admin-link d-flex align-items-center justify-content-between py-2 px-2 rounded-3">
+            ["bi-grid-3x3-gap", "Modalidades", admin_modalidades_path],
+            ["bi-card-checklist", "Inscricoes", admin_inscricoes_path],
+            ["bi-people", "Sociedades", "#"],
+            ["bi-geo-alt", "Distritos", "#"]
+          ].each do |icon, label, path| %>
+            <%= link_to path, class: "admin-link d-flex align-items-center justify-content-between py-2 px-2 rounded-3" do %>
               <span class="d-flex align-items-center gap-3">
                 <i class="bi <%= icon %> fs-5"></i>
                 <span><%= label %></span>
               </span>
               <i class="bi bi-chevron-right small"></i>
-            </a>
+            <% end %>
           <% end %>
         </div>
       </div>

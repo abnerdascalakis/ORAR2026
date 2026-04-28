@@ -1,0 +1,261 @@
+<% content_for :title, "#{@equipe.nome} | Admin" %>
+
+<% actions = capture do %>
+  <%= link_to admin_modalidade_path(@modalidade), class: "btn btn-outline-light" do %>
+    <i class="bi bi-arrow-left me-2"></i>Voltar
+  <% end %>
+  
+  <%= link_to edit_admin_modalidade_equipe_path(@modalidade, @equipe), class: "btn btn-light shadow-sm" do %>
+    <i class="bi bi-pencil me-2"></i>Editar equipe
+  <% end %>
+<% end %>
+
+<%= render layout: "shared/admin_shell", locals: {
+  title: @equipe.nome,
+  subtitle: "Gerencie os membros inscritos em #{@modalidade.nome}.",
+  breadcrumbs: [
+    { label: "Home", path: admin_root_path },
+    { label: "Modalidades", path: admin_modalidades_path },
+    { label: @modalidade.nome, path: admin_modalidade_path(@modalidade) },
+    { label: @equipe.nome }
+  ],
+  actions: actions
+} do %>
+
+  <div class="alert alert-info border-0 rounded-4 shadow-sm d-flex align-items-start gap-3 mb-4" role="alert">
+    <i class="bi bi-info-circle fs-4"></i>
+    <div>
+      <strong class="d-block">Os membros sao salvos automaticamente.</strong>
+      Cada pessoa adicionada ou removida ja atualiza a equipe na hora. Quando terminar, clique em <strong>Concluir equipe</strong>.
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-md-6 col-xl-4">
+      <div class="card admin-data-card border-0 rounded-4 shadow-sm h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-center gap-3">
+            <div class="admin-card-icon rounded-4 d-inline-flex align-items-center justify-content-center">
+              <i class="bi bi-people fs-4"></i>
+            </div>
+            <div>
+              <span class="text-secondary d-block">Membros atuais</span>
+              <strong class="h3 mb-0"><%= @membros.size %></strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+      <div class="card admin-data-card border-0 rounded-4 shadow-sm h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-center gap-3">
+            <div class="admin-card-icon rounded-4 d-inline-flex align-items-center justify-content-center">
+              <i class="bi bi-search fs-4"></i>
+            </div>
+            <div>
+              <span class="text-secondary d-block">Disponiveis no filtro</span>
+              <strong class="h3 mb-0"><%= @inscritos_disponiveis.size %></strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+      <div class="card admin-data-card border-0 rounded-4 shadow-sm h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-center gap-3">
+            <div class="admin-card-icon rounded-4 d-inline-flex align-items-center justify-content-center">
+              <i class="bi bi-geo-alt fs-4"></i>
+            </div>
+            <div>
+              <span class="text-secondary d-block">Distrito representante</span>
+              <strong class="h5 mb-0"><%= @equipe.distrito&.nome || "Nao informado" %></strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <section class="col-12 col-xl-5">
+      <div class="card border-0 rounded-4 shadow-sm h-100">
+        <div class="card-header bg-white border-0 rounded-top-4 px-4 pt-4 pb-0">
+          <div class="d-flex align-items-center justify-content-between gap-3">
+            <div>
+              <h2 class="h5 fw-bold mb-1">Membros atuais</h2>
+              <p class="text-secondary mb-0">Pessoas ja adicionadas nesta equipe.</p>
+            </div>
+            <span class="badge rounded-pill text-bg-primary"><%= @membros.size %></span>
+          </div>
+        </div>
+
+        <div class="card-body p-4">
+          <div class="list-group list-group-flush">
+            <% @membros.each do |membro| %>
+              <% inscricao = membro.inscricao_modalidade.inscricao %>
+              <div class="list-group-item px-0 py-3 d-flex align-items-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="admin-card-icon rounded-circle d-inline-flex align-items-center justify-content-center flex-shrink-0">
+                    <i class="bi bi-person"></i>
+                  </div>
+                  <div>
+                    <strong class="d-block"><%= inscricao.pessoa.nome %></strong>
+                    <span class="text-secondary small">
+                      <%= inscricao.sociedade.nome %>
+                      <% if inscricao.sociedade.distrito.present? %>
+                        - <%= inscricao.sociedade.distrito.nome %>
+                      <% end %>
+                    </span>
+                  </div>
+                </div>
+
+                <%= link_to admin_modalidade_equipe_membro_equipe_path(@modalidade, @equipe, membro),
+                  data: { turbo_method: :delete, turbo_confirm: "Remover este membro da equipe?" },
+                  class: "btn btn-sm btn-outline-danger" do %>
+                  <i class="bi bi-x-circle me-1"></i>Remover
+                <% end %>
+              </div>
+            <% end %>
+
+            <% if @membros.empty? %>
+              <div class="text-center text-secondary py-5">
+                <i class="bi bi-person-dash fs-1 d-block mb-3"></i>
+                Nenhum membro adicionado ainda.
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="col-12 col-xl-7">
+      <div class="card border-0 rounded-4 shadow-sm">
+        <div class="card-header bg-white border-0 rounded-top-4 px-4 pt-4 pb-0">
+          <h2 class="h5 fw-bold mb-1">Adicionar inscritos</h2>
+          <p class="text-secondary mb-0">Pesquise entre os inscritos desta modalidade.</p>
+        </div>
+
+        <div class="card-body p-4">
+          <%= search_form_for @q, url: admin_modalidade_equipe_path(@modalidade, @equipe), method: :get, html: { class: "row g-3 align-items-end mb-4" } do |form| %>
+            <div class="col-12 col-lg-6">
+              <%= form.label :inscricao_pessoa_nome_or_inscricao_sociedade_nome_or_inscricao_sociedade_distrito_nome_cont, "Pesquisar", class: "form-label fw-semibold" %>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <%= form.search_field :inscricao_pessoa_nome_or_inscricao_sociedade_nome_or_inscricao_sociedade_distrito_nome_cont, class: "form-control", placeholder: "Nome, sociedade ou distrito" %>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+              <%= form.label :inscricao_sociedade_distrito_id_eq, "Distrito", class: "form-label fw-semibold" %>
+              <div class="position-relative" data-controller="distrito-select">
+                <%= form.hidden_field :inscricao_sociedade_distrito_id_eq, data: { distrito_select_target: "input" } %>
+
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-search"></i></span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Pesquisar distrito"
+                    value="<%= @distrito_filtro&.nome %>"
+                    autocomplete="off"
+                    data-distrito-select-target="search"
+                    data-action="input->distrito-select#filter focus->distrito-select#show"
+                  >
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    data-action="distrito-select#clear"
+                    title="Limpar distrito"
+                  >
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+
+                <div class="admin-search-menu list-group shadow-sm d-none" data-distrito-select-target="menu">
+                  <% Distrito.order(:nome).each do |distrito| %>
+                    <button
+                      type="button"
+                      class="list-group-item list-group-item-action d-flex align-items-center gap-2"
+                      data-distrito-select-target="option"
+                      data-distrito-id="<%= distrito.id %>"
+                      data-distrito-name="<%= distrito.nome %>"
+                      data-action="distrito-select#select"
+                    >
+                      <i class="bi bi-geo-alt text-primary"></i>
+                      <span><%= distrito.nome %></span>
+                    </button>
+                  <% end %>
+
+                  <div class="list-group-item text-secondary d-none" data-distrito-select-target="empty">
+                    Nenhum distrito encontrado.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+              <div class="d-flex gap-2">
+                <%= form.submit "Filtrar", class: "btn btn-outline-primary flex-fill" %>
+                <%= link_to admin_modalidade_equipe_path(@modalidade, @equipe), class: "btn btn-outline-secondary", title: "Limpar filtros" do %>
+                  <i class="bi bi-x-lg"></i>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="list-group list-group-flush">
+            <% @inscritos_disponiveis.each do |inscricao_modalidade| %>
+              <% inscricao = inscricao_modalidade.inscricao %>
+              <div class="list-group-item px-0 py-3 d-flex align-items-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="admin-card-icon rounded-circle d-inline-flex align-items-center justify-content-center flex-shrink-0">
+                    <i class="bi bi-person-plus"></i>
+                  </div>
+                  <div>
+                    <strong class="d-block"><%= inscricao.pessoa.nome %></strong>
+                    <span class="text-secondary small">
+                      <%= inscricao.sociedade.nome %>
+                      <% if inscricao.sociedade.distrito.present? %>
+                        - <%= inscricao.sociedade.distrito.nome %>
+                      <% end %>
+                    </span>
+                  </div>
+                </div>
+
+                <%= button_to admin_modalidade_equipe_membro_equipes_path(@modalidade, @equipe),
+                  params: { membro_equipe: { inscricao_modalidade_id: inscricao_modalidade.id } },
+                  class: "btn btn-sm btn-primary" do %>
+                  <i class="bi bi-plus-circle me-1"></i>Adicionar
+                <% end %>
+              </div>
+            <% end %>
+
+            <% if @inscritos_disponiveis.empty? %>
+              <div class="text-center text-secondary py-5">
+                <i class="bi bi-search fs-1 d-block mb-3"></i>
+                Nenhum inscrito encontrado para adicionar.
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="card border-0 rounded-4 shadow-sm mt-4">
+    <div class="card-body p-4 d-flex align-items-center justify-content-between gap-3 flex-wrap">
+      <div>
+        <h2 class="h5 fw-bold mb-1">Equipe pronta?</h2>
+        <p class="text-secondary mb-0">Confira os membros atuais e finalize para voltar para a lista de equipes.</p>
+      </div>
+
+      <%= link_to admin_modalidade_path(@modalidade), class: "btn btn-success" do %>
+        <i class="bi bi-check-circle me-2"></i>Concluir equipe
+      <% end %>
+    </div>
+  </div>
+<% end %>

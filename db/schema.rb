@@ -10,56 +10,102 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_22_154641) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_27_211000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "a_distritos", force: :cascade do |t|
+  create_table "distritos", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "nome"
     t.datetime "updated_at", null: false
   end
 
-  create_table "a_modalidades", force: :cascade do |t|
+  create_table "equipes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "distrito_id"
+    t.bigint "modalidade_id", null: false
+    t.string "nome"
+    t.datetime "updated_at", null: false
+    t.index ["distrito_id"], name: "index_equipes_on_distrito_id"
+    t.index ["modalidade_id"], name: "index_equipes_on_modalidade_id"
+  end
+
+  create_table "eventos", force: :cascade do |t|
+    t.integer "ano"
+    t.datetime "created_at", null: false
+    t.date "data_fim"
+    t.date "data_inicio"
+    t.string "descricao"
+    t.string "status"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "inscricao_modalidades", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "inscricao_id", null: false
+    t.bigint "modalidade_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["inscricao_id"], name: "index_inscricao_modalidades_on_inscricao_id"
+    t.index ["modalidade_id"], name: "index_inscricao_modalidades_on_modalidade_id"
+  end
+
+  create_table "inscricoes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "pessoa_id", null: false
+    t.bigint "sociedade_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pessoa_id"], name: "index_inscricoes_on_pessoa_id"
+    t.index ["sociedade_id"], name: "index_inscricoes_on_sociedade_id"
+  end
+
+  create_table "membro_equipes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "equipe_id", null: false
+    t.bigint "inscricao_modalidade_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["equipe_id", "inscricao_modalidade_id"], name: "index_membro_equipes_on_equipe_and_inscricao", unique: true
+    t.index ["equipe_id"], name: "index_membro_equipes_on_equipe_id"
+    t.index ["inscricao_modalidade_id"], name: "index_membro_equipes_on_inscricao_modalidade_id"
+  end
+
+  create_table "modalidades", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "limite"
     t.string "nome"
     t.datetime "updated_at", null: false
   end
 
-  create_table "a_sexos", force: :cascade do |t|
+  create_table "pessoas", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.string "nome", null: false
+    t.string "gmail"
+    t.string "nome"
+    t.bigint "sexo_id", null: false
+    t.string "telefone"
     t.datetime "updated_at", null: false
+    t.index ["sexo_id"], name: "index_pessoas_on_sexo_id"
   end
 
-  create_table "a_sociedades", force: :cascade do |t|
-    t.bigint "a_distrito_id", null: false
+  create_table "sexos", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "nome"
     t.datetime "updated_at", null: false
-    t.index ["a_distrito_id"], name: "index_a_sociedades_on_a_distrito_id"
   end
 
-  create_table "inscricao_modalidades", force: :cascade do |t|
-    t.bigint "a_modalidade_id", null: false
+  create_table "sociedades", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.bigint "inscricao_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["a_modalidade_id"], name: "index_inscricao_modalidades_on_a_modalidade_id"
-    t.index ["inscricao_id"], name: "index_inscricao_modalidades_on_inscricao_id"
-  end
-
-  create_table "inscricoes", force: :cascade do |t|
-    t.bigint "a_distrito_id", null: false
-    t.bigint "a_sexo_id", null: false
-    t.bigint "a_sociedade_id", null: false
-    t.datetime "created_at", null: false
+    t.bigint "distrito_id", null: false
     t.string "nome"
     t.datetime "updated_at", null: false
-    t.index ["a_distrito_id"], name: "index_inscricoes_on_a_distrito_id"
-    t.index ["a_sexo_id"], name: "index_inscricoes_on_a_sexo_id"
-    t.index ["a_sociedade_id"], name: "index_inscricoes_on_a_sociedade_id"
+    t.index ["distrito_id"], name: "index_sociedades_on_distrito_id"
+  end
+
+  create_table "sociedades_eventos", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "evento_id", null: false
+    t.bigint "sociedade_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["evento_id"], name: "index_sociedades_eventos_on_evento_id"
+    t.index ["sociedade_id"], name: "index_sociedades_eventos_on_sociedade_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -75,10 +121,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_22_154641) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "a_sociedades", "a_distritos"
-  add_foreign_key "inscricao_modalidades", "a_modalidades"
-  add_foreign_key "inscricao_modalidades", "inscricoes", column: "inscricao_id"
-  add_foreign_key "inscricoes", "a_distritos"
-  add_foreign_key "inscricoes", "a_sexos"
-  add_foreign_key "inscricoes", "a_sociedades"
+  add_foreign_key "equipes", "distritos"
+  add_foreign_key "equipes", "modalidades"
+  add_foreign_key "inscricao_modalidades", "inscricoes"
+  add_foreign_key "inscricao_modalidades", "modalidades"
+  add_foreign_key "inscricoes", "pessoas"
+  add_foreign_key "inscricoes", "sociedades"
+  add_foreign_key "membro_equipes", "equipes"
+  add_foreign_key "membro_equipes", "inscricao_modalidades"
+  add_foreign_key "pessoas", "sexos"
+  add_foreign_key "sociedades", "distritos"
+  add_foreign_key "sociedades_eventos", "eventos"
+  add_foreign_key "sociedades_eventos", "sociedades"
 end
