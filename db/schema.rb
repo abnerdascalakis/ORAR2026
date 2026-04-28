@@ -24,9 +24,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_27_211000) do
     t.datetime "created_at", null: false
     t.bigint "distrito_id"
     t.bigint "modalidade_id", null: false
-    t.string "nome"
+    t.string "nome", null: false
     t.datetime "updated_at", null: false
     t.index ["distrito_id"], name: "index_equipes_on_distrito_id"
+    t.index ["modalidade_id", "nome"], name: "index_equipes_on_modalidade_id_and_nome", unique: true
     t.index ["modalidade_id"], name: "index_equipes_on_modalidade_id"
   end
 

@@ -1,7 +1,11 @@
 #!/bin/bash -e
 
-# If running the rails server then create or migrate existing database
-if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
+if [ "${RAILS_ENV}" == "development" ]; then
+  bundle check || bundle install
+fi
+
+if [[ ( "${1}" == "./bin/rails" || "${1}" == "bin/rails" || "${1}" == "rails" ) && ( "${2}" == "server" || "${2}" == "s" ) ]] ||
+   [[ "${1}" == "./bin/thrust" && ( "${2}" == "./bin/rails" || "${2}" == "bin/rails" || "${2}" == "rails" ) && ( "${3}" == "server" || "${3}" == "s" ) ]]; then
   ./bin/rails db:prepare
 fi
 
