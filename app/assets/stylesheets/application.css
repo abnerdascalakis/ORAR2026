@@ -436,6 +436,228 @@ h6,
   margin-top: 0.35rem;
 }
 
+.admin-shell {
+  min-height: 100vh;
+}
+
+.admin-shell--collapsed .admin-sidebar {
+  width: 92px;
+}
+
+.admin-topbar {
+  background:
+    linear-gradient(90deg, rgba(223, 235, 247, 0.12), rgba(223, 235, 247, 0) 18%),
+    linear-gradient(135deg, #163a63 0%, #2a5788 42%, #5e86b5 72%, #8fafce 100%);
+  min-height: 215px;
+}
+
+.admin-sidebar {
+  width: 280px;
+  background: #f8fbff;
+  border-right: 1px solid rgba(94, 134, 181, 0.18);
+}
+
+.admin-avatar {
+  width: 46px;
+  height: 46px;
+  background: linear-gradient(135deg, #2a5788 0%, #5e86b5 100%);
+}
+
+.admin-user-card {
+  background: rgba(217, 230, 245, 0.45);
+  border: 1px solid rgba(94, 134, 181, 0.2);
+}
+
+.admin-link {
+  color: #4d6278;
+  text-decoration: none;
+}
+
+.admin-link:hover,
+.admin-link:focus {
+  color: #2a5788;
+  background: rgba(217, 230, 245, 0.38);
+}
+
+.admin-shell--collapsed .admin-link {
+  justify-content: center !important;
+}
+
+.admin-shell--collapsed .admin-link > span {
+  gap: 0 !important;
+}
+
+.admin-shell--collapsed .admin-link span span,
+.admin-shell--collapsed .admin-link .bi-chevron-right,
+.admin-shell--collapsed .admin-sidebar-text {
+  display: none !important;
+}
+
+.admin-shell--collapsed .admin-user-card {
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+}
+
+.admin-shell--collapsed .admin-user-card .d-flex {
+  justify-content: center;
+}
+
+.admin-group-title {
+  font-size: 0.78rem;
+  color: #163a63;
+  letter-spacing: 0.02em;
+}
+
+.admin-content {
+  margin-left: 0;
+}
+
+.admin-breadcrumb {
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.admin-breadcrumb:hover,
+.admin-breadcrumb:focus {
+  color: #ffffff;
+}
+
+.admin-breadcrumb-sep {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.admin-page-title {
+  color: #ffffff;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.admin-page-subtitle {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.admin-workspace {
+  min-height: calc(100vh - 215px);
+  background:
+    radial-gradient(circle at top, rgba(217, 230, 245, 0.55), transparent 28%),
+    linear-gradient(180deg, #f7f4ed 0%, #eef3f8 100%);
+}
+
+.admin-module-card,
+.admin-data-card {
+  border: 1px solid rgba(94, 134, 181, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-module-card:hover,
+.admin-data-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.75rem 1.5rem rgba(22, 58, 99, 0.08);
+}
+
+.admin-module-icon,
+.admin-card-icon {
+  width: 52px;
+  height: 52px;
+  background: rgba(217, 230, 245, 0.8);
+  color: #2a5788;
+}
+
+.admin-profile-menu {
+  position: relative;
+}
+
+.admin-profile-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  color: #ffffff;
+  padding: 0.45rem 0.8rem 0.45rem 0.55rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.admin-profile-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.admin-profile-toggle:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.admin-profile-dropdown {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  right: 0;
+  width: min(320px, 85vw);
+  background: #ffffff;
+  border: 1px solid rgba(94, 134, 181, 0.18);
+  border-radius: 22px;
+  box-shadow: 0 20px 48px rgba(15, 33, 56, 0.18);
+  padding: 1rem;
+  z-index: 20;
+}
+
+.admin-profile-email {
+  word-break: break-word;
+}
+
+.admin-profile-logout {
+  border-radius: 14px;
+}
+
+.admin-sidebar-toggle {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-sidebar .offcanvas-header,
+.admin-sidebar .offcanvas-body {
+  background: #f8fbff;
+}
+
+.admin-search-menu {
+  left: 0;
+  max-height: 260px;
+  overflow-y: auto;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.35rem);
+  z-index: 30;
+}
+
+@media (min-width: 992px) {
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    transform: none;
+    visibility: visible;
+    border-right: 1px solid rgba(94, 134, 181, 0.18);
+    box-shadow: none;
+  }
+
+  .admin-sidebar .offcanvas-header .btn-close {
+    display: none;
+  }
+
+  .admin-content {
+    margin-left: 280px;
+    transition: margin-left 0.2s ease;
+  }
+
+  .admin-shell--collapsed .admin-content {
+    margin-left: 92px;
+  }
+}
+
 @media (max-width: 991.98px) {
   :root {
     --orar-navbar-height: 80px;

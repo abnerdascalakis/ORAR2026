@@ -126,14 +126,40 @@
 
                       <div class="col-12 col-md-6">
                         <%= label_tag "inscricao_sexo_id", "Sexo *", class: "form-label" %>
-                        <%= select_tag "inscricao[sexo_id]", options_from_collection_for_select(@sexos, :id, :nome, @form_data[:sexo_id]), prompt: "Selecione", class: "form-select", required: true, data: { multi_step_form_target: "field" } %>
+                        <div class="orar-radio-grid">
+                          <% @sexos.each do |sexo| %>
+                            <label class="orar-radio-card">
+                              <%= radio_button_tag "inscricao[sexo_id]",
+                                sexo.id,
+                                @form_data[:sexo_id].to_s == sexo.id.to_s,
+                                id: "inscricao_sexo_id_#{sexo.id}",
+                                class: "form-check-input",
+                                required: true,
+                                data: { multi_step_form_target: "field" } %>
+                              <span><%= sexo.nome %></span>
+                            </label>
+                          <% end %>
+                        </div>
                         <div class="invalid-feedback">Escolha uma opcao de sexo.</div>
                       </div>
 
                       <div class="col-12 col-md-6">
-                        <%= label_tag "inscricao_sociedade_id", "Sociedade jovem *", class: "form-label" %>
-                        <%= select_tag "inscricao[sociedade_id]", options_for_select(@sociedades.map { |sociedade| ["#{sociedade.nome} - #{sociedade.distrito.nome}", sociedade.id] }, @form_data[:sociedade_id]), prompt: "Selecione a sociedade", class: "form-select", required: true, data: { multi_step_form_target: "field" } %>
-                        <div class="invalid-feedback">Escolha uma sociedade jovem.</div>
+                        <%= label_tag "inscricao_sociedade_busca", "Sociedade jovem *", class: "form-label" %>
+                        <%= text_field_tag "inscricao[sociedade_busca]",
+                          @form_data[:sociedade_busca],
+                          id: "inscricao_sociedade_busca",
+                          class: "form-control",
+                          placeholder: "Digite a sociedade ou o distrito",
+                          list: "sociedades_options",
+                          autocomplete: "off",
+                          required: true,
+                          data: { multi_step_form_target: "field" } %>
+                        <datalist id="sociedades_options">
+                          <% @sociedades.each do |sociedade| %>
+                            <option value="<%= "#{sociedade.nome} - #{sociedade.distrito.nome}" %>"></option>
+                          <% end %>
+                        </datalist>
+                        <div class="invalid-feedback">Escolha uma sociedade jovem da lista.</div>
                       </div>
                     </div>
 
@@ -368,6 +394,36 @@
     .orar-option-card .form-check-label {
       color: #22313f;
       font-weight: 600;
+    }
+
+    .orar-radio-grid {
+      display: grid;
+      gap: 0.65rem;
+      grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+    }
+
+    .orar-radio-card {
+      align-items: center;
+      background: #f8fbff;
+      border: 1px solid #d9e4f0;
+      border-radius: 14px;
+      color: #22313f;
+      cursor: pointer;
+      display: flex;
+      font-weight: 600;
+      gap: 0.65rem;
+      min-height: 3rem;
+      padding: 0.75rem 0.95rem;
+    }
+
+    .orar-radio-card:has(.form-check-input:checked) {
+      background: #eef4fb;
+      border-color: #7ca8d3;
+      color: #163a63;
+    }
+
+    .orar-radio-grid:has(.is-invalid) + .invalid-feedback {
+      display: block;
     }
 
     .form-control,

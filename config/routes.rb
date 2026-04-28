@@ -3,6 +3,14 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "dashboard#index"
+
+    resources :inscricoes, only: [ :index ]
+
+    resources :modalidades, only: [ :index, :show ] do
+      resources :equipes, module: :modalidades do
+        resources :membro_equipes, only: [ :create, :destroy ], module: :equipes
+      end
+    end
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

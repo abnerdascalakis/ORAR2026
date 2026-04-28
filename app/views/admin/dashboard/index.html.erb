@@ -279,11 +279,11 @@
     <main class="admin-workspace px-4 px-lg-5 py-4">
       <div class="row g-4">
         <% [
-          ["bi-grid-3x3-gap", "Modalidades", "Organize categorias, tipos e agrupamentos do evento."],
-          ["bi-card-checklist", "Inscricoes", "Centralize entradas, situacoes e acompanhamentos."],
-          ["bi-people", "Sociedades", "Gerencie sociedades vinculadas ao sistema."],
-          ["bi-geo-alt", "Distritos", "Estruture os distritos que participam do ORAR."]
-        ].each do |icon, title, description| %>
+          ["bi-grid-3x3-gap", "Modalidades", "Organize categorias, tipos e agrupamentos do evento.", admin_modalidades_path],
+          ["bi-card-checklist", "Inscricoes", "Consulte participantes inscritos por nome, distrito e sexo.", admin_inscricoes_path],
+          ["bi-people", "Sociedades", "Gerencie sociedades vinculadas ao sistema.", nil],
+          ["bi-geo-alt", "Distritos", "Estruture os distritos que participam do ORAR.", nil]
+        ].each do |icon, title, description, path| %>
           <div class="col-12 col-md-6 col-xl-3">
             <div class="card admin-module-card border-0 rounded-4 shadow-sm h-100">
               <div class="card-body p-4">
@@ -294,19 +294,19 @@
                 <h3 class="h5 fw-bold mb-2" style="color: #163a63;"><%= title %></h3>
                 <p class="text-secondary mb-4"><%= description %></p>
 
-                <span class="badge rounded-pill" style="background-color: #d9e6f5; color: #163a63;">
-                  Em breve
-                </span>
+                <% if path.present? %>
+                  <%= link_to path, class: "btn btn-sm btn-primary" do %>
+                    <i class="bi bi-arrow-right-circle me-1"></i>Abrir
+                  <% end %>
+                <% else %>
+                  <span class="badge rounded-pill" style="background-color: #d9e6f5; color: #163a63;">
+                    Em breve
+                  </span>
+                <% end %>
               </div>
             </div>
           </div>
         <% end %>
-      </div>
-
-      <div class="card border-0 rounded-4 shadow-sm mt-4">
-        <div class="card-body py-4 text-secondary">
-          Dashboard inicial pronto com os modulos principais do sistema. Quando voce fechar as tabelas, a gente liga cada card na rota e nas listagens reais.
-        </div>
       </div>
     </main>
   </div>

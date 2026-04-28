@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_27_025051) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_27_211000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -22,9 +22,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_27_025051) do
 
   create_table "equipes", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.bigint "distrito_id"
     t.bigint "modalidade_id", null: false
     t.string "nome"
     t.datetime "updated_at", null: false
+    t.index ["distrito_id"], name: "index_equipes_on_distrito_id"
     t.index ["modalidade_id"], name: "index_equipes_on_modalidade_id"
   end
 
@@ -40,11 +42,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_27_025051) do
 
   create_table "inscricao_modalidades", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.bigint "equipe_id"
     t.bigint "inscricao_id", null: false
     t.bigint "modalidade_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["equipe_id"], name: "index_inscricao_modalidades_on_equipe_id"
     t.index ["inscricao_id"], name: "index_inscricao_modalidades_on_inscricao_id"
     t.index ["modalidade_id"], name: "index_inscricao_modalidades_on_modalidade_id"
   end
@@ -56,6 +56,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_27_025051) do
     t.datetime "updated_at", null: false
     t.index ["pessoa_id"], name: "index_inscricoes_on_pessoa_id"
     t.index ["sociedade_id"], name: "index_inscricoes_on_sociedade_id"
+  end
+
+  create_table "membro_equipes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "equipe_id", null: false
+    t.bigint "inscricao_modalidade_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["equipe_id", "inscricao_modalidade_id"], name: "index_membro_equipes_on_equipe_and_inscricao", unique: true
+    t.index ["equipe_id"], name: "index_membro_equipes_on_equipe_id"
+    t.index ["inscricao_modalidade_id"], name: "index_membro_equipes_on_inscricao_modalidade_id"
   end
 
   create_table "modalidades", force: :cascade do |t|
@@ -111,12 +121,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_27_025051) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "equipes", "distritos"
   add_foreign_key "equipes", "modalidades"
-  add_foreign_key "inscricao_modalidades", "equipes"
   add_foreign_key "inscricao_modalidades", "inscricoes"
   add_foreign_key "inscricao_modalidades", "modalidades"
   add_foreign_key "inscricoes", "pessoas"
   add_foreign_key "inscricoes", "sociedades"
+  add_foreign_key "membro_equipes", "equipes"
+  add_foreign_key "membro_equipes", "inscricao_modalidades"
   add_foreign_key "pessoas", "sexos"
   add_foreign_key "sociedades", "distritos"
   add_foreign_key "sociedades_eventos", "eventos"

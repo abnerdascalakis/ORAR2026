@@ -22,7 +22,8 @@
               role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
-              aria-label="Menu da conta"
+              aria-label="<%= current_user.admin? ? "Voltar para o administrativo" : "Menu da conta" %>"
+              title="<%= current_user.admin? ? "Voltar para o administrativo" : "Menu da conta" %>"
             >
               <i class="bi bi-person-circle fs-4"></i>
             </a>
