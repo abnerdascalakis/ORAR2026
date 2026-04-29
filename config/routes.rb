@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     root "dashboard#index"
 
     resources :inscricoes, only: [ :index ]
+    resources :sociedades
 
     resources :modalidades, only: [ :index, :show ] do
       resources :equipes, module: :modalidades do

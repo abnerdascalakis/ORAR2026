@@ -1,0 +1,42 @@
+<%= form_with model: [ :admin, @sociedade ] do |form| %>
+  <% if @sociedade.errors.any? %>
+    <div class="alert alert-danger">
+      <strong>Confira os dados:</strong>
+      <ul class="mb-0 mt-2">
+        <% @sociedade.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :nome, "Nome da sociedade", class: "form-label fw-semibold" %>
+    <div class="input-group input-group-lg">
+      <span class="input-group-text"><i class="bi bi-people"></i></span>
+      <%= form.text_field :nome, class: "form-control", autofocus: true, placeholder: "Ex: Sociedade Jovem Central" %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :distrito_id, "Distrito vinculado", class: "form-label fw-semibold" %>
+    <div class="input-group input-group-lg">
+      <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+      <%= form.collection_select :distrito_id,
+        @distritos,
+        :id,
+        :nome,
+        { prompt: "Selecione um distrito" },
+        class: "form-select" %>
+    </div>
+  </div>
+
+  <div class="d-flex gap-2 flex-wrap pt-2">
+    <%= form.button class: "btn btn-primary" do %>
+      <i class="bi bi-check-circle me-2"></i>Salvar sociedade
+    <% end %>
+    <%= link_to admin_sociedades_path, class: "btn btn-outline-secondary" do %>
+      <i class="bi bi-arrow-left me-2"></i>Cancelar
+    <% end %>
+  </div>
+<% end %>

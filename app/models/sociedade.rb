@@ -4,6 +4,9 @@ class Sociedade < ApplicationRecord
 
   delegate :nome, to: :distrito, prefix: true, allow_nil: true
 
+  validates :nome, presence: true
+  validates :nome, uniqueness: { scope: :distrito_id }
+
   def self.ransackable_attributes(_auth_object = nil)
     [ "created_at", "distrito_id", "id", "nome", "updated_at" ]
   end
