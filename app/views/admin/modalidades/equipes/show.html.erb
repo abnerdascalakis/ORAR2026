@@ -1,12 +1,14 @@
 <% content_for :title, "#{@equipe.nome} | Admin" %>
+<% limite_membros = @modalidade.limite %>
+<% equipe_cheia = limite_membros.present? && @membros.size >= limite_membros %>
 
 <% actions = capture do %>
   <%= link_to admin_modalidade_path(@modalidade), class: "btn btn-outline-light" do %>
-    <i class="bi bi-arrow-left me-2"></i>Voltar
+    <i class="bi bi-arrow-left-circle me-2"></i>Voltar
   <% end %>
   
   <%= link_to edit_admin_modalidade_equipe_path(@modalidade, @equipe), class: "btn btn-light shadow-sm" do %>
-    <i class="bi bi-pencil me-2"></i>Editar equipe
+    <i class="bi bi-pencil-square me-2"></i>Editar equipe
   <% end %>
 <% end %>
 
@@ -40,7 +42,9 @@
             </div>
             <div>
               <span class="text-secondary d-block">Membros atuais</span>
-              <strong class="h3 mb-0"><%= @membros.size %></strong>
+              <strong class="h3 mb-0">
+                <%= @membros.size %><%= " / #{limite_membros}" if limite_membros.present? %>
+              </strong>
             </div>
           </div>
         </div>
@@ -56,7 +60,11 @@
             </div>
             <div>
               <span class="text-secondary d-block">Disponiveis no filtro</span>
-              <strong class="h3 mb-0"><%= @inscritos_disponiveis.size %></strong>
+              <% if equipe_cheia %>
+                <strong class="h5 mb-0 text-success">Limite atingido</strong>
+              <% else %>
+                <strong class="h3 mb-0"><%= @pagy_inscritos_disponiveis.count %></strong>
+              <% end %>
             </div>
           </div>
         </div>
@@ -89,7 +97,9 @@
               <h2 class="h5 fw-bold mb-1">Membros atuais</h2>
               <p class="text-secondary mb-0">Pessoas ja adicionadas nesta equipe.</p>
             </div>
-            <span class="badge rounded-pill text-bg-primary"><%= @membros.size %></span>
+            <span class="badge rounded-pill <%= equipe_cheia ? "text-bg-success" : "text-bg-primary" %>">
+              <%= @membros.size %><%= " / #{limite_membros}" if limite_membros.present? %>
+            </span>
           </div>
         </div>
 
@@ -116,7 +126,7 @@
                 <%= link_to admin_modalidade_equipe_membro_equipe_path(@modalidade, @equipe, membro),
                   data: { turbo_method: :delete, turbo_confirm: "Remover este membro da equipe?" },
                   class: "btn btn-sm btn-outline-danger" do %>
-                  <i class="bi bi-x-circle me-1"></i>Remover
+                  <i class="bi bi-person-dash me-1"></i>Remover
                 <% end %>
               </div>
             <% end %>
@@ -128,6 +138,7 @@
               </div>
             <% end %>
           </div>
+
         </div>
       </div>
     </section>
@@ -136,12 +147,16 @@
       <div class="card border-0 rounded-4 shadow-sm">
         <div class="card-header bg-white border-0 rounded-top-4 px-4 pt-4 pb-0">
           <h2 class="h5 fw-bold mb-1">Adicionar inscritos</h2>
-          <p class="text-secondary mb-0">Pesquise entre os inscritos desta modalidade.</p>
+          <% if equipe_cheia %>
+            <p class="text-success mb-0">Esta equipe ja atingiu o limite de membros.</p>
+          <% else %>
+            <p class="text-secondary mb-0">Pesquise entre os inscritos desta modalidade.</p>
+          <% end %>
         </div>
 
         <div class="card-body p-4">
           <%= search_form_for @q, url: admin_modalidade_equipe_path(@modalidade, @equipe), method: :get, html: { class: "row g-3 align-items-end mb-4" } do |form| %>
-            <div class="col-12 col-lg-6">
+            <div class="col-12 col-lg-5">
               <%= form.label :inscricao_pessoa_nome_or_inscricao_sociedade_nome_or_inscricao_sociedade_distrito_nome_cont, "Pesquisar", class: "form-label fw-semibold" %>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-search"></i></span>
@@ -149,7 +164,7 @@
               </div>
             </div>
 
-            <div class="col-12 col-sm-6 col-lg-3">
+            <div class="col-12 col-sm-7 col-lg-5">
               <%= form.label :inscricao_sociedade_distrito_id_eq, "Distrito", class: "form-label fw-semibold" %>
               <div class="position-relative" data-controller="distrito-select">
                 <%= form.hidden_field :inscricao_sociedade_distrito_id_eq, data: { distrito_select_target: "input" } %>
@@ -197,9 +212,9 @@
               </div>
             </div>
 
-            <div class="col-12 col-sm-6 col-lg-3">
-              <div class="d-flex gap-2">
-                <%= form.submit "Filtrar", class: "btn btn-outline-primary flex-fill" %>
+            <div class="col-12 col-sm-5 col-lg-2">
+              <div class="d-flex gap-2 justify-content-sm-end">
+                <%= form.submit "Filtrar", class: "btn btn-outline-primary px-3" %>
                 <%= link_to admin_modalidade_equipe_path(@modalidade, @equipe), class: "btn btn-outline-secondary", title: "Limpar filtros" do %>
                   <i class="bi bi-x-lg"></i>
                 <% end %>
@@ -226,10 +241,14 @@
                   </div>
                 </div>
 
-                <%= button_to admin_modalidade_equipe_membro_equipes_path(@modalidade, @equipe),
-                  params: { membro_equipe: { inscricao_modalidade_id: inscricao_modalidade.id } },
-                  class: "btn btn-sm btn-primary" do %>
-                  <i class="bi bi-plus-circle me-1"></i>Adicionar
+                <% if equipe_cheia %>
+                  <span class="badge rounded-pill text-bg-light border">Limite atingido</span>
+                <% else %>
+                  <%= button_to admin_modalidade_equipe_membro_equipes_path(@modalidade, @equipe),
+                    params: { membro_equipe: { inscricao_modalidade_id: inscricao_modalidade.id } },
+                    class: "btn btn-sm btn-primary" do %>
+                    <i class="bi bi-person-plus-fill me-1"></i>Adicionar
+                  <% end %>
                 <% end %>
               </div>
             <% end %>
@@ -241,6 +260,13 @@
               </div>
             <% end %>
           </div>
+
+          <% if @pagy_inscritos_disponiveis.pages > 1 %>
+            <div class="border-top pt-3 mt-3 d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+              <%== @pagy_inscritos_disponiveis.info_tag %>
+              <%== @pagy_inscritos_disponiveis.series_nav(:bootstrap, aria_label: "Paginação de inscritos disponíveis") %>
+            </div>
+          <% end %>
         </div>
       </div>
     </section>
@@ -254,7 +280,7 @@
       </div>
 
       <%= link_to admin_modalidade_path(@modalidade), class: "btn btn-success" do %>
-        <i class="bi bi-check-circle me-2"></i>Concluir equipe
+        <i class="bi bi-check2-circle me-2"></i>Concluir equipe
       <% end %>
     </div>
   </div>

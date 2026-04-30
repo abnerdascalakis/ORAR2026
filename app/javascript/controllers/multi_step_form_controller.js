@@ -38,7 +38,7 @@ export default class extends Controller {
   goToStep(event) {
     const targetStep = Number(event.currentTarget.dataset.stepIndex)
 
-    if (targetStep > this.currentStep && !this.validateCurrentStep()) return
+    if (targetStep > this.currentStep && !this.validateUntil(targetStep)) return
 
     this.hideErrorSummary()
     this.currentStep = targetStep
@@ -51,8 +51,41 @@ export default class extends Controller {
     }
   }
 
+  formatTelefone(event) {
+    const digits = event.target.value.replace(/\D/g, "").slice(0, 11)
+    const ddd = digits.slice(0, 2)
+    const prefix = digits.slice(2, 7)
+    const suffix = digits.slice(7, 11)
+
+    if (digits.length > 7) {
+      event.target.value = `(${ddd}) ${prefix}-${suffix}`
+    } else if (digits.length > 2) {
+      event.target.value = `(${ddd}) ${prefix}`
+    } else if (digits.length > 0) {
+      event.target.value = `(${ddd}`
+    } else {
+      event.target.value = ""
+    }
+  }
+
   validateCurrentStep() {
-    if (this.currentStep === 0) {
+    return this.validateStep(this.currentStep)
+  }
+
+  validateUntil(targetStep) {
+    for (let step = this.currentStep; step < targetStep; step += 1) {
+      if (!this.validateStep(step)) {
+        this.currentStep = step
+        this.updateUI()
+        return false
+      }
+    }
+
+    return true
+  }
+
+  validateStep(step) {
+    if (step === 0) {
       const fieldsAreValid = this.fieldTargets.every((field) => {
         const isValid = field.checkValidity()
         field.classList.toggle("is-invalid", !isValid)
@@ -63,8 +96,16 @@ export default class extends Controller {
       return fieldsAreValid
     }
 
+    if (step > 1) {
+      this.hideErrorSummary()
+      return true
+    }
+
     const hasModalidade = this.modalidadeFieldTargets.some((field) => field.checked)
-    this.modalidadeErrorTarget.classList.toggle("d-none", hasModalidade)
+    if (this.hasModalidadeErrorTarget) {
+      this.modalidadeErrorTarget.classList.toggle("d-none", hasModalidade)
+    }
+
     this.toggleErrorSummary(!hasModalidade)
     return hasModalidade
   }

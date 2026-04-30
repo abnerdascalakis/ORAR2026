@@ -10,45 +10,21 @@
         <p class="text-secondary mb-0">Garanta sua vaga no ORAR 2026 com o lote disponível no momento da inscrição.</p>
       </div>
 
-      <div class="row g-4 align-items-stretch">
-        <div class="col-12 col-lg-4">
-          <article class="card orar-lote-card h-100 text-center">
-            <div class="card-body p-4 d-flex flex-column">
-              <p class="orar-lote-etiqueta mb-3">Primeiro lote</p>
-              <div class="orar-lote-preco mb-4">
-                <span class="orar-lote-moeda">R$</span>
-                <span class="orar-lote-valor">70,00</span>
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+          <article class="card orar-lote-card orar-lote-card--single h-100">
+            <div class="card-body p-4 p-md-5 d-flex flex-column flex-md-row align-items-center justify-content-between gap-4">
+              <div class="text-center text-md-start">
+                <p class="orar-lote-etiqueta mb-3">Lote único</p>
+                <p class="orar-lote-descricao mb-0">Período de inscrição: 29/04 - 30/05.</p>
               </div>
-              <p class="orar-lote-descricao text-secondary mb-4">Período de 18/06 - 08/07.</p>
-              <a href="#" class="btn orar-lote-botao mt-auto">Link de pagamento</a>
-            </div>
-          </article>
-        </div>
 
-        <div class="col-12 col-lg-4">
-          <article class="card orar-lote-card orar-lote-card--featured h-100 text-center">
-            <div class="card-body p-4 d-flex flex-column">
-              <p class="orar-lote-etiqueta mb-3">Segundo lote</p>
-              <div class="orar-lote-preco mb-4">
+              <div class="orar-lote-preco mb-0">
                 <span class="orar-lote-moeda">R$</span>
-                <span class="orar-lote-valor">90,00</span>
+                <span class="orar-lote-valor">65,00</span>
               </div>
-              <p class="orar-lote-descricao mb-4">Período de 20/08 - 09/10</p>
-              <a href="#" class="btn orar-lote-botao orar-lote-botao--featured mt-auto">Link de pagamento</a>
-            </div>
-          </article>
-        </div>
 
-        <div class="col-12 col-lg-4">
-          <article class="card orar-lote-card h-100 text-center">
-            <div class="card-body p-4 d-flex flex-column">
-              <p class="orar-lote-etiqueta mb-3">Terceiro lote</p>
-              <div class="orar-lote-preco mb-4">
-                <span class="orar-lote-moeda">R$</span>
-                <span class="orar-lote-valor">110,00</span>
-              </div>
-              <p class="orar-lote-descricao text-secondary mb-4">Período de 19/10 - 01/11</p>
-              <a href="#" class="btn orar-lote-botao mt-auto">Link de pagamento</a>
+              <%= link_to "Link de pagamento", inscricoes_path, class: "btn orar-lote-botao orar-lote-botao--single" %>
             </div>
           </article>
         </div>
@@ -59,7 +35,7 @@
   <section class="py-5">
     <div class="container">
       <div class="text-center mb-4">
-        <h2 class="fw-bold mb-2">Fotos do Ultimo ORAR</h2>
+        <h2 class="fw-bold mb-2">Fotos do último ORAR</h2>
       </div>
 
       <% galeria_imagens = [
@@ -113,7 +89,7 @@
               </div>
               <div class="faq-answer">
                 <p class="text-secondary mt-3 mb-0">
-                  As olimpiadas regionais Adventistas de Rondonia, <strong>ORAR</strong>, sao iniciativas do ministério jovem para promover evolucao física, mental e espiritual dos jovens. O objetivo e proporcionar um ambiente saudável e estimulante para o desenvolvimento integral dos participantes, fortalecendo a integracao entre as regiões do estado.
+                  A olimpíada regional Adventista de Rôndonia, <strong>ORAR</strong>, é uma iniciativa do Ministério Jovem para promover evolução física, mental e espiritual dos jovens. O objetivo e proporcionar um ambiente saudável e estimulante para o desenvolvimento integral dos participantes, fortalecendo a integração entre os distritos.
                 </p>
               </div>
             </div>
@@ -153,7 +129,7 @@
               </div>
               <div class="faq-answer">
                 <ul class="text-secondary mt-3 mb-0">
-                  <li>O ORAR 2026 será realizado no IFRO (Instituto Federal de Rondonia), no período de [Data Inicio] a [Data Fim].</li>
+                  <li>O ORAR 2026 será realizado na Igreja Adventista do Setímo dia central de Porto Velho e também no Colégio Adventista de Porto Velho, no período de 05 de junho a 07 de junho de 2026.</li>
                 </ul>
               </div>
             </div>
@@ -210,6 +186,23 @@
       .orar-lote-card--featured {
         background: linear-gradient(160deg, #163a63 0%, #2a5788 100%);
         border-color: rgba(22, 58, 99, 0.16);
+        color: #f3f0e6;
+      }
+
+      .orar-lote-card--single {
+        background:
+          linear-gradient(135deg, rgba(243, 240, 230, 0.12), rgba(243, 240, 230, 0) 34%),
+          linear-gradient(135deg, #163a63 0%, #2a5788 48%, #5e86b5 100%);
+        border-color: rgba(22, 58, 99, 0.18);
+        color: #f3f0e6;
+        min-height: 240px;
+      }
+
+      .orar-lote-card--single .orar-lote-descricao {
+        color: rgba(243, 240, 230, 0.82);
+      }
+
+      .orar-lote-card--single .orar-lote-moeda {
         color: #f3f0e6;
       }
 
@@ -299,6 +292,17 @@
         color: #f3f0e6;
       }
 
+      .orar-lote-botao--single {
+        background: #f3f0e6;
+        border-color: #f3f0e6;
+        color: #163a63;
+      }
+
+      .orar-lote-botao--single:hover {
+        background: transparent;
+        color: #f3f0e6;
+      }
+
       .orar-galeria-card {
         overflow: hidden;
         background: #f8f9fa;
@@ -339,6 +343,23 @@
       @media (max-width: 768px) {
         .orar-lotes-section .display-5 {
           font-size: 2.2rem;
+        }
+
+        .orar-lote-card--single {
+          min-height: auto;
+        }
+
+        .orar-lote-card--single .card-body {
+          align-items: stretch !important;
+          text-align: center;
+        }
+
+        .orar-lote-card--single .orar-lote-preco {
+          width: 100%;
+        }
+
+        .orar-lote-botao--single {
+          width: 100%;
         }
 
         .faq-card h5 {

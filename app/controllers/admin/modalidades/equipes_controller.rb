@@ -14,10 +14,11 @@ class Admin::Modalidades::EquipesController < Admin::BaseController
       .order("pessoas.nome")
 
     @q = inscritos_disponiveis.ransack(params[:q])
-    @inscritos_disponiveis = @q.result
+    inscritos_disponiveis_filtrados = @q.result
       .includes(inscricao: [ :pessoa, { sociedade: :distrito } ])
       .order("pessoas.nome")
-      .limit(50)
+
+    @pagy_inscritos_disponiveis, @inscritos_disponiveis = pagy(:offset, inscritos_disponiveis_filtrados, limit: 10)
     @distrito_filtro = Distrito.find_by(id: params.dig(:q, :inscricao_sociedade_distrito_id_eq))
   end
 
@@ -68,6 +69,6 @@ class Admin::Modalidades::EquipesController < Admin::BaseController
   def inscritos_disponiveis
     @modalidade.inscricao_modalidades
       .joins(inscricao: [ :pessoa, { sociedade: :distrito } ])
-      .where.not(id: @equipe.inscricao_modalidade_ids)
+      .where.not(id: MembroEquipe.select(:inscricao_modalidade_id))
   end
 end

@@ -13,6 +13,7 @@ services:
       - .:/rails
       - bundle_data:/usr/local/bundle
     depends_on:
+    
       db:
         condition: service_healthy
   db:

@@ -1,0 +1,4 @@
+pt-BR:
+  errors:
+    messages:
+      taken: "já está em uso"

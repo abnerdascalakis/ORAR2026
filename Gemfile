@@ -74,3 +74,5 @@ gem "devise"
 gem "simple_form"
 
 gem "ransack"
+
+gem "pagy"

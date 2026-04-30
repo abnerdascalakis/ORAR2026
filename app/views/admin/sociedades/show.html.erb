@@ -1,0 +1,73 @@
+<% content_for :title, "#{@sociedade.nome} | Admin" %>
+
+<% actions = capture do %>
+  <%= link_to admin_sociedades_path, class: "btn btn-outline-light" do %>
+    <i class="bi bi-arrow-left-circle me-2"></i>Voltar
+  <% end %>
+
+  <%= link_to edit_admin_sociedade_path(@sociedade), class: "btn btn-light shadow-sm" do %>
+    <i class="bi bi-pencil-square me-2"></i>Editar sociedade
+  <% end %>
+<% end %>
+
+<%= render layout: "shared/admin_shell", locals: {
+  title: @sociedade.nome,
+  subtitle: "Sociedade vinculada ao distrito #{@sociedade.distrito.nome}.",
+  breadcrumbs: [
+    { label: "Home", path: admin_root_path },
+    { label: "Sociedades", path: admin_sociedades_path },
+    { label: @sociedade.nome }
+  ],
+  actions: actions
+} do %>
+
+  <div class="row g-4">
+    <div class="col-12 col-xl-7">
+      <div class="card border-0 rounded-4 shadow-sm h-100">
+        <div class="card-header bg-white border-0 rounded-top-4 px-4 pt-4 pb-0">
+          <div class="d-flex align-items-center gap-3">
+            <div class="admin-card-icon rounded-4 d-inline-flex align-items-center justify-content-center">
+              <i class="bi bi-people fs-4"></i>
+            </div>
+            <div>
+              <h2 class="h5 fw-bold mb-1">Dados da sociedade</h2>
+              <p class="text-secondary mb-0">Informacoes principais do cadastro.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body p-4">
+          <dl class="row mb-0">
+            <dt class="col-sm-4 text-secondary">Nome</dt>
+            <dd class="col-sm-8 fw-semibold"><%= @sociedade.nome %></dd>
+
+            <dt class="col-sm-4 text-secondary">Distrito</dt>
+            <dd class="col-sm-8">
+              <span class="badge rounded-pill text-bg-light border">
+                <i class="bi bi-geo-alt me-1"></i><%= @sociedade.distrito.nome %>
+              </span>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-5">
+      <div class="card border-0 rounded-4 shadow-sm h-100">
+        <div class="card-header bg-white border-0 rounded-top-4 px-4 pt-4 pb-0">
+          <h2 class="h5 fw-bold mb-1">Acoes</h2>
+          <p class="text-secondary mb-0">Atualize ou remova este cadastro.</p>
+        </div>
+
+        <div class="card-body p-4 d-flex gap-2 flex-wrap align-items-start">
+          <%= link_to edit_admin_sociedade_path(@sociedade), class: "btn btn-primary" do %>
+            <i class="bi bi-pencil-square me-2"></i>Editar
+          <% end %>
+          <%= link_to admin_sociedade_path(@sociedade), data: { turbo_method: :delete, turbo_confirm: "Excluir esta sociedade?" }, class: "btn btn-outline-danger" do %>
+            <i class="bi bi-trash3 me-2"></i>Excluir
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

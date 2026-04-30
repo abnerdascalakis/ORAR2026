@@ -2,7 +2,7 @@
 
 <% actions = capture do %>
   <%= link_to admin_root_path, class: "btn btn-outline-light" do %>
-    <i class="bi bi-arrow-left me-2"></i>Voltar
+    <i class="bi bi-arrow-left-circle me-2"></i>Voltar
   <% end %>
 <% end %>
 
@@ -26,7 +26,7 @@
             </div>
             <div>
               <span class="text-secondary d-block">Resultado</span>
-              <strong class="h3 mb-0"><%= @inscricoes.size %></strong>
+              <strong class="h3 mb-0"><%= @pagy_inscricoes.count %></strong>
             </div>
           </div>
         </div>
@@ -74,7 +74,7 @@
           <h2 class="h5 fw-bold mb-1">Todas as inscricoes</h2>
           <p class="text-secondary mb-0">Listagem somente para consulta administrativa.</p>
         </div>
-        <span class="badge rounded-pill text-bg-primary"><%= @inscricoes.size %> registro(s)</span>
+        <span class="badge rounded-pill text-bg-primary"><%= @pagy_inscricoes.count %> registro(s)</span>
       </div>
     </div>
 
@@ -125,6 +125,13 @@
           </tbody>
         </table>
       </div>
+
+      <% if @pagy_inscricoes.pages > 1 %>
+        <div class="border-top px-4 py-3 d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+          <%== @pagy_inscricoes.info_tag %>
+          <%== @pagy_inscricoes.series_nav(:bootstrap, aria_label: "Paginação de inscrições") %>
+        </div>
+      <% end %>
     </div>
   </div>
 <% end %>
