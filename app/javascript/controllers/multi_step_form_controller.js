@@ -26,13 +26,13 @@ export default class extends Controller {
     if (!this.validateCurrentStep()) return
 
     this.currentStep = Math.min(this.currentStep + 1, this.stepCountValue - 1)
-    this.updateUI()
+    this.updateUI({ scroll: true })
   }
 
   previousStep() {
     this.hideErrorSummary()
     this.currentStep = Math.max(this.currentStep - 1, 0)
-    this.updateUI()
+    this.updateUI({ scroll: true })
   }
 
   goToStep(event) {
@@ -42,7 +42,7 @@ export default class extends Controller {
 
     this.hideErrorSummary()
     this.currentStep = targetStep
-    this.updateUI()
+    this.updateUI({ scroll: true })
   }
 
   submitForm(event) {
@@ -76,7 +76,7 @@ export default class extends Controller {
     for (let step = this.currentStep; step < targetStep; step += 1) {
       if (!this.validateStep(step)) {
         this.currentStep = step
-        this.updateUI()
+        this.updateUI({ scroll: true })
         return false
       }
     }
@@ -110,7 +110,7 @@ export default class extends Controller {
     return hasModalidade
   }
 
-  updateUI() {
+  updateUI(options = {}) {
     this.stepTargets.forEach((step, index) => {
       const isActive = index === this.currentStep
       step.hidden = !isActive
@@ -125,6 +125,32 @@ export default class extends Controller {
     const progress = ((this.currentStep + 1) / this.stepCountValue) * 100
     this.progressBarTarget.style.width = `${progress}%`
     this.stepLabelTarget.textContent = `Etapa ${this.currentStep + 1} de ${this.stepCountValue}`
+
+    if (options.scroll) {
+      this.scrollToFormTop()
+    }
+  }
+
+  scrollToFormTop() {
+    if (!window.matchMedia("(max-width: 991.98px)").matches) return
+
+    window.requestAnimationFrame(() => {
+      const navbarHeight = this.navbarHeight()
+      const top = this.element.getBoundingClientRect().top + window.scrollY - navbarHeight - 16
+      const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
+
+      window.scrollTo({
+        top: Math.max(top, 0),
+        behavior
+      })
+    })
+  }
+
+  navbarHeight() {
+    const cssHeight = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--orar-navbar-height"))
+    if (Number.isFinite(cssHeight)) return cssHeight
+
+    return document.querySelector(".orar-navbar")?.offsetHeight || 0
   }
 
   toggleErrorSummary(visible) {

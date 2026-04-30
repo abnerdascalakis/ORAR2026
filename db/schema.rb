@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_29_142000) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_30_123000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,9 +52,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_142000) do
 
   create_table "inscricoes", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.bigint "distrito_id", null: false
     t.bigint "pessoa_id", null: false
-    t.bigint "sociedade_id", null: false
+    t.bigint "sociedade_id"
     t.datetime "updated_at", null: false
+    t.index ["distrito_id"], name: "index_inscricoes_on_distrito_id"
     t.index ["pessoa_id"], name: "index_inscricoes_on_pessoa_id"
     t.index ["sociedade_id"], name: "index_inscricoes_on_sociedade_id"
   end
@@ -71,6 +73,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_142000) do
 
   create_table "modalidades", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.boolean "individual", default: false, null: false
     t.integer "limite"
     t.string "nome"
     t.datetime "updated_at", null: false
@@ -127,6 +130,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_142000) do
   add_foreign_key "equipes", "modalidades"
   add_foreign_key "inscricao_modalidades", "inscricoes"
   add_foreign_key "inscricao_modalidades", "modalidades"
+  add_foreign_key "inscricoes", "distritos"
   add_foreign_key "inscricoes", "pessoas"
   add_foreign_key "inscricoes", "sociedades"
   add_foreign_key "membro_equipes", "equipes"

@@ -164,11 +164,7 @@
                         <div class="invalid-feedback">Escolha uma opcao de sexo.</div>
                       </div>
 
-                      <div
-                        class="col-12"
-                        data-controller="inscricao-sociedade"
-                        data-action="distrito-select:opened->inscricao-sociedade#hide distrito-select:selected->inscricao-sociedade#resetForDistrito distrito-select:cleared->inscricao-sociedade#resetForDistrito"
-                      >
+                      <div class="col-12">
                         <div class="row g-3">
                           <div class="col-12 col-md-6">
                             <%= label_tag "inscricao_distrito_id", "Distrito *", class: "form-label" %>
@@ -177,8 +173,7 @@
                                 @form_data[:distrito_id],
                                 id: "inscricao_distrito_id",
                                 data: {
-                                  distrito_select_target: "input",
-                                  inscricao_sociedade_target: "distritoInput"
+                                  distrito_select_target: "input"
                                 } %>
 
                               <div class="input-group orar-search-input-group">
@@ -222,60 +217,6 @@
 
                                 <div class="list-group-item text-secondary d-none" data-distrito-select-target="empty">
                                   Nenhum distrito encontrado.
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="col-12 col-md-6">
-                            <%= label_tag "inscricao_sociedade_busca", "Sociedade jovem *", class: "form-label" %>
-                            <%= hidden_field_tag "inscricao[sociedade_id]", @form_data[:sociedade_id], data: { inscricao_sociedade_target: "sociedadeId" } %>
-                            <%= hidden_field_tag "inscricao[sociedade_busca]", @form_data[:sociedade_busca], data: { inscricao_sociedade_target: "sociedadeBusca" } %>
-
-                            <div class="position-relative">
-                              <div class="input-group orar-search-input-group">
-                                <span class="input-group-text"><i class="bi bi-search"></i></span>
-                                <input
-                                  type="text"
-                                  id="inscricao_sociedade_busca"
-                                  class="form-control"
-                                  placeholder="Pesquisar sociedade"
-                                  value="<%= @form_data[:sociedade_busca] %>"
-                                  autocomplete="off"
-                                  required
-                                  data-multi-step-form-target="field"
-                                  data-inscricao-sociedade-target="search"
-                                  data-action="input->inscricao-sociedade#filter focus->inscricao-sociedade#show"
-                                >
-                                <button
-                                  type="button"
-                                  class="btn btn-outline-secondary orar-clear-input-btn"
-                                  data-action="inscricao-sociedade#clearAndFilter"
-                                  title="Limpar sociedade"
-                                >
-                                  <i class="bi bi-x-lg"></i>
-                                </button>
-                                <div class="invalid-feedback">Escolha uma sociedade jovem da lista.</div>
-                              </div>
-
-                              <div class="admin-search-menu list-group shadow-sm d-none" data-inscricao-sociedade-target="menu">
-                                <% @sociedades.each do |sociedade| %>
-                                  <button
-                                    type="button"
-                                    class="list-group-item list-group-item-action d-flex align-items-center gap-2"
-                                    data-inscricao-sociedade-target="option"
-                                    data-sociedade-id="<%= sociedade.id %>"
-                                    data-distrito-id="<%= sociedade.distrito_id %>"
-                                    data-sociedade-label="<%= "#{sociedade.nome} - #{sociedade.distrito.nome}" %>"
-                                    data-action="inscricao-sociedade#select"
-                                  >
-                                    <i class="bi bi-people text-primary"></i>
-                                    <span><%= sociedade.nome %></span>
-                                  </button>
-                                <% end %>
-
-                                <div class="list-group-item text-secondary d-none" data-inscricao-sociedade-target="empty">
-                                  Escolha um distrito primeiro.
                                 </div>
                               </div>
                             </div>
