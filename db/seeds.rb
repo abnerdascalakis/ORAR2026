@@ -31,7 +31,8 @@ end
   "Nova Porto Velho",
   "Rio Madeira",
   "Tancredo Neves",
-  "Tucuruí"
+  "Tucuruí",
+  "Humaitá"
 ].each do |nome|
   Distrito.find_or_create_by!(nome: nome)
 end
@@ -51,6 +52,9 @@ end
   ],
   "Central PVH" => [
     "Central team"
+  ],
+  "Humaitá" => [
+    "Fortes Vencedores"
   ]
 }.each do |distrito_nome, sociedades|
   distrito = Distrito.find_by!(nome: distrito_nome)
@@ -65,7 +69,8 @@ end
   [ "Vôlei misto", 12 ],
   [ "Natação revezamento", 4 ],
   [ "Bom de Bíblia misto", 5 ],
-  [ "Bom de lição misto", 3 ]
+  [ "Bom de lição misto", 3 ],
+  [ "Dodgeball misto", 10 ]
 ].each do |nome, limite|
   modalidade = Modalidade.find_or_initialize_by(nome: nome)
   modalidade.limite = limite

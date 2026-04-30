@@ -1,0 +1,22 @@
+pt-BR:
+  pagy:
+    p11n: "OneOther"
+    aria_label:
+      nav:
+        one: "Página"
+        other: "Páginas"
+      previous: "Anterior"
+      next: "Próximo"
+    previous: "&lt;"
+    next: "&gt;"
+    gap: "&hellip;"
+    item_name:
+      one: "item"
+      other: "itens"
+    info_tag:
+      no_count: "Página %{page} de %{pages}"
+      no_items: "Sem resultados"
+      single_page: "Exibindo %{count} %{item_name}"
+      multiple_pages: "Exibindo %{item_name} %{from}-%{to} de %{count} no total"
+    input_nav_js: "Página %{page_input} de %{pages}"
+    limit_tag_js: "Mostrar %{limit_input} %{item_name} por página"

@@ -11,6 +11,12 @@
 
 :root {
   --orar-navbar-height: 88px;
+  --bg-dark-blue: #0a3d4d;
+  --text-white: #ffffff;
+  --runner-yellow: #f9b233;
+  --prayer-orange: #e87722;
+  --plus-pink: #e91e63;
+  --cross-blue: #1b365d;
 }
 
 body {
@@ -58,15 +64,16 @@ h6,
 
 .orar-navbar {
   background:
-    linear-gradient(90deg, rgba(223, 235, 247, 0.18), rgba(223, 235, 247, 0) 20%),
-    linear-gradient(90deg, rgba(243, 240, 230, 0.2) 0%, rgba(243, 240, 230, 0.42) 18%, rgba(243, 240, 230, 0.16) 36%, rgba(243, 240, 230, 0) 52%),
-    linear-gradient(135deg, #163a63 0%, #2a5788 42%, #5e86b5 72%, #8fafce 100%);
-  color: #f3f0e6;
-  padding: 18px 0;
-  border-bottom-color: rgba(217, 230, 245, 0.35) !important;
+    linear-gradient(90deg, rgba(249, 178, 51, 0.1), rgba(249, 178, 51, 0) 18%),
+    linear-gradient(110deg, rgba(233, 30, 99, 0.18), rgba(233, 30, 99, 0) 42%),
+    linear-gradient(135deg, var(--bg-dark-blue) 0%, var(--cross-blue) 58%, #0f5264 100%);
+  color: var(--text-white);
+  padding: 14px 0;
+  border-bottom-color: rgba(249, 178, 51, 0.48) !important;
   box-shadow:
-    inset 0 1px 0 rgba(243, 240, 230, 0.25),
-    0 10px 24px rgba(23, 58, 99, 0.22);
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -3px 0 rgba(249, 178, 51, 0.7),
+    0 10px 26px rgba(10, 61, 77, 0.28);
   backdrop-filter: blur(8px);
   position: relative;
   overflow: visible;
@@ -77,21 +84,18 @@ h6,
   position: absolute;
   inset: 0;
   background:
-    repeating-linear-gradient(
-      115deg,
-      rgba(217, 230, 245, 0.08) 0,
-      rgba(217, 230, 245, 0.08) 2px,
-      transparent 2px,
-      transparent 10px
-    );
+    radial-gradient(circle, rgba(0, 0, 0, 0.22) 1.2px, transparent 1.4px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1.25px);
+  background-position: 0 0, 4px 4px;
+  background-size: 8px 8px, 8px 8px;
   pointer-events: none;
-  opacity: 0.45;
+  opacity: 0.5;
 }
 
 .orar-navbar .navbar-brand,
 .orar-navbar .nav-link {
-  color: #f3f0e6 !important;
-  text-shadow: 0 1px 1px rgba(15, 33, 56, 0.18);
+  color: var(--text-white) !important;
+  text-shadow: 0 1px 1px rgba(10, 61, 77, 0.35);
 }
 
 .orar-navbar .navbar-brand {
@@ -100,12 +104,50 @@ h6,
   z-index: 1;
 }
 
+.orar-navbar-brand {
+  min-width: 0;
+  padding: 0.35rem 0.6rem 0.35rem 0.85rem;
+  border-radius: 8px;
+  background:
+    linear-gradient(
+      90deg,
+      var(--runner-yellow) 0,
+      var(--runner-yellow) 5px,
+      var(--prayer-orange) 5px,
+      var(--prayer-orange) 10px,
+      var(--plus-pink) 10px,
+      var(--plus-pink) 15px,
+      rgba(255, 255, 255, 0.96) 15px,
+      rgba(255, 255, 255, 0.9) 100%
+    );
+  box-shadow:
+    0 0 0 2px rgba(249, 178, 51, 0.9),
+    0 10px 24px rgba(0, 0, 0, 0.22);
+}
+
+.orar-navbar-brand:hover,
+.orar-navbar-brand:focus {
+  box-shadow:
+    0 0 0 2px var(--runner-yellow),
+    0 0 0 5px rgba(233, 30, 99, 0.24),
+    0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+.orar-navbar-brand__logo {
+  display: block;
+  width: auto;
+  height: 54px;
+  max-width: clamp(156px, 24vw, 220px);
+  object-fit: contain;
+}
+
 .orar-navbar .nav-link {
   font-weight: 600;
   padding-left: 1rem !important;
   padding-right: 1rem !important;
   position: relative;
   z-index: 1;
+  border-radius: 6px;
 }
 
 .orar-navbar .dropdown-menu {
@@ -114,12 +156,13 @@ h6,
 
 .orar-navbar .nav-link:hover,
 .orar-navbar .nav-link:focus {
-  color: #d9e6f5 !important;
+  color: var(--runner-yellow) !important;
+  background-color: rgba(255, 255, 255, 0.09);
 }
 
 .orar-navbar .navbar-toggler {
-  border-color: rgba(217, 230, 245, 0.45);
-  background-color: rgba(243, 240, 230, 0.08);
+  border-color: rgba(249, 178, 51, 0.58);
+  background-color: rgba(255, 255, 255, 0.1);
   position: relative;
   z-index: 1;
 }
@@ -695,6 +738,11 @@ h6,
 @media (max-width: 575.98px) {
   :root {
     --orar-navbar-height: 74px;
+  }
+
+  .orar-navbar-brand__logo {
+    height: 36px;
+    max-width: 124px;
   }
 
   .orar-hero-frame {

@@ -5,7 +5,7 @@
 <% subtitle ||= nil %>
 <% actions ||= nil %>
 
-<section class="admin-shell position-relative" id="adminShell">
+<section class="admin-shell position-relative" id="adminShell" data-controller="admin-sidebar">
   <%= render "shared/admin_sidebar" %>
 
   <div class="admin-content">
@@ -28,6 +28,8 @@
           id="adminSidebarDesktopToggle"
           aria-label="Retrair menu lateral"
           aria-pressed="false"
+          data-admin-sidebar-target="toggle"
+          data-action="admin-sidebar#toggle"
         >
           <i class="bi bi-layout-sidebar-inset fs-4"></i>
         </button>
@@ -100,18 +102,3 @@
     </main>
   </div>
 </section>
-
-<script>
-  (() => {
-    const shell = document.getElementById("adminShell");
-    const toggle = document.getElementById("adminSidebarDesktopToggle");
-
-    if (!shell || !toggle) return;
-
-    toggle.addEventListener("click", () => {
-      const collapsed = shell.classList.toggle("admin-shell--collapsed");
-      toggle.setAttribute("aria-pressed", collapsed ? "true" : "false");
-      toggle.setAttribute("aria-label", collapsed ? "Expandir menu lateral" : "Retrair menu lateral");
-    });
-  })();
-</script>

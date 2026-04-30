@@ -2,7 +2,7 @@ class MembroEquipe < ApplicationRecord
   belongs_to :equipe
   belongs_to :inscricao_modalidade
 
-  validates :inscricao_modalidade_id, uniqueness: { scope: :equipe_id }
+  validates :inscricao_modalidade_id, uniqueness: true
   validate :inscricao_da_mesma_modalidade_da_equipe
   validate :equipe_dentro_do_limite_de_membros, on: :create
 

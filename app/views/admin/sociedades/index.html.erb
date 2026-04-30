@@ -2,10 +2,10 @@
 
 <% actions = capture do %>
   <%= link_to admin_root_path, class: "btn btn-outline-light" do %>
-    <i class="bi bi-arrow-left me-2"></i>Voltar
+    <i class="bi bi-arrow-left-circle me-2"></i>Voltar
   <% end %>
   <%= link_to new_admin_sociedade_path, class: "btn btn-light shadow-sm" do %>
-    <i class="bi bi-plus-circle me-2"></i>Nova sociedade
+    <i class="bi bi-building-add me-2"></i>Nova sociedade
   <% end %>
 <% end %>
 
@@ -122,13 +122,13 @@
                 <td class="text-end pe-4">
                   <div class="d-flex justify-content-end gap-2 flex-wrap">
                     <%= link_to admin_sociedade_path(sociedade), class: "btn btn-sm btn-primary" do %>
-                      <i class="bi bi-arrow-right-circle me-1"></i>Abrir
+                      <i class="bi bi-box-arrow-up-right me-1"></i>Abrir
                     <% end %>
                     <%= link_to edit_admin_sociedade_path(sociedade), class: "btn btn-sm btn-outline-secondary" do %>
-                      <i class="bi bi-pencil me-1"></i>Editar
+                      <i class="bi bi-pencil-square me-1"></i>Editar
                     <% end %>
                     <%= link_to admin_sociedade_path(sociedade), data: { turbo_method: :delete, turbo_confirm: "Excluir esta sociedade?" }, class: "btn btn-sm btn-outline-danger" do %>
-                      <i class="bi bi-trash me-1"></i>Excluir
+                      <i class="bi bi-trash3 me-1"></i>Excluir
                     <% end %>
                   </div>
                 </td>
