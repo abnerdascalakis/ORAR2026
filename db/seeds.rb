@@ -16,6 +16,13 @@ end
 admin.admin = true
 admin.save!
 
+evento = Evento.find_or_initialize_by(descricao: "ORAR 2026")
+evento.ano = 2026
+evento.data_inicio = Date.new(2026, 6, 4)
+evento.data_fim = Date.new(2026, 6, 7)
+evento.status = "ativo"
+evento.save!
+
 [ "Masculino", "Feminino" ].each do |nome|
   Sexo.find_or_create_by!(nome: nome)
 end

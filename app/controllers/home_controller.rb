@@ -33,6 +33,7 @@ class HomeController < ApplicationController
       )
 
       inscricao = Inscricao.create!(
+        evento: current_event,
         pessoa: pessoa,
         distrito_id: @form_data[:distrito_id]
       )
@@ -59,6 +60,7 @@ class HomeController < ApplicationController
   private
 
   def build_inscricao_form(values = {})
+    @evento = current_event
     @sexos = Sexo.order(:nome)
     @distritos = Distrito.order(:nome)
     @modalidades = Modalidade.order(:nome)
@@ -109,5 +111,9 @@ class HomeController < ApplicationController
 
   def requested_step
     [[ params[:etapa].to_i - 1, 0 ].max, 2].min
+  end
+
+  def current_event
+    @current_event ||= Evento.find_by!(descricao: "ORAR 2026")
   end
 end
