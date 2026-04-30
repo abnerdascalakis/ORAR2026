@@ -115,9 +115,9 @@
                   <div>
                     <strong class="d-block"><%= inscricao.pessoa.nome %></strong>
                     <span class="text-secondary small">
-                      <%= inscricao.sociedade.nome %>
-                      <% if inscricao.sociedade.distrito.present? %>
-                        - <%= inscricao.sociedade.distrito.nome %>
+                      <%= inscricao.pessoa.sexo.nome %>
+                      <% if inscricao.distrito.present? %>
+                        - <%= inscricao.distrito.nome %>
                       <% end %>
                     </span>
                   </div>
@@ -157,17 +157,17 @@
         <div class="card-body p-4">
           <%= search_form_for @q, url: admin_modalidade_equipe_path(@modalidade, @equipe), method: :get, html: { class: "row g-3 align-items-end mb-4" } do |form| %>
             <div class="col-12 col-lg-5">
-              <%= form.label :inscricao_pessoa_nome_or_inscricao_sociedade_nome_or_inscricao_sociedade_distrito_nome_cont, "Pesquisar", class: "form-label fw-semibold" %>
+              <%= form.label :inscricao_pessoa_nome_or_inscricao_pessoa_sexo_nome_or_inscricao_distrito_nome_cont, "Pesquisar", class: "form-label fw-semibold" %>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-search"></i></span>
-                <%= form.search_field :inscricao_pessoa_nome_or_inscricao_sociedade_nome_or_inscricao_sociedade_distrito_nome_cont, class: "form-control", placeholder: "Nome, sociedade ou distrito" %>
+                <%= form.search_field :inscricao_pessoa_nome_or_inscricao_pessoa_sexo_nome_or_inscricao_distrito_nome_cont, class: "form-control", placeholder: "Nome, sexo ou distrito" %>
               </div>
             </div>
 
             <div class="col-12 col-sm-7 col-lg-5">
-              <%= form.label :inscricao_sociedade_distrito_id_eq, "Distrito", class: "form-label fw-semibold" %>
+              <%= form.label :inscricao_distrito_id_eq, "Distrito", class: "form-label fw-semibold" %>
               <div class="position-relative" data-controller="distrito-select">
-                <%= form.hidden_field :inscricao_sociedade_distrito_id_eq, data: { distrito_select_target: "input" } %>
+                <%= form.hidden_field :inscricao_distrito_id_eq, data: { distrito_select_target: "input" } %>
 
                 <div class="input-group">
                   <span class="input-group-text"><i class="bi bi-search"></i></span>
@@ -233,9 +233,9 @@
                   <div>
                     <strong class="d-block"><%= inscricao.pessoa.nome %></strong>
                     <span class="text-secondary small">
-                      <%= inscricao.sociedade.nome %>
-                      <% if inscricao.sociedade.distrito.present? %>
-                        - <%= inscricao.sociedade.distrito.nome %>
+                      <%= inscricao.pessoa.sexo.nome %>
+                      <% if inscricao.distrito.present? %>
+                        - <%= inscricao.distrito.nome %>
                       <% end %>
                     </span>
                   </div>

@@ -4,4 +4,8 @@ class Modalidade < ApplicationRecord
   has_many :inscricoes, through: :inscricao_modalidades
 
   validates :nome, presence: true
+
+  def coletiva?
+    !individual?
+  end
 end

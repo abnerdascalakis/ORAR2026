@@ -10,16 +10,16 @@ class Admin::Modalidades::EquipesController < Admin::BaseController
     @membro_equipe = @equipe.membro_equipes.build
     @membros = @equipe.membro_equipes
       .joins(inscricao_modalidade: { inscricao: :pessoa })
-      .includes(inscricao_modalidade: { inscricao: [ :pessoa, { sociedade: :distrito } ] })
+      .includes(inscricao_modalidade: { inscricao: [ :distrito, { pessoa: :sexo } ] })
       .order("pessoas.nome")
 
     @q = inscritos_disponiveis.ransack(params[:q])
     inscritos_disponiveis_filtrados = @q.result
-      .includes(inscricao: [ :pessoa, { sociedade: :distrito } ])
+      .includes(inscricao: [ :distrito, { pessoa: :sexo } ])
       .order("pessoas.nome")
 
     @pagy_inscritos_disponiveis, @inscritos_disponiveis = pagy(:offset, inscritos_disponiveis_filtrados, limit: 10)
-    @distrito_filtro = Distrito.find_by(id: params.dig(:q, :inscricao_sociedade_distrito_id_eq))
+    @distrito_filtro = Distrito.find_by(id: params.dig(:q, :inscricao_distrito_id_eq))
   end
 
   def new
@@ -56,6 +56,9 @@ class Admin::Modalidades::EquipesController < Admin::BaseController
 
   def set_modalidade
     @modalidade = Modalidade.find(params[:modalidade_id])
+    return if @modalidade.coletiva?
+
+    redirect_to admin_modalidade_path(@modalidade), alert: "Esta modalidade e individual e nao usa equipes."
   end
 
   def set_equipe
@@ -68,7 +71,7 @@ class Admin::Modalidades::EquipesController < Admin::BaseController
 
   def inscritos_disponiveis
     @modalidade.inscricao_modalidades
-      .joins(inscricao: [ :pessoa, { sociedade: :distrito } ])
+      .joins(inscricao: [ { pessoa: :sexo }, :distrito ])
       .where.not(id: MembroEquipe.select(:inscricao_modalidade_id))
   end
 end

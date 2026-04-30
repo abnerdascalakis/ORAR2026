@@ -34,7 +34,7 @@ class HomeController < ApplicationController
 
       inscricao = Inscricao.create!(
         pessoa: pessoa,
-        sociedade: @sociedade_selecionada
+        distrito_id: @form_data[:distrito_id]
       )
 
       selected_modalidades.each do |modalidade|
@@ -61,11 +61,8 @@ class HomeController < ApplicationController
   def build_inscricao_form(values = {})
     @sexos = Sexo.order(:nome)
     @distritos = Distrito.order(:nome)
-    @sociedades = Sociedade.joins(:distrito).includes(:distrito).order("distritos.nome", "sociedades.nome")
     @modalidades = Modalidade.order(:nome)
     @form_data = default_form_data.merge(values.to_h.symbolize_keys)
-    hydrate_sociedade_form_data
-    @sociedade_selecionada = sociedade_por_busca
     @selected_modalidade_ids = Array(@form_data[:modalidade_ids]).reject(&:blank?).map(&:to_i).uniq
     @error_messages = []
     @current_step = 0
@@ -77,14 +74,12 @@ class HomeController < ApplicationController
       telefone: "",
       sexo_id: nil,
       distrito_id: nil,
-      sociedade_id: nil,
-      sociedade_busca: "",
       modalidade_ids: []
     }
   end
 
   def inscricao_params
-    params.require(:inscricao).permit(:nome, :telefone, :sexo_id, :distrito_id, :sociedade_id, :sociedade_busca, modalidade_ids: [])
+    params.require(:inscricao).permit(:nome, :telefone, :sexo_id, :distrito_id, modalidade_ids: [])
   end
 
   def validate_inscricao_form(selected_modalidades)
@@ -94,7 +89,6 @@ class HomeController < ApplicationController
     participant_errors << "Informe o telefone." if @form_data[:telefone].blank?
     participant_errors << "Escolha um sexo." if @form_data[:sexo_id].blank?
     participant_errors << "Escolha um distrito." if @form_data[:distrito_id].blank?
-    participant_errors << "Escolha uma sociedade." if @form_data[:sociedade_busca].blank?
 
     if @form_data[:sexo_id].present? && @sexos.none? { |sexo| sexo.id == @form_data[:sexo_id].to_i }
       participant_errors << "Escolha um sexo valido."
@@ -102,14 +96,6 @@ class HomeController < ApplicationController
 
     if @form_data[:distrito_id].present? && @distritos.none? { |distrito| distrito.id == @form_data[:distrito_id].to_i }
       participant_errors << "Escolha um distrito valido."
-    end
-
-    if @form_data[:sociedade_busca].present? && @sociedade_selecionada.blank?
-      participant_errors << "Escolha uma sociedade valida."
-    end
-
-    if @sociedade_selecionada.present? && @form_data[:distrito_id].present? && @sociedade_selecionada.distrito_id != @form_data[:distrito_id].to_i
-      participant_errors << "Escolha uma sociedade do distrito selecionado."
     end
 
     if @form_data[:telefone].present? && !@form_data[:telefone].match?(/\A\(\d{2}\) \d{5}-\d{4}\z/)
@@ -121,28 +107,7 @@ class HomeController < ApplicationController
     @error_messages << "Selecione ao menos uma modalidade." if selected_modalidades.empty?
   end
 
-  def sociedade_por_busca
-    busca = @form_data[:sociedade_busca].to_s.strip
-    return Sociedade.find_by(id: @form_data[:sociedade_id]) if @form_data[:sociedade_id].present?
-
-    @sociedades.find { |sociedade| sociedade_label(sociedade) == busca }
-  end
-
-  def hydrate_sociedade_form_data
-    sociedade = Sociedade.includes(:distrito).find_by(id: @form_data[:sociedade_id])
-    return if sociedade.blank?
-
-    @form_data[:sociedade_busca] = sociedade_label(sociedade) if @form_data[:sociedade_busca].blank?
-    @form_data[:distrito_id] = sociedade.distrito_id if @form_data[:distrito_id].blank?
-  end
-
   def requested_step
     [[ params[:etapa].to_i - 1, 0 ].max, 2].min
-  end
-
-  def sociedade_label(sociedade)
-    return "" if sociedade.blank?
-
-    "#{sociedade.nome} - #{sociedade.distrito.nome}"
   end
 end

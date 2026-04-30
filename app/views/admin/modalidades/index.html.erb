@@ -8,7 +8,7 @@
 
 <%= render layout: "shared/admin_shell", locals: {
   title: "Modalidades",
-  subtitle: "Escolha uma modalidade para cadastrar equipes e organizar os membros inscritos.",
+  subtitle: "Escolha uma modalidade para organizar equipes ou consultar inscritos individuais.",
   breadcrumbs: [
     { label: "Home", path: admin_root_path },
     { label: "Modalidades" }
@@ -71,7 +71,7 @@
       <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
         <div>
           <h2 class="h5 fw-bold mb-1">Lista de modalidades</h2>
-          <p class="text-secondary mb-0">Abra uma modalidade para ver e criar equipes.</p>
+          <p class="text-secondary mb-0">Abra uma modalidade para gerenciar equipes ou consultar inscritos.</p>
         </div>
         <span class="badge rounded-pill text-bg-primary"><%= @modalidades.length %> itens</span>
       </div>
@@ -98,7 +98,9 @@
                     </div>
                     <div>
                       <strong class="d-block"><%= modalidade.nome %></strong>
-                      <% if modalidade.limite.present? %>
+                      <% if modalidade.individual? %>
+                        <span class="text-secondary small">Modalidade individual</span>
+                      <% elsif modalidade.limite.present? %>
                         <span class="text-secondary small">Limite por equipe: <%= modalidade.limite %> membros</span>
                       <% else %>
                         <span class="text-secondary small">Sem limite informado</span>
@@ -110,7 +112,11 @@
                   <span class="badge rounded-pill text-bg-light border"><%= modalidade.inscricoes_count %></span>
                 </td>
                 <td class="text-center">
-                  <span class="badge rounded-pill text-bg-light border"><%= modalidade.equipes_count %></span>
+                  <% if modalidade.individual? %>
+                    <span class="badge rounded-pill text-bg-light border">Individual</span>
+                  <% else %>
+                    <span class="badge rounded-pill text-bg-light border"><%= modalidade.equipes_count %></span>
+                  <% end %>
                 </td>
                 <td class="text-end pe-4">
                   <%= link_to admin_modalidade_path(modalidade), class: "btn btn-sm btn-primary" do %>

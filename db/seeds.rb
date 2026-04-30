@@ -8,11 +8,19 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+admin = User.find_or_initialize_by(email: "oraradm2026@orar.ro")
+if admin.new_record?
+  admin.password = "Orar26Adm"
+  admin.password_confirmation = "Orar26Adm"
+end
+admin.admin = true
+admin.save!
+
 [ "Masculino", "Feminino" ].each do |nome|
   Sexo.find_or_create_by!(nome: nome)
 end
 
-[
+[ "Outro",
   "Agenor de Carvalho",
   "Apuí",
   "Areal",
@@ -37,42 +45,17 @@ end
   Distrito.find_or_create_by!(nome: nome)
 end
 
-{
-  "Eldorado" => [
-    "Ancorados",
-    "O maná de Deus",
-    "Heróis da fé"
-  ],
-  "Rio Madeira" => [
-    "Herdeiros do céu",
-    "Os 300"
-  ],
-  "Nova Porto Velho" => [
-    "Forjados"
-  ],
-  "Central PVH" => [
-    "Central team"
-  ],
-  "Humaitá" => [
-    "Fortes Vencedores"
-  ]
-}.each do |distrito_nome, sociedades|
-  distrito = Distrito.find_by!(nome: distrito_nome)
-
-  sociedades.each do |sociedade_nome|
-    Sociedade.find_or_create_by!(nome: sociedade_nome, distrito: distrito)
-  end
-end
-
 [
-  [ "Futsal", 10 ],
-  [ "Vôlei misto", 12 ],
-  [ "Natação revezamento", 4 ],
-  [ "Bom de Bíblia misto", 5 ],
-  [ "Bom de lição misto", 3 ],
-  [ "Dodgeball misto", 10 ]
-].each do |nome, limite|
+  [ "Futsal", 10, false ],
+  [ "Vôlei misto", 12, false ],
+  [ "Natação revezamento", 4, false ],
+  [ "Bom de Bíblia misto", 5, false ],
+  [ "Bom de lição misto", 3, false ],
+  [ "Dodgeball misto", 10, false ],
+  [ "Torcida", nil, true ]
+].each do |nome, limite, individual|
   modalidade = Modalidade.find_or_initialize_by(nome: nome)
   modalidade.limite = limite
+  modalidade.individual = individual
   modalidade.save!
 end

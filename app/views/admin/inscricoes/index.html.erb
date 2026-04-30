@@ -46,8 +46,8 @@
         </div>
 
         <div class="col-12 col-sm-6 col-lg-3">
-          <%= form.label :sociedade_distrito_id_eq, "Distrito", class: "form-label fw-semibold" %>
-          <%= form.collection_select :sociedade_distrito_id_eq, Distrito.order(:nome), :id, :nome, { include_blank: "Todos" }, class: "form-select" %>
+          <%= form.label :distrito_id_eq, "Distrito", class: "form-label fw-semibold" %>
+          <%= form.collection_select :distrito_id_eq, Distrito.order(:nome), :id, :nome, { include_blank: "Todos" }, class: "form-select" %>
         </div>
 
         <div class="col-12 col-sm-6 col-lg-3">
@@ -71,7 +71,7 @@
     <div class="card-header bg-white border-0 rounded-top-4 px-4 pt-4 pb-0">
       <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
         <div>
-          <h2 class="h5 fw-bold mb-1">Todas as inscricoes</h2>
+          <h2 class="h5 fw-bold mb-1">Todas as inscricões</h2>
           <p class="text-secondary mb-0">Listagem somente para consulta administrativa.</p>
         </div>
         <span class="badge rounded-pill text-bg-primary"><%= @pagy_inscricoes.count %> registro(s)</span>
@@ -84,9 +84,8 @@
           <thead class="table-light">
             <tr>
               <th class="ps-4">Pessoa</th>
-              <th>Sociedade</th>
-              <th>Distrito</th>
               <th>Sexo</th>
+              <th>Distrito</th>
               <th>Modalidades</th>
             </tr>
           </thead>
@@ -97,13 +96,12 @@
                   <strong class="d-block"><%= inscricao.pessoa.nome %></strong>
                   <span class="text-secondary small"><%= inscricao.pessoa.telefone.presence || "Sem telefone" %></span>
                 </td>
-                <td><%= inscricao.sociedade.nome %></td>
+                <td><%= inscricao.pessoa.sexo.nome %></td>
                 <td>
                   <span class="badge rounded-pill text-bg-light border">
-                    <i class="bi bi-geo-alt me-1"></i><%= inscricao.sociedade.distrito.nome %>
+                    <i class="bi bi-geo-alt me-1"></i><%= inscricao.distrito.nome %>
                   </span>
                 </td>
-                <td><%= inscricao.pessoa.sexo.nome %></td>
                 <td>
                   <div class="d-flex gap-1 flex-wrap">
                     <% inscricao.modalidades.each do |modalidade| %>
