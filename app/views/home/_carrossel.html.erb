@@ -1,21 +1,33 @@
 <% images = [
-  "abertura.jpeg", 
-  "investidura.jpeg", 
-  "humaita.jpeg",
-  "setimus.jpeg",
-  "editais_mobile.png",
-].select { |image| Rails.application.assets.load_path.find(image) } %>
+  {
+    source: "abertura-1920.webp",
+    srcset: [["abertura-768.webp", "768w"], ["abertura-1280.webp", "1280w"], ["abertura-1920.webp", "1920w"]]
+  },
+  {
+    source: "investidura-1920.webp",
+    srcset: [["investidura-768.webp", "768w"], ["investidura-1280.webp", "1280w"], ["investidura-1920.webp", "1920w"]]
+  },
+  {
+    source: "humaita-1920.webp",
+    srcset: [["humaita-768.webp", "768w"], ["humaita-1280.webp", "1280w"], ["humaita-1920.webp", "1920w"]]
+  },
+  {
+    source: "setimus-1920.webp",
+    srcset: [["setimus-768.webp", "768w"], ["setimus-1280.webp", "1280w"], ["setimus-1920.webp", "1920w"]]
+  }
+].select { |image| Rails.application.assets.load_path.find(image[:source]) } %>
 
 <div id="orarCarousel" class="carousel slide carousel-fade orar-full-carousel" data-bs-ride="carousel" data-bs-interval="4500" data-bs-touch="true" data-bs-pause="false">
   <div class="carousel-inner">
     <% images.each_with_index do |image, index| %>
       <div class="carousel-item <%= "active" if index.zero? %>">
         <%= responsive_asset_picture(
-          image,
+          image[:source],
           alt: "ORAR 2026",
           sizes: "100vw",
-          width: 7008,
-          height: 4672,
+          width: 1920,
+          height: 1280,
+          srcset: image[:srcset],
           img_class: "d-block w-100 orar-full-image",
           loading: (index.zero? ? "eager" : "lazy"),
           fetchpriority: (index.zero? ? "high" : "auto")
@@ -42,8 +54,8 @@
 <style>
   .orar-full-carousel {
     width: 100%;
-    height: calc(78svh - var(--orar-navbar-height, 88px));
-    min-height: 380px;
+    height: min(760px, calc(100svh - var(--orar-navbar-height, 88px)));
+    min-height: 520px;
     background: #0f0f0f;
     overflow: hidden;
     position: relative;
@@ -54,11 +66,15 @@
     height: 100%;
   }
 
+  .orar-full-carousel .orar-imagem {
+    height: 100%;
+  }
+
   .orar-full-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    object-position: center 58%;
   }
 
   .orar-carousel-caption {
@@ -92,8 +108,12 @@
 
   @media (max-width: 768px) {
     .orar-full-carousel {
-      height: 52svh;
-      min-height: 280px;
+      height: 56svh;
+      min-height: 320px;
+    }
+
+    .orar-full-image {
+      object-position: center;
     }
 
     .orar-carousel-caption {

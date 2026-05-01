@@ -39,12 +39,12 @@
       </div>
 
       <% galeria_imagens = [
-        ["ulisses.jpeg", "Ulisses"],
-        ["candeias.jpeg", "Candeias"],
-        ["setimus.jpeg", "Setimus"],
-        ["forjados.jpeg", "Forjados"],
-        ["volei.jpeg", "Volei"],
-        ["eldorado.jpeg", "Eldorado"]
+        ["ulisses", "Ulisses"],
+        ["candeias", "Candeias"],
+        ["setimus", "Setimus"],
+        ["forjados", "Forjados"],
+        ["volei", "Volei"],
+        ["eldorado", "Eldorado"]
       ] %>
 
       <div class="row g-4">
@@ -52,11 +52,12 @@
           <div class="col-12 col-sm-6 col-lg-4">
             <div class="orar-galeria-card shadow-sm rounded-3">
               <%= responsive_asset_picture(
-                image,
+                "#{image}-1200.webp",
                 alt: alt_text,
                 sizes: "(min-width: 992px) 33vw, (min-width: 576px) 50vw, 100vw",
-                width: 7008,
-                height: 4672,
+                width: 1200,
+                height: 800,
+                srcset: [["#{image}-480.webp", "480w"], ["#{image}-800.webp", "800w"], ["#{image}-1200.webp", "1200w"]],
                 picture_class: "orar-galeria-midia",
                 img_class: "orar-galeria-imagem",
                 aspect_ratio: "4 / 3"
