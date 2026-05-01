@@ -8,11 +8,11 @@
 
 <%= render layout: "shared/admin_shell", locals: {
   title: "Incluir equipe",
-  subtitle: "Crie uma equipe para #{@modalidade.nome} e depois adicione os membros inscritos.",
+  subtitle: "Crie uma equipe para #{@modalidade.nome_exibicao} e depois adicione os membros inscritos.",
   breadcrumbs: [
     { label: "Home", path: admin_root_path },
     { label: "Modalidades", path: admin_modalidades_path },
-    { label: @modalidade.nome, path: admin_modalidade_path(@modalidade) },
+    { label: @modalidade.nome_exibicao, path: admin_modalidade_path(@modalidade) },
     { label: "Nova equipe" }
   ],
   actions: actions

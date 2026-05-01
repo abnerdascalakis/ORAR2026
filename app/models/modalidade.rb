@@ -8,4 +8,8 @@ class Modalidade < ApplicationRecord
   def coletiva?
     !individual?
   end
+
+  def nome_exibicao
+    nome == "Dodgeball" ? "Dodgeball (queimada)" : nome
+  end
 end

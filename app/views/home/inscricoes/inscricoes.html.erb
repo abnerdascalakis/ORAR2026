@@ -252,7 +252,7 @@
                               <label class="orar-option-card form-check">
                                 <%= check_box_tag "inscricao[modalidade_ids][]", modalidade.id, @selected_modalidade_ids.include?(modalidade.id), id: "modalidade_#{modalidade.id}", class: "form-check-input", data: { multi_step_form_target: "modalidadeField" } %>
                                 <span class="form-check-label">
-                                  <strong class="d-block"><%= modalidade.nome %></strong>
+                                  <strong class="d-block"><%= modalidade.nome_exibicao %></strong>
                                  
                                 </span>
                               </label>

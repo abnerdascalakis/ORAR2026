@@ -52,14 +52,25 @@ end
   Distrito.find_or_create_by!(nome: nome)
 end
 
+dodgeball = Modalidade.find_by(nome: "Dodgeball")
+dodgeball_misto = Modalidade.find_by(nome: "Dodgeball misto")
+
+if dodgeball_misto.present? && dodgeball.blank?
+  dodgeball_misto.update!(nome: "Dodgeball")
+elsif dodgeball_misto.present? && dodgeball_misto.inscricao_modalidades.none? && dodgeball_misto.equipes.none?
+  dodgeball_misto.destroy!
+end
+
 [
   [ "Futsal", 10, false ],
   [ "Vôlei misto", 12, false ],
   [ "Natação revezamento", 4, false ],
   [ "Bom de Bíblia misto", 5, false ],
   [ "Bom de lição misto", 3, false ],
-  [ "Dodgeball misto", 10, false ],
-  [ "Torcida", nil, true ]
+  [ "Dodgeball", 10, false ],
+  [ "Torcida", nil, true ],
+  [ "corrida revezamento", 4, false ]
+
 ].each do |nome, limite, individual|
   modalidade = Modalidade.find_or_initialize_by(nome: nome)
   modalidade.limite = limite
