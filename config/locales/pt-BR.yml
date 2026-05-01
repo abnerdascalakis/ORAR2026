@@ -1,4 +1,156 @@
 pt-BR:
+  activerecord:
+    models:
+      distrito: "Distrito"
+      equipe: "Equipe"
+      evento: "Evento"
+      inscricao: "Inscrição"
+      inscricao_modalidade: "Inscrição de modalidade"
+      membro_equipe: "Membro da equipe"
+      modalidade: "Modalidade"
+      pessoa: "Pessoa"
+      sexo: "Sexo"
+      sociedade: "Sociedade"
+      sociedades_evento: "Sociedade do evento"
+      user: "Usuário"
+    attributes:
+      distrito:
+        nome: "Nome"
+      equipe:
+        distrito: "Distrito"
+        modalidade: "Modalidade"
+        nome: "Nome"
+      inscricao:
+        distrito: "Distrito"
+        evento: "Evento"
+        pessoa: "Pessoa"
+        sociedade: "Sociedade"
+      inscricao_modalidade:
+        inscricao: "Inscrição"
+        modalidade: "Modalidade"
+      membro_equipe:
+        equipe: "Equipe"
+        inscricao_modalidade: "Inscrição de modalidade"
+        inscricao_modalidade_id: "Inscrição de modalidade"
+      modalidade:
+        individual: "Individual"
+        limite: "Limite"
+        nome: "Nome"
+      pessoa:
+        gmail: "E-mail"
+        nome: "Nome"
+        sexo: "Sexo"
+        telefone: "Telefone"
+      sociedade:
+        distrito: "Distrito"
+        nome: "Nome"
+      user:
+        current_password: "Senha atual"
+        email: "E-mail"
+        password: "Senha"
+        password_confirmation: "Confirmação de senha"
+        remember_me: "Lembrar de mim"
+
+  devise:
+    confirmations:
+      confirmed: "Seu e-mail foi confirmado com sucesso."
+      send_instructions: "Você receberá um e-mail com instruções para confirmar sua conta em alguns minutos."
+      send_paranoid_instructions: "Se o seu e-mail existir em nossa base, você receberá instruções para confirmar sua conta em alguns minutos."
+    failure:
+      already_authenticated: "Você já está logado."
+      inactive: "Sua conta ainda não foi ativada."
+      invalid: "%{authentication_keys} ou senha inválidos."
+      locked: "Sua conta está bloqueada."
+      last_attempt: "Você tem mais uma tentativa antes da conta ser bloqueada."
+      not_found_in_database: "%{authentication_keys} ou senha inválidos."
+      timeout: "Sua sessão expirou. Entre novamente para continuar."
+      unauthenticated: "Você precisa entrar antes de continuar."
+      unconfirmed: "Você precisa confirmar seu e-mail antes de continuar."
+    mailer:
+      confirmation_instructions:
+        subject: "Instruções de confirmação"
+      reset_password_instructions:
+        subject: "Instruções para redefinir senha"
+      unlock_instructions:
+        subject: "Instruções para desbloqueio"
+      email_changed:
+        subject: "E-mail alterado"
+      password_change:
+        subject: "Senha alterada"
+    omniauth_callbacks:
+      failure: "Não foi possível autenticar com %{kind}: \"%{reason}\"."
+      success: "Autenticado com sucesso pela conta %{kind}."
+    passwords:
+      no_token: "Você só pode acessar esta página por um link de redefinição de senha enviado por e-mail. Se veio por esse link, confira se a URL está completa."
+      send_instructions: "Você receberá um e-mail com instruções para redefinir sua senha em alguns minutos."
+      send_paranoid_instructions: "Se o seu e-mail existir em nossa base, você receberá um link de recuperação de senha em alguns minutos."
+      updated: "Sua senha foi alterada com sucesso. Você já está logado."
+      updated_not_active: "Sua senha foi alterada com sucesso."
+    registrations:
+      destroyed: "Sua conta foi cancelada com sucesso."
+      signed_up: "Conta criada com sucesso."
+      signed_up_but_inactive: "Conta criada com sucesso, mas ainda não está ativa."
+      signed_up_but_locked: "Conta criada com sucesso, mas está bloqueada."
+      signed_up_but_unconfirmed: "Enviamos um e-mail com o link de confirmação. Siga o link para ativar sua conta."
+      update_needs_confirmation: "Sua conta foi atualizada, mas precisamos confirmar seu novo e-mail. Confira sua caixa de entrada."
+      updated: "Sua conta foi atualizada com sucesso."
+      updated_but_not_signed_in: "Sua conta foi atualizada com sucesso, mas como a senha foi alterada, você precisa entrar novamente."
+    sessions:
+      signed_in: "Login realizado com sucesso."
+      signed_out: "Logout realizado com sucesso."
+      already_signed_out: "Logout realizado com sucesso."
+    unlocks:
+      send_instructions: "Você receberá um e-mail com instruções para desbloquear sua conta em alguns minutos."
+      send_paranoid_instructions: "Se a sua conta existir, você receberá um e-mail com instruções para desbloqueá-la em alguns minutos."
+      unlocked: "Sua conta foi desbloqueada com sucesso. Entre para continuar."
+
   errors:
+    format: "%{attribute} %{message}"
     messages:
+      accepted: "deve ser aceito"
+      blank: "não pode ficar em branco"
+      confirmation: "não é igual a %{attribute}"
+      empty: "não pode ficar vazio"
+      equal_to: "deve ser igual a %{count}"
+      even: "deve ser par"
+      exclusion: "não está disponível"
+      greater_than: "deve ser maior que %{count}"
+      greater_than_or_equal_to: "deve ser maior ou igual a %{count}"
+      inclusion: "não está incluído na lista"
+      invalid: "não é válido"
+      less_than: "deve ser menor que %{count}"
+      less_than_or_equal_to: "deve ser menor ou igual a %{count}"
+      model_invalid: "A validação falhou: %{errors}"
+      not_a_number: "não é um número"
+      not_an_integer: "deve ser um número inteiro"
+      odd: "deve ser ímpar"
+      other_than: "deve ser diferente de %{count}"
+      present: "deve ficar em branco"
+      required: "é obrigatório"
+      too_long:
+        one: "é muito longo (máximo: 1 caractere)"
+        other: "é muito longo (máximo: %{count} caracteres)"
+      too_short:
+        one: "é muito curto (mínimo: 1 caractere)"
+        other: "é muito curto (mínimo: %{count} caracteres)"
+      wrong_length:
+        one: "não possui o tamanho esperado (1 caractere)"
+        other: "não possui o tamanho esperado (%{count} caracteres)"
       taken: "já está em uso"
+      already_confirmed: "já foi confirmado, tente entrar"
+      confirmation_period_expired: "precisa ser confirmado em até %{period}; solicite um novo"
+      expired: "expirou; solicite um novo"
+      not_found: "não encontrado"
+      not_locked: "não estava bloqueado"
+      not_saved:
+        one: "1 erro impediu que %{resource} fosse salvo:"
+        other: "%{count} erros impediram que %{resource} fosse salvo:"
+
+  simple_form:
+    "yes": "Sim"
+    "no": "Não"
+    required:
+      text: "obrigatório"
+      mark: "*"
+    error_notification:
+      default_message: "Revise os problemas abaixo:"
