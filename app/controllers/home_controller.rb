@@ -35,7 +35,9 @@ class HomeController < ApplicationController
       inscricao = Inscricao.create!(
         evento: current_event,
         pessoa: pessoa,
-        distrito_id: @form_data[:distrito_id]
+        distrito_id: @form_data[:distrito_id],
+        adventista: ActiveModel::Type::Boolean.new.cast(@form_data[:adventista]),
+        estado_civil: @form_data[:estado_civil]
       )
 
       selected_modalidades.each do |modalidade|
@@ -76,12 +78,14 @@ class HomeController < ApplicationController
       telefone: "",
       sexo_id: nil,
       distrito_id: nil,
+      adventista: nil,
+      estado_civil: nil,
       modalidade_ids: []
     }
   end
 
   def inscricao_params
-    params.require(:inscricao).permit(:nome, :telefone, :sexo_id, :distrito_id, modalidade_ids: [])
+    params.require(:inscricao).permit(:nome, :telefone, :sexo_id, :distrito_id, :adventista, :estado_civil, modalidade_ids: [])
   end
 
   def validate_inscricao_form(selected_modalidades)
@@ -91,6 +95,8 @@ class HomeController < ApplicationController
     participant_errors << "Informe o telefone." if @form_data[:telefone].blank?
     participant_errors << "Escolha um sexo." if @form_data[:sexo_id].blank?
     participant_errors << "Escolha um distrito." if @form_data[:distrito_id].blank?
+    participant_errors << "Informe se o participante e adventista." if @form_data[:adventista].blank?
+    participant_errors << "Escolha um estado civil." if @form_data[:estado_civil].blank?
 
     if @form_data[:sexo_id].present? && @sexos.none? { |sexo| sexo.id == @form_data[:sexo_id].to_i }
       participant_errors << "Escolha um sexo valido."
@@ -98,6 +104,14 @@ class HomeController < ApplicationController
 
     if @form_data[:distrito_id].present? && @distritos.none? { |distrito| distrito.id == @form_data[:distrito_id].to_i }
       participant_errors << "Escolha um distrito valido."
+    end
+
+    if @form_data[:adventista].present? && !%w[true false].include?(@form_data[:adventista].to_s)
+      participant_errors << "Informe uma opcao valida para adventista."
+    end
+
+    if @form_data[:estado_civil].present? && !Inscricao::ESTADOS_CIVIS.key?(@form_data[:estado_civil].to_s)
+      participant_errors << "Escolha um estado civil valido."
     end
 
     if @form_data[:telefone].present? && !@form_data[:telefone].match?(/\A\(\d{2}\) \d{5}-\d{4}\z/)
@@ -110,7 +124,7 @@ class HomeController < ApplicationController
   end
 
   def requested_step
-    [[ params[:etapa].to_i - 1, 0 ].max, 2].min
+    [ [ params[:etapa].to_i - 1, 0 ].max, 2 ].min
   end
 
   def current_event

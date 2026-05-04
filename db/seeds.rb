@@ -29,6 +29,7 @@ end
 
 [ "Outro",
   "Agenor de Carvalho",
+  "Acre",
   "Apuí",
   "Areal",
   "Candeias",

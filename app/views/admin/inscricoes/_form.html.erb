@@ -1,0 +1,175 @@
+<%= form_with url: admin_inscricao_path(@inscricao), scope: :inscricao, method: :patch do |form| %>
+  <% if @error_messages.any? || @inscricao.errors.any? || @inscricao.pessoa.errors.any? %>
+    <div class="alert alert-danger">
+      <strong>Confira os dados:</strong>
+      <ul class="mb-0 mt-2">
+        <% (@error_messages + @inscricao.errors.full_messages + @inscricao.pessoa.errors.full_messages).uniq.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if @inscricao_modalidades_com_equipes.any? %>
+    <div class="alert alert-danger text-uppercase">
+      <strong>Participante vinculado a equipe.</strong>
+      <p class="mb-0 mt-1">
+        Esta pessoa já participa de uma equipe. Se você desmarcar a modalidade vinculada, ela será removida do time automaticamente.
+      </p>
+    </div>
+  <% end %>
+
+  <div class="row g-4">
+    <div class="col-12">
+      <h3 class="h6 fw-bold mb-3">Participante</h3>
+      <div class="row g-3">
+        <div class="col-12 col-lg-6">
+          <%= form.label :nome, "Nome do participante", class: "form-label fw-semibold" %>
+          <%= form.text_field :nome, value: @inscricao.pessoa.nome, class: "form-control", required: true %>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <%= form.label :telefone, "Telefone", class: "form-label fw-semibold" %>
+          <%= form.telephone_field :telefone,
+            value: @inscricao.pessoa.telefone,
+            class: "form-control",
+            required: true,
+            maxlength: 15,
+            minlength: 15,
+            pattern: "\\(\\d{2}\\) \\d{5}-\\d{4}",
+            title: "Use o formato (69) 99999-9999",
+            placeholder: "(69) 99999-9999" %>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <%= form.label :sexo_id, "Sexo", class: "form-label fw-semibold" %>
+          <%= form.collection_select :sexo_id, @sexos, :id, :nome, { selected: @inscricao.pessoa.sexo_id }, class: "form-select", required: true %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <hr class="my-0">
+    </div>
+
+    <div class="col-12">
+      <h3 class="h6 fw-bold mb-3">Inscrição</h3>
+      <div class="row g-3">
+        <div class="col-12 col-lg-6">
+          <%= form.label :distrito_id, "Distrito", class: "form-label fw-semibold" %>
+          <div class="position-relative" data-controller="distrito-select">
+            <%= form.hidden_field :distrito_id, value: @inscricao.distrito_id, data: { distrito_select_target: "input" } %>
+
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Pesquisar distrito"
+                value="<%= @distrito_filtro&.nome %>"
+                autocomplete="off"
+                data-distrito-select-target="search"
+                data-action="input->distrito-select#filter focus->distrito-select#show"
+              >
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-action="distrito-select#clear"
+                title="Limpar distrito"
+              >
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+
+            <div class="admin-search-menu list-group shadow-sm d-none" data-distrito-select-target="menu">
+              <% @distritos.each do |distrito| %>
+                <button
+                  type="button"
+                  class="list-group-item list-group-item-action d-flex align-items-center gap-2"
+                  data-distrito-select-target="option"
+                  data-distrito-id="<%= distrito.id %>"
+                  data-distrito-name="<%= distrito.nome %>"
+                  data-action="distrito-select#select"
+                >
+                  <i class="bi bi-geo-alt text-primary"></i>
+                  <span><%= distrito.nome %></span>
+                </button>
+              <% end %>
+
+              <div class="list-group-item text-secondary d-none" data-distrito-select-target="empty">
+                Nenhum distrito encontrado.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-3">
+          <%= form.label :adventista, "Adventista", class: "form-label fw-semibold" %>
+          <%= form.select :adventista,
+            [["Sim", true], ["Não", false]],
+            { selected: @inscricao.adventista, include_blank: "Selecione" },
+            class: "form-select",
+            required: true %>
+        </div>
+
+        <div class="col-12 col-lg-3">
+          <%= form.label :estado_civil, "Estado civil", class: "form-label fw-semibold" %>
+          <%= form.select :estado_civil,
+            Inscricao::ESTADOS_CIVIS.map { |valor, label| [label, valor] },
+            { selected: @inscricao.estado_civil, include_blank: "Selecione" },
+            class: "form-select",
+            required: true %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <hr class="my-0">
+    </div>
+
+    <div class="col-12">
+      <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap mb-3">
+        <div>
+          <h3 class="h6 fw-bold mb-1">Modalidades</h3>
+          <p class="text-secondary mb-0">Ao desmarcar uma modalidade vinculada a equipe, o participante sai do time automaticamente.</p>
+        </div>
+      </div>
+
+      <%= hidden_field_tag "inscricao[modalidade_ids][]", "" %>
+
+      <div class="row g-3">
+        <% @modalidades.each do |modalidade| %>
+          <% inscricao_modalidade = @inscricao_modalidades_com_equipes.find { |item| item.modalidade_id == modalidade.id } %>
+          <% equipe = inscricao_modalidade&.membro_equipes&.first&.equipe %>
+
+          <div class="col-12 col-md-6">
+            <label class="border rounded-3 p-3 d-flex align-items-start gap-3 h-100">
+              <%= check_box_tag "inscricao[modalidade_ids][]",
+                modalidade.id,
+                @selected_modalidade_ids.include?(modalidade.id),
+                id: "inscricao_modalidade_#{modalidade.id}",
+                class: "form-check-input mt-1" %>
+              <span>
+                <strong class="d-block"><%= modalidade.nome_exibicao %></strong>
+                <% if equipe.present? %>
+                  <span class="text-danger text-uppercase small d-block mt-1">
+                    Esta pessoa está no time <%= equipe.nome %>. Desmarcar esta modalidade remove ela desse time.
+                  </span>
+                <% end %>
+              </span>
+            </label>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex gap-2 flex-wrap pt-4 mt-2">
+    <%= form.button class: "btn btn-primary" do %>
+      <i class="bi bi-floppy me-2"></i>Salvar inscrição
+    <% end %>
+    <%= link_to admin_inscricoes_path, class: "btn btn-outline-secondary" do %>
+      <i class="bi bi-x me-2"></i>Cancelar
+    <% end %>
+  </div>
+<% end %>

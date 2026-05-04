@@ -1,4 +1,4 @@
-<% content_for :title, "Inscricoes | Admin" %>
+<% content_for :title, "Inscrições | Admin" %>
 
 <% actions = capture do %>
   <%= link_to admin_root_path, class: "btn btn-outline-light" do %>
@@ -7,11 +7,11 @@
 <% end %>
 
 <%= render layout: "shared/admin_shell", locals: {
-  title: "Inscricoes",
-  subtitle: "Consulte todas as inscricoes e filtre por pessoa, distrito ou sexo.",
+  title: "Inscrições",
+  subtitle: "Consulte todas as inscrições e filtre por pessoa, distrito ou sexo.",
   breadcrumbs: [
     { label: "Home", path: admin_root_path },
-    { label: "Inscricoes" }
+    { label: "Inscrições" }
   ],
   actions: actions
 } do %>
@@ -22,7 +22,7 @@
         <div class="card-body p-4">
           <div class="d-flex align-items-center gap-3">
             <div class="admin-card-icon rounded-4 d-inline-flex align-items-center justify-content-center">
-              <i class="bi bi-card-checklist fs-4"></i>
+              <i class="bi bi-clipboard2-check fs-4"></i>
             </div>
             <div>
               <span class="text-secondary d-block">Resultado</span>
@@ -47,7 +47,50 @@
 
         <div class="col-12 col-sm-6 col-lg-3">
           <%= form.label :distrito_id_eq, "Distrito", class: "form-label fw-semibold" %>
-          <%= form.collection_select :distrito_id_eq, Distrito.order(:nome), :id, :nome, { include_blank: "Todos" }, class: "form-select" %>
+          <div class="position-relative" data-controller="distrito-select">
+            <%= form.hidden_field :distrito_id_eq, data: { distrito_select_target: "input" } %>
+
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Pesquisar distrito"
+                value="<%= @distrito_filtro&.nome %>"
+                autocomplete="off"
+                data-distrito-select-target="search"
+                data-action="input->distrito-select#filter focus->distrito-select#show"
+              >
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-action="distrito-select#clear"
+                title="Limpar distrito"
+              >
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+
+            <div class="admin-search-menu list-group shadow-sm d-none" data-distrito-select-target="menu">
+              <% Distrito.order(:nome).each do |distrito| %>
+                <button
+                  type="button"
+                  class="list-group-item list-group-item-action d-flex align-items-center gap-2"
+                  data-distrito-select-target="option"
+                  data-distrito-id="<%= distrito.id %>"
+                  data-distrito-name="<%= distrito.nome %>"
+                  data-action="distrito-select#select"
+                >
+                  <i class="bi bi-geo-alt text-primary"></i>
+                  <span><%= distrito.nome %></span>
+                </button>
+              <% end %>
+
+              <div class="list-group-item text-secondary d-none" data-distrito-select-target="empty">
+                Nenhum distrito encontrado.
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="col-12 col-sm-6 col-lg-3">
@@ -71,7 +114,7 @@
     <div class="card-header bg-white border-0 rounded-top-4 px-4 pt-4 pb-0">
       <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
         <div>
-          <h2 class="h5 fw-bold mb-1">Todas as inscricões</h2>
+          <h2 class="h5 fw-bold mb-1">Todas as inscrições</h2>
           <p class="text-secondary mb-0">Listagem somente para consulta administrativa.</p>
         </div>
         <span class="badge rounded-pill text-bg-primary"><%= @pagy_inscricoes.count %> registro(s)</span>
@@ -83,8 +126,11 @@
         <table class="table table-hover align-middle mb-0">
           <thead class="table-light">
             <tr>
+              <th class="ps-4 text-center" style="width: 1%;">Ações</th>
               <th class="ps-4">Pessoa</th>
               <th>Sexo</th>
+              <th>Adventista</th>
+              <th>Estado civil</th>
               <th>Distrito</th>
               <th>Modalidades</th>
             </tr>
@@ -92,11 +138,44 @@
           <tbody>
             <% @inscricoes.each do |inscricao| %>
               <tr>
+                <td class="ps-4 text-center text-nowrap">
+                  <div class="dropdown">
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-secondary"
+                      data-bs-toggle="dropdown"
+                      data-bs-auto-close="true"
+                      aria-expanded="false"
+                      aria-label="Ações da inscrição"
+                      title="Ações da inscrição"
+                    >
+                      <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3 p-2">
+                      <li>
+                        <%= link_to edit_admin_inscricao_path(inscricao), class: "dropdown-item rounded-2 d-flex align-items-center gap-2" do %>
+                          <i class="bi bi-pencil-square"></i>
+                          <span>Editar</span>
+                        <% end %>
+                      </li>
+                      <li>
+                        <%= link_to admin_inscricao_path(inscricao),
+                          data: { turbo_method: :delete, turbo_confirm: "Excluir esta inscrição?" },
+                          class: "dropdown-item rounded-2 d-flex align-items-center gap-2 text-danger" do %>
+                          <i class="bi bi-trash3"></i>
+                          <span>Excluir</span>
+                        <% end %>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
                 <td class="ps-4">
                   <strong class="d-block"><%= inscricao.pessoa.nome %></strong>
                   <span class="text-secondary small"><%= inscricao.pessoa.telefone.presence || "Sem telefone" %></span>
                 </td>
                 <td><%= inscricao.pessoa.sexo.nome %></td>
+                <td><%= inscricao.adventista_label %></td>
+                <td><%= inscricao.estado_civil_label %></td>
                 <td>
                   <span class="badge rounded-pill text-bg-light border">
                     <i class="bi bi-geo-alt me-1"></i><%= inscricao.distrito.nome %>
@@ -114,9 +193,9 @@
 
             <% if @inscricoes.empty? %>
               <tr>
-                <td colspan="5" class="text-center text-secondary py-5">
+                <td colspan="7" class="text-center text-secondary py-5">
                   <i class="bi bi-inbox fs-2 d-block mb-2"></i>
-                  Nenhuma inscricao encontrada.
+                  Nenhuma inscrição encontrada.
                 </td>
               </tr>
             <% end %>
