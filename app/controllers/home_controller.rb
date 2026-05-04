@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  EVENTO_INSCRICAO_URL = "https://eventodaigreja.com.br/O3J4V6"
+  EVENTO_INSCRICAO_URL = "https://ingressos.eventodaigreja.com.br/olimpiadas-regional-jovem-orar-2026-0a41006b"
 
   def index
   end
