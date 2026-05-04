@@ -13,7 +13,7 @@
   <div class="mb-3">
     <%= form.label :nome, "Nome da sociedade", class: "form-label fw-semibold" %>
     <div class="input-group input-group-lg">
-      <span class="input-group-text"><i class="bi bi-people"></i></span>
+      <span class="input-group-text"><i class="bi bi-building"></i></span>
       <%= form.text_field :nome, class: "form-control", autofocus: true, placeholder: "Ex: Sociedade Jovem Central" %>
     </div>
   </div>
@@ -36,7 +36,7 @@
       <i class="bi bi-floppy me-2"></i>Salvar sociedade
     <% end %>
     <%= link_to admin_sociedades_path, class: "btn btn-outline-secondary" do %>
-      <i class="bi bi-x-circle me-2"></i>Cancelar
+      <i class="bi bi-x me-2"></i>Cancelar
     <% end %>
   </div>
 <% end %>

@@ -164,6 +164,53 @@
                         <div class="invalid-feedback">Escolha uma opcao de sexo.</div>
                       </div>
 
+                      <div class="col-12 col-md-6">
+                        <%= label_tag "inscricao_adventista", "Adventista *", class: "form-label" %>
+                        <div class="orar-radio-grid">
+                          <label class="orar-radio-card">
+                            <%= radio_button_tag "inscricao[adventista]",
+                              "true",
+                              @form_data[:adventista].to_s == "true",
+                              id: "inscricao_adventista_true",
+                              class: "form-check-input",
+                              required: true,
+                              data: { multi_step_form_target: "field" } %>
+                            <span>Sim</span>
+                          </label>
+
+                          <label class="orar-radio-card">
+                            <%= radio_button_tag "inscricao[adventista]",
+                              "false",
+                              @form_data[:adventista].to_s == "false",
+                              id: "inscricao_adventista_false",
+                              class: "form-check-input",
+                              required: true,
+                              data: { multi_step_form_target: "field" } %>
+                            <span>Nao</span>
+                          </label>
+                        </div>
+                        <div class="invalid-feedback">Informe se o participante e adventista.</div>
+                      </div>
+
+                      <div class="col-12 col-md-6">
+                        <%= label_tag "inscricao_estado_civil", "Estado civil *", class: "form-label" %>
+                        <div class="orar-radio-grid">
+                          <% Inscricao::ESTADOS_CIVIS.each do |valor, label| %>
+                            <label class="orar-radio-card">
+                              <%= radio_button_tag "inscricao[estado_civil]",
+                                valor,
+                                @form_data[:estado_civil].to_s == valor,
+                                id: "inscricao_estado_civil_#{valor}",
+                                class: "form-check-input",
+                                required: true,
+                                data: { multi_step_form_target: "field" } %>
+                              <span><%= label %></span>
+                            </label>
+                          <% end %>
+                        </div>
+                        <div class="invalid-feedback">Escolha um estado civil.</div>
+                      </div>
+
                       <div class="col-12">
                         <div class="row g-3">
                           <div class="col-12 col-md-6">
@@ -220,6 +267,7 @@
                                 </div>
                               </div>
                             </div>
+                            <div class="form-text">Caso seu distrito não esteja na lista, selecione a opção "Outro".</div>
                           </div>
                         </div>
                       </div>

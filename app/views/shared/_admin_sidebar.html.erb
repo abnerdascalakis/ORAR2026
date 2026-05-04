@@ -48,9 +48,9 @@
 
         <div class="d-grid gap-2">
           <% [
-            ["bi-trophy", "Modalidades", admin_modalidades_path],
-            ["bi-card-checklist", "Inscricoes", admin_inscricoes_path],
-            ["bi-people", "Sociedades", admin_sociedades_path]
+            ["bi-trophy-fill", "Modalidades", admin_modalidades_path],
+            ["bi-clipboard2-check", "Inscricoes", admin_inscricoes_path],
+            ["bi-buildings", "Sociedades", admin_sociedades_path]
           ].each do |icon, label, path| %>
             <%= link_to path, class: "admin-link d-flex align-items-center justify-content-between py-2 px-2 rounded-3" do %>
               <span class="d-flex align-items-center gap-3">
@@ -63,7 +63,7 @@
 
           <div class="admin-link d-flex align-items-center justify-content-between py-2 px-2 rounded-3 opacity-75" aria-disabled="true">
             <span class="d-flex align-items-center gap-3">
-              <i class="bi bi-geo-alt fs-5"></i>
+              <i class="bi bi-map fs-5"></i>
               <span>Carregando...</span>
             </span>
           </div>

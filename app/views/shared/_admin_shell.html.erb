@@ -4,12 +4,18 @@
 <% breadcrumbs ||= [] %>
 <% subtitle ||= nil %>
 <% actions ||= nil %>
+<% topbar_image ||= nil %>
+<% topbar_image_position ||= "center 38%" %>
+<% topbar_style = "background: linear-gradient(90deg, rgba(10, 29, 52, 0.88), rgba(10, 29, 52, 0.42)), linear-gradient(180deg, rgba(10, 29, 52, 0.15), rgba(10, 29, 52, 0.55)), url('#{image_path(topbar_image)}') #{topbar_image_position} / cover no-repeat;" if topbar_image.present? %>
 
 <section class="admin-shell position-relative" id="adminShell" data-controller="admin-sidebar">
   <%= render "shared/admin_sidebar" %>
 
   <div class="admin-content">
-    <header class="admin-topbar px-4 px-lg-5 pt-4">
+    <header
+      class="admin-topbar px-4 px-lg-5 pt-4"
+      <%= %(style="#{topbar_style}").html_safe if topbar_style.present? %>
+    >
       <div class="d-flex align-items-center justify-content-between mb-4">
         <button
           type="button"

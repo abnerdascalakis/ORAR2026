@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace :admin do
     root "dashboard#index"
 
-    resources :inscricoes, only: [ :index ]
+    resources :inscricoes, only: [ :index, :edit, :update, :destroy ]
     resources :sociedades
 
     resources :modalidades, only: [ :index, :show ] do

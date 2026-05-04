@@ -1,4 +1,29 @@
 module ApplicationHelper
+  def modalidade_icon_class(modalidade)
+    nome = modalidade.respond_to?(:nome) ? modalidade.nome.to_s.downcase : modalidade.to_s.downcase
+
+    case nome
+    when /futsal/
+      "fa-solid fa-futbol"
+    when /v[ôo]lei/
+      "fa-solid fa-volleyball"
+    when /nata[çc][ãa]o/
+      "fa-solid fa-person-swimming"
+    when /b[íi]blia/
+      "fa-solid fa-book-bible"
+    when /li[çc][ãa]o/
+      "bi bi-journal-bookmark-fill"
+    when /dodgeball/
+      "fa-solid fa-baseball"
+    when /torcida/
+      "bi bi-megaphone-fill"
+    when /corrida/
+      "fa-solid fa-person-running"
+    else
+      "bi bi-trophy-fill"
+    end
+  end
+
   def responsive_asset_picture(
     source,
     alt:,
