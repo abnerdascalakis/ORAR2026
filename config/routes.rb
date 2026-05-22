@@ -4,10 +4,16 @@ Rails.application.routes.draw do
   namespace :admin do
     root "dashboard#index"
 
-    resources :inscricoes, only: [ :index, :edit, :update, :destroy ]
+    resources :inscricoes, only: [ :index, :edit, :update, :destroy ] do
+      patch :toggle_pago, on: :member
+    end
     resources :sociedades
 
     resources :modalidades, only: [ :index, :show ] do
+      collection do
+        get "categorias/:nome_base", action: :categorias, as: :categorias
+      end
+
       resources :equipes, module: :modalidades do
         resources :membro_equipes, only: [ :create, :destroy ], module: :equipes
       end

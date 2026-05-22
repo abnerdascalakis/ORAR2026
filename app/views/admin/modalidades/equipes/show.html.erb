@@ -1,6 +1,7 @@
 <% content_for :title, "#{@equipe.nome} | Admin" %>
-<% limite_membros = @modalidade.limite %>
+<% limite_membros = @modalidade.limite_membros_por_equipe %>
 <% equipe_cheia = limite_membros.present? && @membros.size >= limite_membros %>
+<% modalidade_voltar_path = admin_modalidade_voltar_path(@modalidade) %>
 
 <% actions = capture do %>
   <%= link_to admin_modalidade_path(@modalidade), class: "btn btn-outline-light" do %>
@@ -18,9 +19,10 @@
   breadcrumbs: [
     { label: "Home", path: admin_root_path },
     { label: "Modalidades", path: admin_modalidades_path },
+    ({ label: @modalidade.nome_base_exibicao, path: modalidade_voltar_path } if modalidade_voltar_path != admin_modalidades_path),
     { label: @modalidade.nome_exibicao, path: admin_modalidade_path(@modalidade) },
     { label: @equipe.nome }
-  ],
+  ].compact,
   actions: actions
 } do %>
 
@@ -88,7 +90,7 @@
     </div>
   </div>
 
-  <div class="row g-4">
+  <div class="row g-4" id="gerenciar-membros">
     <section class="col-12 col-xl-5">
       <div class="card border-0 rounded-4 shadow-sm h-100">
         <div class="card-header bg-white border-0 rounded-top-4 px-4 pt-4 pb-0">
@@ -123,8 +125,10 @@
                   </div>
                 </div>
 
-                <%= link_to admin_modalidade_equipe_membro_equipe_path(@modalidade, @equipe, membro),
-                  data: { turbo_method: :delete, turbo_confirm: "Remover este membro da equipe?" },
+                <%= button_to admin_modalidade_equipe_membro_equipe_path(@modalidade, @equipe, membro),
+                  method: :delete,
+                  form: { data: { turbo: false }, class: "d-inline" },
+                  data: { turbo_confirm: "Remover este membro da equipe?" },
                   class: "btn btn-sm btn-outline-danger" do %>
                   <i class="bi bi-person-dash me-1"></i>Remover
                 <% end %>
@@ -149,6 +153,8 @@
           <h2 class="h5 fw-bold mb-1">Adicionar inscritos</h2>
           <% if equipe_cheia %>
             <p class="text-success mb-0">Esta equipe ja atingiu o limite de membros.</p>
+          <% elsif @modalidade.genero_especifico? %>
+            <p class="text-secondary mb-0">Pesquise entre os inscritos da categoria <%= @modalidade.categoria_genero_label.downcase %>.</p>
           <% else %>
             <p class="text-secondary mb-0">Pesquise entre os inscritos desta modalidade.</p>
           <% end %>
@@ -246,6 +252,7 @@
                 <% else %>
                   <%= button_to admin_modalidade_equipe_membro_equipes_path(@modalidade, @equipe),
                     params: { membro_equipe: { inscricao_modalidade_id: inscricao_modalidade.id } },
+                    form: { data: { turbo: false } },
                     class: "btn btn-sm btn-primary" do %>
                     <i class="bi bi-person-plus-fill me-1"></i>Adicionar
                   <% end %>

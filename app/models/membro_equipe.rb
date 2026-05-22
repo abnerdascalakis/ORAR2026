@@ -5,6 +5,7 @@ class MembroEquipe < ApplicationRecord
   validates :inscricao_modalidade_id, uniqueness: true
   validate :inscricao_da_mesma_modalidade_da_equipe
   validate :equipe_dentro_do_limite_de_membros, on: :create
+  validate :sexo_compativel_com_modalidade
 
   private
 
@@ -17,9 +18,16 @@ class MembroEquipe < ApplicationRecord
 
   def equipe_dentro_do_limite_de_membros
     return if equipe.blank?
-    return if equipe.modalidade.limite.blank?
-    return if equipe.membro_equipes.count < equipe.modalidade.limite
+    return if equipe.modalidade.limite_membros_por_equipe.blank?
+    return if equipe.membro_equipes.count < equipe.modalidade.limite_membros_por_equipe
 
     errors.add(:base, "Esta equipe ja atingiu o limite de membros.")
+  end
+
+  def sexo_compativel_com_modalidade
+    return if equipe.blank? || inscricao_modalidade.blank?
+    return if equipe.modalidade.aceita_sexo?(inscricao_modalidade.inscricao.pessoa.sexo)
+
+    errors.add(:base, "Esta modalidade nao aceita participantes deste sexo.")
   end
 end

@@ -24,6 +24,12 @@ module ApplicationHelper
     end
   end
 
+  def admin_modalidade_voltar_path(modalidade)
+    return admin_modalidades_path unless modalidade.tem_categorias_genero?
+
+    categorias_admin_modalidades_path(nome_base: modalidade.nome_base)
+  end
+
   def responsive_asset_picture(
     source,
     alt:,

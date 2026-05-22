@@ -70,8 +70,12 @@ class Admin::Modalidades::EquipesController < Admin::BaseController
   end
 
   def inscritos_disponiveis
-    @modalidade.inscricao_modalidades
+    inscritos = @modalidade.inscricao_modalidades
       .joins(inscricao: [ { pessoa: :sexo }, :distrito ])
       .where.not(id: MembroEquipe.select(:inscricao_modalidade_id))
+
+    return inscritos unless @modalidade.genero_especifico?
+
+    inscritos.where("LOWER(sexos.nome) = ?", @modalidade.categoria_genero)
   end
 end

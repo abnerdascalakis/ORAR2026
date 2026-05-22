@@ -1,0 +1,61 @@
+<% content_for :title, "#{@nome_exibicao} | Admin" %>
+
+<% actions = capture do %>
+  <%= link_to admin_modalidades_path, class: "btn btn-outline-light" do %>
+    <i class="bi bi-arrow-left-circle me-2"></i>Voltar
+  <% end %>
+<% end %>
+
+<%= render layout: "shared/admin_shell", locals: {
+  title: @nome_exibicao,
+  subtitle: "Escolha a categoria para organizar equipes e membros.",
+  breadcrumbs: [
+    { label: "Home", path: admin_root_path },
+    { label: "Modalidades", path: admin_modalidades_path },
+    { label: @nome_exibicao }
+  ],
+  actions: actions
+} do %>
+
+  <div class="row g-4">
+    <% @modalidades.each do |modalidade| %>
+      <div class="col-12 col-lg-6">
+        <%= link_to admin_modalidade_path(modalidade), class: "text-decoration-none text-reset" do %>
+          <article class="card admin-data-card border-0 rounded-4 shadow-sm h-100">
+            <div class="card-body p-4 p-lg-5">
+              <div class="d-flex align-items-start justify-content-between gap-3 mb-4">
+                <div class="admin-card-icon rounded-4 d-inline-flex align-items-center justify-content-center">
+                  <i class="<%= modalidade_icon_class(modalidade) %> fs-3"></i>
+                </div>
+                <span class="badge rounded-pill <%= modalidade.categoria_genero == "feminino" ? "text-bg-danger" : "text-bg-primary" %>">
+                  <%= modalidade.categoria_genero_label %>
+                </span>
+              </div>
+
+              <h2 class="h4 fw-bold mb-2" style="color: #163a63;"><%= modalidade.categoria_genero_label %></h2>
+              <p class="text-secondary mb-4">Gerencie as equipes de <%= modalidade.nome_exibicao %>.</p>
+
+              <div class="d-flex gap-2 flex-wrap mb-4">
+                <span class="badge rounded-pill text-bg-light border">
+                  <i class="bi bi-person-check me-1"></i><%= modalidade.inscricoes_count.to_i %> inscrito(s)
+                </span>
+                <span class="badge rounded-pill text-bg-light border">
+                  <i class="bi bi-shield-check me-1"></i><%= modalidade.equipes_count.to_i %> equipe(s)
+                </span>
+                <% if modalidade.limite_equipes.present? %>
+                  <span class="badge rounded-pill text-bg-light border">
+                    <i class="bi bi-sliders me-1"></i>max. <%= modalidade.limite_equipes %> equipes
+                  </span>
+                <% end %>
+              </div>
+
+              <span class="btn btn-primary">
+                Abrir categoria<i class="bi bi-arrow-right ms-2"></i>
+              </span>
+            </div>
+          </article>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -26,7 +26,7 @@
             </div>
             <div>
               <span class="text-secondary d-block">Modalidades</span>
-              <strong class="h3 mb-0"><%= @modalidades.length %></strong>
+              <strong class="h3 mb-0"><%= @modalidade_grupos.length %></strong>
             </div>
           </div>
         </div>
@@ -42,7 +42,7 @@
             </div>
             <div>
               <span class="text-secondary d-block">Inscricoes</span>
-              <strong class="h3 mb-0"><%= @modalidades.sum { |modalidade| modalidade.inscricoes_count.to_i } %></strong>
+              <strong class="h3 mb-0"><%= @modalidade_grupos.sum { |grupo| grupo[:inscricoes_count] } %></strong>
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@
             </div>
             <div>
               <span class="text-secondary d-block">Equipes</span>
-              <strong class="h3 mb-0"><%= @modalidades.sum { |modalidade| modalidade.equipes_count.to_i } %></strong>
+              <strong class="h3 mb-0"><%= @modalidade_grupos.sum { |grupo| grupo[:equipes_count] } %></strong>
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@
           <h2 class="h5 fw-bold mb-1">Lista de modalidades</h2>
           <p class="text-secondary mb-0">Abra uma modalidade para gerenciar equipes ou consultar inscritos.</p>
         </div>
-        <span class="badge rounded-pill text-bg-primary"><%= @modalidades.length %> itens</span>
+        <span class="badge rounded-pill text-bg-primary"><%= @modalidade_grupos.length %> itens</span>
       </div>
     </div>
 
@@ -89,44 +89,61 @@
             </tr>
           </thead>
           <tbody>
-            <% @modalidades.each do |modalidade| %>
+            <% @modalidade_grupos.each do |grupo| %>
               <tr>
                 <td class="ps-4">
                   <div class="d-flex align-items-center gap-3">
                     <div class="admin-card-icon rounded-3 d-inline-flex align-items-center justify-content-center">
-                      <i class="<%= modalidade_icon_class(modalidade) %>"></i>
+                      <i class="<%= modalidade_icon_class(grupo[:nome_base]) %>"></i>
                     </div>
                     <div>
-                      <strong class="d-block"><%= modalidade.nome_exibicao %></strong>
-                      <% if modalidade.individual? %>
+                      <% variantes = grupo[:variantes] %>
+                      <% primeira_variante = variantes.first %>
+                      <strong class="d-block"><%= grupo[:nome_exibicao] %></strong>
+                      <% if grupo[:individual] %>
                         <span class="text-secondary small">Modalidade individual</span>
-                      <% elsif modalidade.limite.present? %>
-                        <span class="text-secondary small">Limite por equipe: <%= modalidade.limite %> membros</span>
+                      <% elsif variantes.any?(&:genero_especifico?) %>
+                        <span class="text-secondary small">
+                          Masculina e feminina
+                          <% if primeira_variante.limite_membros_por_equipe.present? %>
+                            - limite por equipe: <%= primeira_variante.limite_membros_por_equipe %> membros
+                          <% end %>
+                        </span>
+                      <% elsif primeira_variante.limite_membros_por_equipe.present? %>
+                        <span class="text-secondary small">
+                          <%= primeira_variante.categoria_genero_label %> - limite por equipe: <%= primeira_variante.limite_membros_por_equipe %> membros
+                        </span>
                       <% else %>
-                        <span class="text-secondary small">Sem limite informado</span>
+                        <span class="text-secondary small"><%= primeira_variante.categoria_genero_label %> - sem limite informado</span>
                       <% end %>
                     </div>
                   </div>
                 </td>
                 <td class="text-center">
-                  <span class="badge rounded-pill text-bg-light border"><%= modalidade.inscricoes_count %></span>
+                  <span class="badge rounded-pill text-bg-light border"><%= grupo[:inscricoes_count] %></span>
                 </td>
                 <td class="text-center">
-                  <% if modalidade.individual? %>
+                  <% if grupo[:individual] %>
                     <span class="badge rounded-pill text-bg-light border">Individual</span>
                   <% else %>
-                    <span class="badge rounded-pill text-bg-light border"><%= modalidade.equipes_count %></span>
+                    <span class="badge rounded-pill text-bg-light border"><%= grupo[:equipes_count] %></span>
                   <% end %>
                 </td>
                 <td class="text-end pe-4">
-                  <%= link_to admin_modalidade_path(modalidade), class: "btn btn-sm btn-primary" do %>
-                    <i class="bi bi-folder2-open me-1"></i>Abrir
+                  <% if variantes.one? %>
+                    <%= link_to admin_modalidade_path(primeira_variante), class: "btn btn-sm btn-primary" do %>
+                      <i class="bi bi-folder2-open me-1"></i>Abrir
+                    <% end %>
+                  <% else %>
+                    <%= link_to categorias_admin_modalidades_path(nome_base: grupo[:nome_base]), class: "btn btn-sm btn-primary" do %>
+                      <i class="bi bi-folder2-open me-1"></i>Abrir
+                    <% end %>
                   <% end %>
                 </td>
               </tr>
             <% end %>
 
-            <% if @modalidades.empty? %>
+            <% if @modalidade_grupos.empty? %>
               <tr>
                 <td colspan="4" class="text-center text-secondary py-5">
                   <i class="bi bi-inbox fs-2 d-block mb-2"></i>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_03_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_22_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -56,6 +56,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_03_120000) do
     t.bigint "distrito_id", null: false
     t.string "estado_civil"
     t.bigint "evento_id", null: false
+    t.boolean "pago", default: false, null: false
     t.bigint "pessoa_id", null: false
     t.bigint "sociedade_id"
     t.datetime "updated_at", null: false
@@ -76,9 +77,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_03_120000) do
   end
 
   create_table "modalidades", force: :cascade do |t|
+    t.string "categoria_genero", default: "misto", null: false
     t.datetime "created_at", null: false
     t.boolean "individual", default: false, null: false
-    t.integer "limite"
+    t.integer "limite_equipes"
+    t.integer "limite_membros_por_equipe"
     t.string "nome"
     t.datetime "updated_at", null: false
   end

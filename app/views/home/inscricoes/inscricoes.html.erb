@@ -300,7 +300,7 @@
                               <label class="orar-option-card form-check">
                                 <%= check_box_tag "inscricao[modalidade_ids][]", modalidade.id, @selected_modalidade_ids.include?(modalidade.id), id: "modalidade_#{modalidade.id}", class: "form-check-input", data: { multi_step_form_target: "modalidadeField" } %>
                                 <span class="form-check-label">
-                                  <strong class="d-block"><%= modalidade.nome_exibicao %></strong>
+                                  <strong class="d-block"><%= modalidade.nome_base_exibicao %></strong>
                                  
                                 </span>
                               </label>
@@ -344,7 +344,6 @@
                       <div>
                         <p class="orar-section-kicker mb-2">Link do evento</p>
                         <h4 class="h5 mb-2">Inscrição geral ORAR 2026</h4>
-                        <p class="text-secondary mb-0">Abra o formulário oficial do evento em uma nova aba.</p>
                       </div>
 
                       <%= button_tag "Abrir inscrição",
@@ -387,17 +386,20 @@
     }
 
     .orar-form-sidebar {
-      background: linear-gradient(180deg, #163a63 0%, #244f81 55%, #2f6a9f 100%);
+      background:
+        radial-gradient(circle at 12% 72%, rgba(122, 217, 228, 0.18), transparent 22%),
+        radial-gradient(circle at 82% 18%, rgba(232, 119, 34, 0.12), transparent 20%),
+        linear-gradient(90deg, rgba(5, 22, 34, 0.92), rgba(5, 65, 78, 0.9) 48%, rgba(4, 103, 91, 0.92)),
+        linear-gradient(135deg, #062238 0%, #0b4f61 56%, #0a786e 100%);
       color: #f8fafc;
       padding: 2.5rem;
       position: relative;
     }
 
     .orar-form-sidebar::after {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), transparent 55%);
-      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 16%, rgba(0, 0, 0, 0.18));
       content: "";
-      inset: 1.25rem;
+      inset: 0;
       pointer-events: none;
       position: absolute;
     }
@@ -417,7 +419,7 @@
 
     .orar-form-kicker,
     .orar-section-kicker {
-      color: #8cb7e2;
+      color: #b9d0e8;
       font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: 0.16em;
@@ -583,13 +585,64 @@
 
     .orar-event-link-card {
       align-items: center;
-      background: #f8fbff;
-      border: 1px solid #d9e4f0;
+      background:
+        radial-gradient(circle at 12% 72%, rgba(122, 217, 228, 0.18), transparent 22%),
+        radial-gradient(circle at 82% 18%, rgba(232, 119, 34, 0.12), transparent 20%),
+        linear-gradient(90deg, rgba(5, 22, 34, 0.92), rgba(5, 65, 78, 0.9) 48%, rgba(4, 103, 91, 0.92)),
+        linear-gradient(135deg, #062238 0%, #0b4f61 56%, #0a786e 100%);
+      border: 0;
       border-radius: 20px;
+      box-shadow: 0 24px 54px rgba(10, 61, 77, 0.24);
+      color: var(--text-white);
       display: flex;
       gap: 1.5rem;
       justify-content: space-between;
+      overflow: hidden;
       padding: 1.5rem;
+      position: relative;
+    }
+
+    .orar-event-link-card::after {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 16%, rgba(0, 0, 0, 0.18));
+      content: "";
+      inset: 0;
+      pointer-events: none;
+      position: absolute;
+      z-index: 1;
+    }
+
+    .orar-event-link-card > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .orar-event-link-card .orar-section-kicker {
+      color: #b9d0e8;
+    }
+
+    .orar-event-link-card .text-secondary {
+      color: rgba(255, 255, 255, 0.82) !important;
+    }
+
+    .orar-event-link-card .btn {
+      background: linear-gradient(135deg, #0f5264, #0a786e);
+      border-color: transparent;
+      border-radius: 999px;
+      box-shadow: 0 18px 34px rgba(7, 34, 56, 0.28);
+      color: #ffffff;
+      font-family: "Montserrat", sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      min-height: 3.25rem;
+      text-transform: uppercase;
+    }
+
+    .orar-event-link-card .btn:hover,
+    .orar-event-link-card .btn:focus {
+      background: linear-gradient(135deg, var(--cross-blue), #062238);
+      border-color: transparent;
+      color: #ffffff;
     }
 
     .orar-stepper-item.is-active .orar-stepper-circle,
@@ -677,6 +730,45 @@
       font-weight: 600;
       min-width: 160px;
       padding-block: 0.8rem;
+    }
+
+    .orar-inscricao-page .orar-step-panel > .d-flex .btn-primary {
+      background: linear-gradient(135deg, #0f5264, #0a786e);
+      border-color: transparent;
+      box-shadow: 0 14px 28px rgba(7, 34, 56, 0.22);
+      color: #ffffff;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .orar-inscricao-page .orar-step-panel > .d-flex .btn-primary:hover,
+    .orar-inscricao-page .orar-step-panel > .d-flex .btn-primary:focus {
+      background: linear-gradient(135deg, var(--cross-blue), #062238);
+      border-color: transparent;
+      box-shadow: 0 14px 28px rgba(7, 34, 56, 0.22);
+      color: #ffffff;
+    }
+
+    .orar-inscricao-page .orar-step-panel > .d-flex .btn-primary:disabled {
+      background: #b9c6d3;
+      border-color: transparent;
+      box-shadow: none;
+      color: rgba(255, 255, 255, 0.84);
+    }
+
+    .orar-inscricao-page .orar-step-panel > .d-flex .btn-secondary {
+      background: #ffffff;
+      border: 1px solid rgba(15, 82, 100, 0.28);
+      color: #0f5264;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .orar-inscricao-page .orar-step-panel > .d-flex .btn-secondary:hover,
+    .orar-inscricao-page .orar-step-panel > .d-flex .btn-secondary:focus {
+      background: linear-gradient(135deg, #0f5264, var(--cross-blue));
+      border-color: transparent;
+      color: #ffffff;
     }
 
     .orar-inscricao-page .orar-clear-input-btn {

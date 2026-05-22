@@ -33,8 +33,10 @@ pt-BR:
         inscricao_modalidade: "Inscrição de modalidade"
         inscricao_modalidade_id: "Inscrição de modalidade"
       modalidade:
+        categoria_genero: "Categoria de gênero"
         individual: "Individual"
-        limite: "Limite"
+        limite_equipes: "Limite de equipes"
+        limite_membros_por_equipe: "Limite de membros por equipe"
         nome: "Nome"
       pessoa:
         gmail: "E-mail"
