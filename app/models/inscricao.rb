@@ -15,7 +15,7 @@ class Inscricao < ApplicationRecord
   validates :estado_civil, inclusion: { in: ESTADOS_CIVIS.keys }, allow_nil: true
 
   def self.ransackable_attributes(_auth_object = nil)
-    [ "adventista", "created_at", "distrito_id", "estado_civil", "evento_id", "id", "pessoa_id", "sociedade_id", "updated_at" ]
+    [ "adventista", "created_at", "distrito_id", "estado_civil", "evento_id", "id", "pago", "pessoa_id", "sociedade_id", "updated_at" ]
   end
 
   def self.ransackable_associations(_auth_object = nil)
@@ -30,5 +30,9 @@ class Inscricao < ApplicationRecord
 
   def estado_civil_label
     ESTADOS_CIVIS.fetch(estado_civil, "Nao informado")
+  end
+
+  def pago_label
+    pago? ? "Pago" : "Nao pago"
   end
 end

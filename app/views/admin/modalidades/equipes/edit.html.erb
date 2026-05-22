@@ -1,4 +1,5 @@
 <% content_for :title, "Editar equipe | Admin" %>
+<% modalidade_voltar_path = admin_modalidade_voltar_path(@modalidade) %>
 
 <% actions = capture do %>
   <%= link_to admin_modalidade_equipe_path(@modalidade, @equipe), class: "btn btn-outline-light" do %>
@@ -12,10 +13,11 @@
   breadcrumbs: [
     { label: "Home", path: admin_root_path },
     { label: "Modalidades", path: admin_modalidades_path },
+    ({ label: @modalidade.nome_base_exibicao, path: modalidade_voltar_path } if modalidade_voltar_path != admin_modalidades_path),
     { label: @modalidade.nome_exibicao, path: admin_modalidade_path(@modalidade) },
     { label: @equipe.nome, path: admin_modalidade_equipe_path(@modalidade, @equipe) },
     { label: "Editar" }
-  ],
+  ].compact,
   actions: actions
 } do %>
 

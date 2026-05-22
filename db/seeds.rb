@@ -16,6 +16,12 @@ end
 admin.admin = true
 admin.save!
 
+distritais = User.find_or_initialize_by(email: "distritais@orar.ro")
+distritais.password = "Adm.Distritais"
+distritais.password_confirmation = "Adm.Distritais"
+distritais.admin = true
+distritais.save!
+
 evento = Evento.find_or_initialize_by(descricao: "ORAR 2026")
 evento.ano = 2026
 evento.data_inicio = Date.new(2026, 6, 4)
@@ -53,28 +59,43 @@ end
   Distrito.find_or_create_by!(nome: nome)
 end
 
-dodgeball = Modalidade.find_by(nome: "Dodgeball")
-dodgeball_misto = Modalidade.find_by(nome: "Dodgeball misto")
+def rename_modalidade(from, to)
+  source = Modalidade.find_by(nome: from)
+  return if source.blank?
 
-if dodgeball_misto.present? && dodgeball.blank?
-  dodgeball_misto.update!(nome: "Dodgeball")
-elsif dodgeball_misto.present? && dodgeball_misto.inscricao_modalidades.none? && dodgeball_misto.equipes.none?
-  dodgeball_misto.destroy!
+  target = Modalidade.find_by(nome: to)
+  if target.blank?
+    source.update!(nome: to)
+  elsif source.inscricao_modalidades.none? && source.equipes.none?
+    source.destroy!
+  end
 end
 
-[
-  [ "Futsal", 10, false ],
-  [ "Vôlei misto", 12, false ],
-  [ "Natação revezamento", 4, false ],
-  [ "Bom de Bíblia misto", 5, false ],
-  [ "Bom de lição misto", 3, false ],
-  [ "Dodgeball", 10, false ],
-  [ "Torcida", nil, true ],
-  [ "corrida revezamento", 4, false ]
+rename_modalidade("Futsal", "Futsal masculino")
+rename_modalidade("Natação revezamento", "Natação revezamento masculino")
+rename_modalidade("Dodgeball", "Dodgeball masculino")
+rename_modalidade("Dodgeball misto", "Dodgeball masculino")
+rename_modalidade("corrida revezamento", "Corrida revezamento masculino")
 
-].each do |nome, limite, individual|
+[
+  [ "Futsal masculino", 10, 16, false, "masculino" ],
+  [ "Futsal feminino", 10, 16, false, "feminino" ],
+  [ "Vôlei misto", 12, 12, false, "misto" ],
+  [ "Natação revezamento masculino", 4, nil, false, "masculino" ],
+  [ "Natação revezamento feminino", 4, nil, false, "feminino" ],
+  [ "Bom de Bíblia misto", 5, nil, false, "misto" ],
+  [ "Bom de lição misto", 3, nil, false, "misto" ],
+  [ "Dodgeball masculino", 10, nil, false, "masculino" ],
+  [ "Dodgeball feminino", 10, nil, false, "feminino" ],
+  [ "Torcida", nil, nil, true, "misto" ],
+  [ "Corrida revezamento masculino", 4, nil, false, "masculino" ],
+  [ "Corrida revezamento feminino", 4, nil, false, "feminino" ]
+
+].each do |nome, limite_membros_por_equipe, limite_equipes, individual, categoria_genero|
   modalidade = Modalidade.find_or_initialize_by(nome: nome)
-  modalidade.limite = limite
+  modalidade.limite_membros_por_equipe = limite_membros_por_equipe
+  modalidade.limite_equipes = limite_equipes
   modalidade.individual = individual
+  modalidade.categoria_genero = categoria_genero
   modalidade.save!
 end

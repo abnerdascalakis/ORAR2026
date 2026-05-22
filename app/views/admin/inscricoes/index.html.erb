@@ -1,4 +1,7 @@
 <% content_for :title, "Inscrições | Admin" %>
+<% return_to = "#{request.fullpath}#inscricoes-lista" %>
+<% pode_ver_acoes = !current_user&.distritais? %>
+<% pode_ver_pagamento = !current_user&.distritais? %>
 
 <% actions = capture do %>
   <%= link_to admin_root_path, class: "btn btn-outline-light" do %>
@@ -110,7 +113,7 @@
     </div>
   </div>
 
-  <div class="card border-0 rounded-4 shadow-sm">
+  <div class="card border-0 rounded-4 shadow-sm" id="inscricoes-lista">
     <div class="card-header bg-white border-0 rounded-top-4 px-4 pt-4 pb-0">
       <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
         <div>
@@ -126,11 +129,16 @@
         <table class="table table-hover align-middle mb-0">
           <thead class="table-light">
             <tr>
-              <th class="ps-4 text-center" style="width: 1%;">Ações</th>
+              <% if pode_ver_acoes %>
+                <th class="ps-4 text-center" style="width: 1%;">Ações</th>
+              <% end %>
               <th class="ps-4">Pessoa</th>
               <th>Sexo</th>
               <th>Adventista</th>
               <th>Estado civil</th>
+              <% if pode_ver_pagamento %>
+                <th>Pagamento</th>
+              <% end %>
               <th>Distrito</th>
               <th>Modalidades</th>
             </tr>
@@ -138,37 +146,41 @@
           <tbody>
             <% @inscricoes.each do |inscricao| %>
               <tr>
-                <td class="ps-4 text-center text-nowrap">
-                  <div class="dropdown">
-                    <button
-                      type="button"
-                      class="btn btn-sm btn-outline-secondary"
-                      data-bs-toggle="dropdown"
-                      data-bs-auto-close="true"
-                      aria-expanded="false"
-                      aria-label="Ações da inscrição"
-                      title="Ações da inscrição"
-                    >
-                      <i class="bi bi-three-dots-vertical"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3 p-2">
-                      <li>
-                        <%= link_to edit_admin_inscricao_path(inscricao), class: "dropdown-item rounded-2 d-flex align-items-center gap-2" do %>
-                          <i class="bi bi-pencil-square"></i>
-                          <span>Editar</span>
-                        <% end %>
-                      </li>
-                      <li>
-                        <%= link_to admin_inscricao_path(inscricao),
-                          data: { turbo_method: :delete, turbo_confirm: "Excluir esta inscrição?" },
-                          class: "dropdown-item rounded-2 d-flex align-items-center gap-2 text-danger" do %>
-                          <i class="bi bi-trash3"></i>
-                          <span>Excluir</span>
-                        <% end %>
-                      </li>
-                    </ul>
-                  </div>
-                </td>
+                <% if pode_ver_acoes %>
+                  <td class="ps-4 text-center text-nowrap">
+                    <div class="dropdown">
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline-secondary"
+                        data-bs-toggle="dropdown"
+                        data-bs-auto-close="true"
+                        aria-expanded="false"
+                        aria-label="Ações da inscrição"
+                        title="Ações da inscrição"
+                      >
+                        <i class="bi bi-three-dots-vertical"></i>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3 p-2">
+                        <li>
+                          <%= link_to edit_admin_inscricao_path(inscricao, return_to: return_to), data: { turbo: false }, class: "dropdown-item rounded-2 d-flex align-items-center gap-2" do %>
+                            <i class="bi bi-pencil-square"></i>
+                            <span>Editar</span>
+                          <% end %>
+                        </li>
+                        <li>
+                          <%= button_to admin_inscricao_path(inscricao, return_to: return_to),
+                            method: :delete,
+                            form: { data: { turbo: false }, class: "m-0" },
+                            data: { turbo_confirm: "Excluir esta inscrição?" },
+                            class: "dropdown-item rounded-2 d-flex align-items-center gap-2 text-danger" do %>
+                            <i class="bi bi-trash3"></i>
+                            <span>Excluir</span>
+                          <% end %>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                <% end %>
                 <td class="ps-4">
                   <strong class="d-block"><%= inscricao.pessoa.nome %></strong>
                   <span class="text-secondary small"><%= inscricao.pessoa.telefone.presence || "Sem telefone" %></span>
@@ -176,6 +188,17 @@
                 <td><%= inscricao.pessoa.sexo.nome %></td>
                 <td><%= inscricao.adventista_label %></td>
                 <td><%= inscricao.estado_civil_label %></td>
+                <% if pode_ver_pagamento %>
+                  <td>
+                    <%= button_to toggle_pago_admin_inscricao_path(inscricao, return_to: return_to),
+                      method: :patch,
+                      form: { data: { turbo: false }, class: "d-inline" },
+                      class: "btn btn-sm rounded-pill #{inscricao.pago? ? "btn-success" : "btn-danger"}" do %>
+                      <i class="bi <%= inscricao.pago? ? "bi-check-circle" : "bi-clock" %> me-1"></i>
+                      <%= inscricao.pago_label %>
+                    <% end %>
+                  </td>
+                <% end %>
                 <td>
                   <span class="badge rounded-pill text-bg-light border">
                     <i class="bi bi-geo-alt me-1"></i><%= inscricao.distrito.nome %>
@@ -183,8 +206,8 @@
                 </td>
                 <td>
                   <div class="d-flex gap-1 flex-wrap">
-                    <% inscricao.modalidades.each do |modalidade| %>
-                      <span class="badge rounded-pill text-bg-secondary"><%= modalidade.nome_exibicao %></span>
+                    <% inscricao.modalidades.group_by(&:nome_base).each_value do |modalidades| %>
+                      <span class="badge rounded-pill text-bg-secondary"><%= modalidades.first.nome_base_exibicao %></span>
                     <% end %>
                   </div>
                 </td>
@@ -193,7 +216,7 @@
 
             <% if @inscricoes.empty? %>
               <tr>
-                <td colspan="7" class="text-center text-secondary py-5">
+                <td colspan="<%= 6 + (pode_ver_acoes ? 1 : 0) + (pode_ver_pagamento ? 1 : 0) %>" class="text-center text-secondary py-5">
                   <i class="bi bi-inbox fs-2 d-block mb-2"></i>
                   Nenhuma inscrição encontrada.
                 </td>

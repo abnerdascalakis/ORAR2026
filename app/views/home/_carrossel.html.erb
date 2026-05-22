@@ -17,7 +17,20 @@
   }
 ].select { |image| Rails.application.assets.load_path.find(image[:source]) } %>
 
-<div id="orarCarousel" class="carousel slide carousel-fade orar-full-carousel" data-bs-ride="carousel" data-bs-interval="4500" data-bs-touch="true" data-bs-pause="false">
+<div id="orarCarousel" class="carousel slide orar-full-carousel" data-bs-ride="carousel" data-bs-interval="4500" data-bs-touch="true" data-bs-pause="false">
+  <div class="carousel-indicators orar-carousel-indicators">
+    <% images.each_with_index do |_image, index| %>
+      <button
+        type="button"
+        data-bs-target="#orarCarousel"
+        data-bs-slide-to="<%= index %>"
+        class="<%= "active" if index.zero? %>"
+        aria-current="<%= "true" if index.zero? %>"
+        aria-label="Foto <%= index + 1 %>"
+      ></button>
+    <% end %>
+  </div>
+
   <div class="carousel-inner">
     <% images.each_with_index do |image, index| %>
       <div class="carousel-item <%= "active" if index.zero? %>">
@@ -53,12 +66,23 @@
 
 <style>
   .orar-full-carousel {
-    width: 100%;
+    background: #0f0f0f;
     height: min(760px, calc(100svh - var(--orar-navbar-height, 88px)));
     min-height: 520px;
-    background: #0f0f0f;
     overflow: hidden;
     position: relative;
+    width: 100%;
+  }
+
+  .orar-full-carousel::after {
+    background:
+      linear-gradient(90deg, rgba(5, 22, 34, 0.46), rgba(5, 22, 34, 0.1) 48%, rgba(5, 22, 34, 0.34)),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.08), transparent 38%, rgba(0, 0, 0, 0.2));
+    content: "";
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 1;
   }
 
   .orar-full-carousel .carousel-inner,
@@ -66,26 +90,55 @@
     height: 100%;
   }
 
+  .orar-full-carousel .carousel-item {
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.9s ease;
+  }
+
+  .orar-full-carousel .carousel-item-next:not(.carousel-item-start),
+  .orar-full-carousel .active.carousel-item-end {
+    transform: translateX(100%);
+  }
+
+  .orar-full-carousel .carousel-item-prev:not(.carousel-item-end),
+  .orar-full-carousel .active.carousel-item-start {
+    transform: translateX(-100%);
+  }
+
+  .orar-full-carousel .carousel-item-next.carousel-item-start,
+  .orar-full-carousel .carousel-item-prev.carousel-item-end {
+    transform: translateX(0);
+  }
+
+  .orar-full-carousel .active.carousel-item-start,
+  .orar-full-carousel .active.carousel-item-end {
+    opacity: 0.35;
+  }
+
+  .orar-full-carousel .carousel-item-next,
+  .orar-full-carousel .carousel-item-prev {
+    opacity: 1;
+  }
+
   .orar-full-carousel .orar-imagem {
     height: 100%;
   }
 
   .orar-full-image {
-    width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center 58%;
+    width: 100%;
   }
 
   .orar-carousel-caption {
-    position: absolute;
-    inset: 50% auto auto 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    width: min(90%, 760px);
     color: #fff;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.65);
+    inset: 50% auto auto 50%;
     padding: 0 1rem;
+    position: absolute;
+    text-shadow: 0 3px 16px rgba(0, 0, 0, 0.58);
+    transform: translate(-50%, -50%);
+    width: min(90%, 760px);
+    z-index: 2;
   }
 
   .orar-carousel-caption h1 {
@@ -103,7 +156,48 @@
 
   .orar-full-carousel .carousel-control-prev,
   .orar-full-carousel .carousel-control-next {
-    width: 7%;
+    opacity: 1;
+    width: 10%;
+    z-index: 3;
+  }
+
+  .orar-full-carousel .carousel-control-prev-icon,
+  .orar-full-carousel .carousel-control-next-icon {
+    background-color: rgba(255, 255, 255, 0.14);
+    background-size: 52%;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+    height: 3rem;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    width: 3rem;
+  }
+
+  .orar-full-carousel .carousel-control-prev:hover .carousel-control-prev-icon,
+  .orar-full-carousel .carousel-control-next:hover .carousel-control-next-icon {
+    background-color: rgba(15, 82, 100, 0.74);
+    transform: scale(1.04);
+  }
+
+  .orar-carousel-indicators {
+    bottom: 1.25rem;
+    gap: 0.45rem;
+    margin-bottom: 0;
+    z-index: 3;
+  }
+
+  .orar-carousel-indicators [data-bs-target] {
+    background-color: rgba(255, 255, 255, 0.66);
+    border: 0;
+    border-radius: 999px;
+    height: 0.5rem;
+    opacity: 1;
+    transition: background-color 0.2s ease, width 0.2s ease;
+    width: 0.5rem;
+  }
+
+  .orar-carousel-indicators .active {
+    background-color: #8bd7e7;
+    width: 1.8rem;
   }
 
   @media (max-width: 768px) {
@@ -117,8 +211,8 @@
     }
 
     .orar-carousel-caption {
-      width: min(92%, 560px);
       padding: 0 0.75rem;
+      width: min(92%, 560px);
     }
 
     .orar-carousel-caption h1 {
@@ -129,6 +223,17 @@
     .orar-carousel-caption p {
       font-size: clamp(0.95rem, 4vw, 1.1rem);
       line-height: 1.25;
+    }
+
+    .orar-full-carousel .carousel-control-prev,
+    .orar-full-carousel .carousel-control-next {
+      width: 14%;
+    }
+
+    .orar-full-carousel .carousel-control-prev-icon,
+    .orar-full-carousel .carousel-control-next-icon {
+      height: 2.45rem;
+      width: 2.45rem;
     }
   }
 </style>

@@ -1,5 +1,7 @@
 class Admin::InscricoesController < Admin::BaseController
-  before_action :set_inscricao, only: [ :edit, :update, :destroy ]
+  before_action :require_inscricao_actions_access!, only: [ :edit, :update, :destroy ]
+  before_action :require_pagamento_access!, only: [ :toggle_pago ]
+  before_action :set_inscricao, only: [ :edit, :update, :destroy, :toggle_pago ]
   before_action :set_form_collections, only: [ :edit, :update ]
 
   def index
@@ -17,6 +19,7 @@ class Admin::InscricoesController < Admin::BaseController
   end
 
   def edit
+    @return_to = return_to_location
     prepare_edit_form
   end
 
@@ -28,9 +31,15 @@ class Admin::InscricoesController < Admin::BaseController
     validate_modalidades
 
     if @error_messages.any?
+      @return_to = return_to_location
       prepare_edit_form
       return render :edit, status: :unprocessable_entity
     end
+
+    @selected_modalidade_ids = Modalidade.para_sexo(
+      @selected_modalidade_ids.filter_map { |id| Modalidade.find_by(id: id) },
+      @inscricao.pessoa.sexo
+    ).map(&:id)
 
     ActiveRecord::Base.transaction do
       @inscricao.pessoa.save!
@@ -38,9 +47,10 @@ class Admin::InscricoesController < Admin::BaseController
       sync_modalidades
     end
 
-    redirect_to admin_inscricoes_path, notice: "Inscrição atualizada com sucesso."
+    redirect_to return_to_location, notice: "Inscrição atualizada com sucesso.", status: :see_other
   rescue ActiveRecord::RecordInvalid => e
     @error_messages << e.record.errors.full_messages.to_sentence if e.record.errors.any?
+    @return_to = return_to_location
     prepare_edit_form
     render :edit, status: :unprocessable_entity
   end
@@ -48,10 +58,29 @@ class Admin::InscricoesController < Admin::BaseController
   def destroy
     @inscricao.destroy!
 
-    redirect_to admin_inscricoes_path, notice: "Inscrição excluída com sucesso."
+    redirect_to return_to_location, notice: "Inscrição excluída com sucesso.", status: :see_other
+  end
+
+  def toggle_pago
+    @inscricao.update!(pago: !@inscricao.pago?)
+
+    status_pagamento = @inscricao.pago? ? "pago" : "nao pago"
+    redirect_to return_to_location, notice: "#{@inscricao.pessoa.nome} marcado como #{status_pagamento}.", status: :see_other
   end
 
   private
+
+  def require_inscricao_actions_access!
+    return unless current_user&.distritais?
+
+    redirect_to admin_inscricoes_path, alert: "Voce nao tem permissao para alterar inscricoes."
+  end
+
+  def require_pagamento_access!
+    return unless current_user&.distritais?
+
+    redirect_to admin_inscricoes_path, alert: "Voce nao tem permissao para alterar pagamentos."
+  end
 
   def set_inscricao
     @inscricao = Inscricao
@@ -62,12 +91,12 @@ class Admin::InscricoesController < Admin::BaseController
   def set_form_collections
     @sexos = Sexo.order(:nome)
     @distritos = Distrito.order(:nome)
-    @modalidades = Modalidade.order(:nome)
+    @modalidades = Modalidade.opcoes_agrupadas
   end
 
   def prepare_edit_form
     @error_messages ||= []
-    @selected_modalidade_ids ||= @inscricao.modalidade_ids
+    @selected_modalidade_ids ||= Modalidade.ids_para_opcoes_agrupadas(@inscricao.modalidade_ids)
     @distrito_filtro = Distrito.find_by(id: @inscricao.distrito_id)
     @inscricao_modalidades_com_equipes = @inscricao
       .inscricao_modalidades
@@ -102,10 +131,17 @@ class Admin::InscricoesController < Admin::BaseController
   end
 
   def inscricao_params
-    params.require(:inscricao).permit(:distrito_id, :adventista, :estado_civil)
+    allowed_params = [ :distrito_id, :adventista, :estado_civil ]
+    allowed_params << :pago unless current_user&.distritais?
+
+    params.require(:inscricao).permit(*allowed_params)
   end
 
   def pessoa_params
     params.require(:inscricao).permit(:nome, :telefone, :sexo_id)
+  end
+
+  def return_to_location
+    url_from(params[:return_to]).presence || admin_inscricoes_path
   end
 end

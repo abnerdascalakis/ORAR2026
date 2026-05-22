@@ -1,4 +1,6 @@
-<%= form_with url: admin_inscricao_path(@inscricao), scope: :inscricao, method: :patch do |form| %>
+<%= form_with url: admin_inscricao_path(@inscricao), scope: :inscricao, method: :patch, data: { turbo: false } do |form| %>
+  <%= hidden_field_tag :return_to, @return_to if @return_to.present? %>
+
   <% if @error_messages.any? || @inscricao.errors.any? || @inscricao.pessoa.errors.any? %>
     <div class="alert alert-danger">
       <strong>Confira os dados:</strong>
@@ -120,6 +122,15 @@
             class: "form-select",
             required: true %>
         </div>
+
+        <div class="col-12 col-lg-3">
+          <%= form.label :pago, "Pagamento", class: "form-label fw-semibold" %>
+          <%= form.select :pago,
+            [["Pago", true], ["Não pago", false]],
+            { selected: @inscricao.pago },
+            class: "form-select",
+            required: true %>
+        </div>
       </div>
     </div>
 
@@ -139,7 +150,7 @@
 
       <div class="row g-3">
         <% @modalidades.each do |modalidade| %>
-          <% inscricao_modalidade = @inscricao_modalidades_com_equipes.find { |item| item.modalidade_id == modalidade.id } %>
+          <% inscricao_modalidade = @inscricao_modalidades_com_equipes.find { |item| item.modalidade.nome_base == modalidade.nome_base } %>
           <% equipe = inscricao_modalidade&.membro_equipes&.first&.equipe %>
 
           <div class="col-12 col-md-6">
@@ -150,7 +161,7 @@
                 id: "inscricao_modalidade_#{modalidade.id}",
                 class: "form-check-input mt-1" %>
               <span>
-                <strong class="d-block"><%= modalidade.nome_exibicao %></strong>
+                <strong class="d-block"><%= modalidade.nome_base_exibicao %></strong>
                 <% if equipe.present? %>
                   <span class="text-danger text-uppercase small d-block mt-1">
                     Esta pessoa está no time <%= equipe.nome %>. Desmarcar esta modalidade remove ela desse time.

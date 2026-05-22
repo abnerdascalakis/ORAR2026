@@ -17,6 +17,7 @@ class HomeController < ApplicationController
   def create_inscricao
     build_inscricao_form(inscricao_params)
     selected_modalidades = @selected_modalidade_ids.filter_map { |id| Modalidade.find_by(id: id) }
+    selected_modalidades = Modalidade.para_sexo(selected_modalidades, @sexos.find { |item| item.id == @form_data[:sexo_id].to_i })
 
     validate_inscricao_form(selected_modalidades)
 
@@ -65,7 +66,7 @@ class HomeController < ApplicationController
     @evento = current_event
     @sexos = Sexo.order(:nome)
     @distritos = Distrito.order(:nome)
-    @modalidades = Modalidade.order(:nome)
+    @modalidades = Modalidade.opcoes_agrupadas
     @form_data = default_form_data.merge(values.to_h.symbolize_keys)
     @selected_modalidade_ids = Array(@form_data[:modalidade_ids]).reject(&:blank?).map(&:to_i).uniq
     @error_messages = []
@@ -130,4 +131,5 @@ class HomeController < ApplicationController
   def current_event
     @current_event ||= Evento.find_by!(descricao: "ORAR 2026")
   end
+
 end

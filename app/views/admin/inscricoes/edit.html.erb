@@ -1,7 +1,8 @@
 <% content_for :title, "Editar inscrição | Admin" %>
+<% return_to = @return_to.presence || admin_inscricoes_path %>
 
 <% actions = capture do %>
-  <%= link_to admin_inscricoes_path, class: "btn btn-outline-light" do %>
+  <%= link_to return_to, class: "btn btn-outline-light" do %>
     <i class="bi bi-arrow-left-circle me-2"></i>Voltar
   <% end %>
 <% end %>
@@ -11,7 +12,7 @@
   subtitle: "Atualize os dados de #{@inscricao.pessoa.nome}.",
   breadcrumbs: [
     { label: "Home", path: admin_root_path },
-    { label: "Inscrições", path: admin_inscricoes_path },
+    { label: "Inscrições", path: return_to },
     { label: @inscricao.pessoa.nome },
     { label: "Editar" }
   ],

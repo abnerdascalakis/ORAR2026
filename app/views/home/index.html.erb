@@ -13,20 +13,55 @@
       <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
           <article class="card orar-lote-card orar-lote-card--single h-100">
-            <div class="card-body p-4 p-md-5 d-flex flex-column flex-md-row align-items-center justify-content-between gap-4">
-              <div class="text-center text-md-start">
-                <p class="orar-lote-etiqueta mb-3">Lote único</p>
-                <p class="orar-lote-descricao mb-0">Período de inscrição: 29/04 - 30/05.</p>
-              </div>
+            <div class="orar-lote-card__icons" aria-hidden="true"></div>
+            <div class="card-body p-4 p-md-5">
+              <div class="orar-lote-layout">
+                <div class="orar-lote-info text-center text-lg-start">
+                  <p class="orar-lote-etiqueta mb-3">Lote único</p>
+                  <div class="orar-lote-periodo mb-0">
+                    <span>Período de inscrição</span>
+                    <strong>29/04 - 30/05</strong>
+                  </div>
+                </div>
 
-              <div class="orar-lote-preco mb-0">
-                <span class="orar-lote-moeda">R$</span>
-                <span class="orar-lote-valor">65,00</span>
-              </div>
+                <div class="orar-lote-preco mb-0">
+                  <span class="orar-lote-moeda">R$</span>
+                  <span class="orar-lote-valor">65,00</span>
+                </div>
 
-              <%= link_to "Link de pagamento", inscricoes_path, class: "btn orar-lote-botao orar-lote-botao--single" %>
+                <a href="<%= inscricoes_path %>" class="btn orar-lote-botao orar-lote-botao--single">
+                 Inscreva-se
+                </a>
+              </div>
             </div>
           </article>
+        </div>
+      </div>
+
+      <div class="row justify-content-center orar-home-spotify-row">
+        <div class="col-12 col-lg-10">
+          <a href="https://open.spotify.com/playlist/6kMI8iSeIta3b77NvkhQtM?si=ZgJs3EVCS2GFiAeCwcQnog&pi=hpMfhKdySSeuf" class="orar-spotify-banner" target="_blank" rel="noopener" aria-label="Ouvir playlist ORAR - 2026 no Spotify">
+            <div class="orar-spotify-banner__backdrop" style="--orar-spotify-bg: url('<%= path_to_image("capa-1600.webp") %>');">
+              <div class="orar-spotify-banner__panel">
+                <div class="orar-spotify-banner__cover">
+                  <%= image_tag "capa-1600.webp", alt: "ORAR - 2026", loading: "lazy" %>
+                  <span class="orar-spotify-banner__play" aria-hidden="true">
+                    <i class="fa-solid fa-play"></i>
+                  </span>
+                </div>
+
+                <div class="orar-spotify-banner__copy">
+                  <span>Ouça no Spotify</span>
+                  <strong>ORAR - 2026</strong>
+                </div>
+              </div>
+
+              <div class="orar-spotify-banner__brand" aria-hidden="true">
+                <i class="fa-brands fa-spotify"></i>
+                <span>Spotify</span>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -34,104 +69,109 @@
 
   <section class="py-5">
     <div class="container">
-      <div class="text-center mb-4">
-        <h2 class="fw-bold mb-2">Fotos do último ORAR</h2>
-      </div>
+      <div class="orar-home-section-card orar-home-section-card--minimal">
+        <div class="orar-gallery-header mb-4">
+          <span class="orar-gallery-kicker">Memórias</span>
+          <h2 class="fw-bold mb-0">Fotos do último ORAR</h2>
+        </div>
 
-      <% galeria_imagens = [
-        ["ulisses", "Ulisses"],
-        ["candeias", "Candeias"],
-        ["setimus", "Setimus"],
-        ["forjados", "Forjados"],
-        ["volei", "Volei"],
-        ["eldorado", "Eldorado"]
-      ] %>
+        <% galeria_imagens = [
+          ["ulisses", "Ulisses"],
+          ["candeias", "Candeias"],
+          ["setimus", "Setimus"],
+          ["forjados", "Forjados"],
+          ["volei", "Volei"],
+          ["eldorado", "Eldorado"]
+        ] %>
 
-      <div class="row g-4">
-        <% galeria_imagens.each do |image, alt_text| %>
-          <div class="col-12 col-sm-6 col-lg-4">
-            <div class="orar-galeria-card shadow-sm rounded-3">
-              <%= responsive_asset_picture(
-                "#{image}-1200.webp",
-                alt: alt_text,
-                sizes: "(min-width: 992px) 33vw, (min-width: 576px) 50vw, 100vw",
-                width: 1200,
-                height: 800,
-                srcset: [["#{image}-480.webp", "480w"], ["#{image}-800.webp", "800w"], ["#{image}-1200.webp", "1200w"]],
-                picture_class: "orar-galeria-midia",
-                img_class: "orar-galeria-imagem",
-                aspect_ratio: "4 / 3"
-              ) %>
+        <div class="row g-4">
+          <% galeria_imagens.each do |image, alt_text| %>
+            <div class="col-12 col-sm-6 col-lg-4">
+              <div class="orar-galeria-card">
+                <%= responsive_asset_picture(
+                  "#{image}-1200.webp",
+                  alt: alt_text,
+                  sizes: "(min-width: 992px) 33vw, (min-width: 576px) 50vw, 100vw",
+                  width: 1200,
+                  height: 800,
+                  srcset: [["#{image}-480.webp", "480w"], ["#{image}-800.webp", "800w"], ["#{image}-1200.webp", "1200w"]],
+                  picture_class: "orar-galeria-midia",
+                  img_class: "orar-galeria-imagem",
+                  aspect_ratio: "4 / 3"
+                ) %>
+              </div>
             </div>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       </div>
     </div>
 
     <div class="container mt-5">
-      <h2 class="d-flex align-items-center justify-content-center gap-2 mb-4">
-        <span aria-hidden="true">
-          <i class="bi bi-question-circle-fill"></i>
-        </span>
-        Perguntas Frequentes
-      </h2>
+      <div class="orar-home-section-card">
+        <h2 class="d-flex align-items-center justify-content-center gap-2 mb-4">
+          <span aria-hidden="true">
+            <i class="bi bi-question-circle-fill"></i>
+          </span>
+          Perguntas Frequentes
+        </h2>
 
-      <div class="row g-4 justify-content-center orar-faq-grid">
-        <div class="col-12 col-lg-6">
-          <div class="card shadow-sm faq-card" onclick="toggleAnswer(this)">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-10">
-                  <h5 class="fw-bold text-secondary mb-0">1. O que e o ORAR?</h5>
+        <div class="row g-4 justify-content-center orar-faq-grid">
+          <div class="col-12 col-lg-6">
+            <div class="card shadow-sm faq-card" onclick="toggleAnswer(this)">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col-10">
+                    <h5 class="fw-bold text-secondary mb-0">1. O que e o ORAR?</h5>
+                  </div>
+                  <div class="col-2 text-end">
+                    <i class="bi bi-plus-lg text-secondary" aria-hidden="true"></i>
+                  </div>
                 </div>
-                <div class="col-2 text-end">
-                  <i class="bi bi-plus-lg text-secondary" aria-hidden="true"></i>
+                <div class="faq-answer">
+                  <p class="text-secondary mt-3 mb-0">
+                    A olimpíada regional Adventista de Rôndonia, <strong>ORAR</strong>, é uma iniciativa do Ministério Jovem para promover evolução física, mental e espiritual dos jovens. O objetivo e proporcionar um ambiente saudável e estimulante para o desenvolvimento integral dos participantes, fortalecendo a integração entre os distritos.
+                  </p>
                 </div>
-              </div>
-              <div class="faq-answer">
-                <p class="text-secondary mt-3 mb-0">
-                  A olimpíada regional Adventista de Rôndonia, <strong>ORAR</strong>, é uma iniciativa do Ministério Jovem para promover evolução física, mental e espiritual dos jovens. O objetivo e proporcionar um ambiente saudável e estimulante para o desenvolvimento integral dos participantes, fortalecendo a integração entre os distritos.
-                </p>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="col-12 col-lg-6">
-          <div class="card shadow-sm faq-card" onclick="toggleAnswer(this)">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-10">
-                  <h5 class="fw-bold text-secondary mb-0">2. Quem pode participar?</h5>
+          <div class="col-12 col-lg-6">
+            <div class="card shadow-sm faq-card" onclick="toggleAnswer(this)">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col-10">
+                    <h5 class="fw-bold text-secondary mb-0">2. Quem pode participar?</h5>
+                  </div>
+                  <div class="col-2 text-end">
+                    <i class="bi bi-plus-lg text-secondary" aria-hidden="true"></i>
+                  </div>
                 </div>
-                <div class="col-2 text-end">
-                  <i class="bi bi-plus-lg text-secondary" aria-hidden="true"></i>
+                <div class="faq-answer">
+                  <ul class="text-secondary mt-3 mb-0">
+                    <li>Todos aqueles que frequentam regularmente uma sociedade jovem.</li>
+                  </ul>
                 </div>
-              </div>
-              <div class="faq-answer">
-                <ul class="text-secondary mt-3 mb-0">
-                  <li>Todos aqueles que frequentam regularmente uma sociedade jovem.</li>
-                </ul>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="col-12 col-lg-6">
-          <div class="card shadow-sm faq-card" onclick="toggleAnswer(this)">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-10">
-                  <h5 class="fw-bold text-secondary mb-0">3. Quando e onde vai ser o ORAR 2026?</h5>
+          <div class="col-12 col-lg-6">
+            <div class="card shadow-sm faq-card" onclick="toggleAnswer(this)">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col-10">
+                    <h5 class="fw-bold text-secondary mb-0">3. Quando e onde vai ser o ORAR 2026?</h5>
+                  </div>
+                  <div class="col-2 text-end">
+                    <i class="bi bi-plus-lg text-secondary" aria-hidden="true"></i>
+                  </div>
                 </div>
-                <div class="col-2 text-end">
-                  <i class="bi bi-plus-lg text-secondary" aria-hidden="true"></i>
+                <div class="faq-answer">
+                  <ul class="text-secondary mt-3 mb-0">
+                    <li>O ORAR 2026 será realizado na Igreja Adventista do Setímo dia central de Porto Velho e também no Colégio Adventista de Porto Velho, no período de 05 de junho a 07 de junho de 2026.</li>
+                  </ul>
                 </div>
-              </div>
-              <div class="faq-answer">
-                <ul class="text-secondary mt-3 mb-0">
-                  <li>O ORAR 2026 será realizado na Igreja Adventista do Setímo dia central de Porto Velho e também no Colégio Adventista de Porto Velho, no período de 05 de junho a 07 de junho de 2026.</li>
-                </ul>
               </div>
             </div>
           </div>
@@ -176,6 +216,8 @@
         border: 1px solid rgba(22, 58, 99, 0.08);
         border-radius: 24px;
         box-shadow: 0 18px 40px rgba(28, 54, 84, 0.08);
+        overflow: hidden;
+        position: relative;
         transition: transform 0.25s ease, box-shadow 0.25s ease;
       }
 
@@ -192,41 +234,168 @@
 
       .orar-lote-card--single {
         background:
-          linear-gradient(135deg, rgba(243, 240, 230, 0.12), rgba(243, 240, 230, 0) 34%),
-          linear-gradient(135deg, #163a63 0%, #2a5788 48%, #5e86b5 100%);
-        border-color: rgba(22, 58, 99, 0.18);
-        color: #f3f0e6;
-        min-height: 240px;
+          radial-gradient(circle at 12% 72%, rgba(122, 217, 228, 0.18), transparent 22%),
+          radial-gradient(circle at 82% 18%, rgba(232, 119, 34, 0.12), transparent 20%),
+          linear-gradient(90deg, rgba(5, 22, 34, 0.92), rgba(5, 65, 78, 0.9) 48%, rgba(4, 103, 91, 0.92)),
+          linear-gradient(135deg, #062238 0%, #0b4f61 56%, #0a786e 100%);
+        border: 0;
+        border-radius: 24px;
+        box-shadow: 0 24px 54px rgba(10, 61, 77, 0.24);
+        color: var(--text-white);
+        min-height: 212px;
+      }
+
+      .orar-lote-card--single::before {
+        background: transparent;
+        content: "";
+        inset: 0;
+        position: absolute;
+        z-index: 1;
+      }
+
+      .orar-lote-card--single::after {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 16%, rgba(0, 0, 0, 0.18));
+        content: "";
+        inset: 0;
+        position: absolute;
+        z-index: 1;
+      }
+
+      .orar-lote-card--single .card-body {
+        position: relative;
+        z-index: 2;
+      }
+
+      .orar-lote-card__icons {
+        background: linear-gradient(
+          90deg,
+          var(--plus-pink) 0 2rem,
+          var(--bg-dark-blue) 2rem 4rem,
+          #8bd7e7 4rem 6rem,
+          #0f7f4f 6rem 8rem,
+          var(--prayer-orange) 8rem 10rem,
+          var(--cross-blue) 10rem 12rem,
+          #8bd7e7 12rem 14rem,
+          rgba(249, 178, 51, 0.85) 14rem 15rem,
+          var(--bg-dark-blue) 15rem 17rem,
+          #8bd7e7 17rem 19rem
+        );
+        height: 1.35rem;
+        left: 50%;
+        position: absolute;
+        top: -1.35rem;
+        transform: translateX(-50%);
+        width: min(420px, 70%);
+        z-index: 3;
+      }
+
+      .orar-lote-layout {
+        align-items: center;
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: minmax(0, 1.2fr) auto minmax(210px, 0.75fr);
       }
 
       .orar-lote-card--single .orar-lote-descricao {
-        color: rgba(243, 240, 230, 0.82);
+        color: rgba(255, 255, 255, 0.86);
       }
 
       .orar-lote-card--single .orar-lote-moeda {
-        color: #f3f0e6;
+        color: #8bd7e7;
       }
 
-      .orar-lote-badge {
-        background: rgba(243, 240, 230, 0.14);
-        border: 1px solid rgba(243, 240, 230, 0.28);
-        border-radius: 999px;
-        color: inherit;
+      .orar-lote-etiqueta {
+        color: #b9d0e8;
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.92rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .orar-lote-titulo {
+        color: #ffffff;
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        font-weight: 800;
+        letter-spacing: 0;
+        line-height: 1.05;
+      }
+
+      .orar-lote-periodo {
+        background:
+          linear-gradient(90deg, rgba(232, 119, 34, 0.18), rgba(255, 255, 255, 0.09)),
+          rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(232, 119, 34, 0.36);
+        border-left: 5px solid var(--prayer-orange);
+        border-radius: 18px;
+        display: inline-block;
+        padding: 0.95rem 1.15rem;
+      }
+
+      .orar-lote-periodo span {
+        color: rgba(255, 255, 255, 0.7);
+        display: block;
         font-family: "Montserrat", sans-serif;
         font-size: 0.72rem;
         font-weight: 700;
         letter-spacing: 0.12em;
-        padding: 0.45rem 0.9rem;
+        margin-bottom: 0.25rem;
         text-transform: uppercase;
       }
 
-      .orar-lote-etiqueta {
-        color: inherit;
+      .orar-lote-periodo strong {
+        color: #ffffff;
+        display: block;
         font-family: "Montserrat", sans-serif;
-        font-size: 1.1rem;
+        font-size: clamp(1.55rem, 3.2vw, 2.35rem);
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      .orar-lote-alerta {
+        align-items: center;
+        background: rgba(220, 38, 38, 0.16);
+        border: 1px solid rgba(248, 113, 113, 0.46);
+        border-radius: 14px;
+        color: #fecaca;
+        display: inline-flex;
+        font-size: 0.95rem;
         font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
+        padding: 0.75rem 0.95rem;
+      }
+
+      .orar-lote-detalhes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .orar-lote-detalhes span {
+        align-items: center;
+        background: rgba(255, 255, 255, 0.09);
+        border: 1px solid rgba(185, 208, 232, 0.2);
+        border-radius: 999px;
+        color: rgba(255, 255, 255, 0.88);
+        display: inline-flex;
+        font-size: 0.92rem;
+        padding: 0.55rem 0.8rem;
+      }
+
+      .orar-lote-preco-box {
+        background:
+          linear-gradient(180deg, rgba(15, 82, 100, 0.22), rgba(255, 255, 255, 0.08)),
+          rgba(255, 255, 255, 0.09);
+        border: 1px solid rgba(185, 208, 232, 0.22);
+        border-radius: 18px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        padding: 1.35rem 1rem;
+      }
+
+      .orar-lote-preco-label,
+      .orar-lote-preco-nota {
+        color: rgba(255, 255, 255, 0.72);
+        display: block;
+        font-size: 0.82rem;
       }
 
       .orar-lote-preco {
@@ -250,9 +419,10 @@
       .orar-lote-valor {
         color: inherit;
         font-family: "Montserrat", sans-serif;
-        font-size: clamp(2.5rem, 4vw, 3.5rem);
-        font-weight: 700;
+        font-size: clamp(3.2rem, 6vw, 4.25rem);
+        font-weight: 800;
         line-height: 1;
+        text-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
       }
 
       .orar-lote-descricao {
@@ -269,12 +439,17 @@
         border: 1px solid #2a5788;
         border-radius: 999px;
         color: #2a5788;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         font-family: "Montserrat", sans-serif;
         font-size: 0.9rem;
         font-weight: 700;
         letter-spacing: 0.08em;
-        padding: 0.95rem 1.5rem;
+        min-height: 3.7rem;
+        padding: 0.95rem 1.75rem;
         text-transform: uppercase;
+        width: 100%;
       }
 
       .orar-lote-botao:hover {
@@ -294,19 +469,221 @@
       }
 
       .orar-lote-botao--single {
-        background: #f3f0e6;
-        border-color: #f3f0e6;
-        color: #163a63;
+        background: linear-gradient(135deg, var(--prayer-orange), #c85f18);
+        border-color: transparent;
+        color: #ffffff;
+        box-shadow: 0 18px 34px rgba(7, 34, 56, 0.28);
       }
 
       .orar-lote-botao--single:hover {
-        background: transparent;
-        color: #f3f0e6;
+        background: linear-gradient(135deg, #0f5264, var(--cross-blue));
+        border-color: transparent;
+        color: #ffffff;
+      }
+
+      .orar-home-spotify-row {
+        margin-top: clamp(1.75rem, 4vw, 3.25rem);
+      }
+
+      .orar-spotify-banner {
+        border-radius: 22px;
+        box-shadow: 0 20px 46px rgba(18, 38, 62, 0.18);
+        display: block;
+        overflow: hidden;
+        text-decoration: none;
+      }
+
+      .orar-spotify-banner__backdrop {
+        align-items: center;
+        aspect-ratio: 16 / 7;
+        background:
+          linear-gradient(90deg, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.25)),
+          var(--orar-spotify-bg) center / cover;
+        display: flex;
+        justify-content: center;
+        min-height: 300px;
+        padding: 2rem;
+        position: relative;
+      }
+
+      .orar-spotify-banner__backdrop::before {
+        backdrop-filter: blur(8px);
+        background: rgba(0, 0, 0, 0.22);
+        content: "";
+        inset: 0;
+        position: absolute;
+      }
+
+      .orar-spotify-banner__panel {
+        background: rgba(14, 17, 20, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 18px;
+        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.4);
+        color: #ffffff;
+        max-width: 360px;
+        padding: 1.5rem;
+        position: relative;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        width: min(100%, 360px);
+        z-index: 1;
+      }
+
+      .orar-spotify-banner:hover .orar-spotify-banner__panel {
+        box-shadow: 0 28px 70px rgba(0, 0, 0, 0.48);
+        transform: translateY(-3px);
+      }
+
+      .orar-spotify-banner__cover {
+        border-radius: 14px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .orar-spotify-banner__cover img {
+        aspect-ratio: 1 / 1;
+        display: block;
+        height: auto;
+        object-fit: cover;
+        object-position: center;
+        width: 100%;
+      }
+
+      .orar-spotify-banner__play {
+        align-items: center;
+        background: #1ed760;
+        border-radius: 50%;
+        box-shadow: 0 10px 24px rgba(30, 215, 96, 0.32);
+        color: #ffffff;
+        display: inline-flex;
+        font-size: 1.35rem;
+        height: 4rem;
+        justify-content: center;
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        width: 4rem;
+      }
+
+      .orar-spotify-banner__play i {
+        margin-left: 0.2rem;
+      }
+
+      .orar-spotify-banner__copy {
+        margin-top: 1.25rem;
+      }
+
+      .orar-spotify-banner__copy span {
+        color: rgba(255, 255, 255, 0.68);
+        display: block;
+        font-size: 0.95rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .orar-spotify-banner__copy strong {
+        color: #ffffff;
+        display: block;
+        font-size: clamp(1.6rem, 3vw, 2.15rem);
+        line-height: 1.1;
+      }
+
+      .orar-spotify-banner__brand {
+        align-items: center;
+        bottom: 1.25rem;
+        color: #ffffff;
+        display: flex;
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        gap: 0.45rem;
+        position: absolute;
+        right: 1.5rem;
+        text-transform: uppercase;
+        z-index: 1;
+      }
+
+      .orar-spotify-banner__brand i {
+        font-size: 1.4rem;
+      }
+
+      .orar-home-section-card {
+        background:
+          radial-gradient(circle at 12% 72%, rgba(122, 217, 228, 0.18), transparent 22%),
+          radial-gradient(circle at 82% 18%, rgba(232, 119, 34, 0.12), transparent 20%),
+          linear-gradient(90deg, rgba(5, 22, 34, 0.92), rgba(5, 65, 78, 0.9) 48%, rgba(4, 103, 91, 0.92)),
+          linear-gradient(135deg, #062238 0%, #0b4f61 56%, #0a786e 100%);
+        border-radius: 24px;
+        box-shadow: 0 24px 54px rgba(10, 61, 77, 0.24);
+        color: var(--text-white);
+        overflow: hidden;
+        padding: clamp(1.25rem, 4vw, 2.5rem);
+        position: relative;
+      }
+
+      .orar-home-section-card::after {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 16%, rgba(0, 0, 0, 0.18));
+        content: "";
+        inset: 0;
+        pointer-events: none;
+        position: absolute;
+        z-index: 1;
+      }
+
+      .orar-home-section-card > * {
+        position: relative;
+        z-index: 2;
+      }
+
+      .orar-home-section-card h2 {
+        color: #ffffff;
+      }
+
+      .orar-home-section-card--minimal {
+        background: #ffffff;
+        border: 1px solid rgba(15, 82, 100, 0.12);
+        box-shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+        color: #163a63;
+        padding: clamp(1.25rem, 3vw, 2rem);
+      }
+
+      .orar-home-section-card--minimal::after {
+        background: linear-gradient(90deg, #0f5264, #0a786e);
+        bottom: auto;
+        height: 5px;
+      }
+
+      .orar-home-section-card--minimal h2 {
+        color: #163a63;
+      }
+
+      .orar-gallery-header {
+        align-items: center;
+        border-bottom: 1px solid rgba(15, 82, 100, 0.1);
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 1rem;
+      }
+
+      .orar-gallery-kicker {
+        color: #0f5264;
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
       }
 
       .orar-galeria-card {
-        overflow: hidden;
         background: #f8f9fa;
+        border: 1px solid rgba(15, 82, 100, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .orar-galeria-card:hover {
+        box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
+        transform: translateY(-2px);
       }
 
       .orar-galeria-midia {
@@ -322,13 +699,14 @@
       }
 
       .faq-card {
+        background: rgba(255, 255, 255, 0.94);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 14px;
         cursor: pointer;
-        border: none;
-        border-radius: 10px;
       }
 
       .faq-card:hover {
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 14px 30px rgba(7, 34, 56, 0.24);
       }
 
       .faq-answer {
@@ -347,7 +725,7 @@
         }
 
         .orar-lote-card--single {
-          min-height: auto;
+          min-height: 360px;
         }
 
         .orar-lote-card--single .card-body {
@@ -355,12 +733,43 @@
           text-align: center;
         }
 
-        .orar-lote-card--single .orar-lote-preco {
-          width: 100%;
+        .orar-lote-card__icons {
+          width: min(280px, 76%);
+        }
+
+        .orar-lote-layout {
+          gap: 1.5rem;
+          grid-template-columns: 1fr;
+        }
+
+        .orar-lote-periodo {
+          display: block;
         }
 
         .orar-lote-botao--single {
           width: 100%;
+        }
+
+        .orar-spotify-banner__backdrop {
+          aspect-ratio: auto;
+          min-height: 460px;
+          padding: 1.25rem;
+        }
+
+        .orar-spotify-banner__panel {
+          max-width: 310px;
+          padding: 1rem;
+        }
+
+        .orar-spotify-banner__brand {
+          bottom: 1rem;
+          right: 1.25rem;
+        }
+
+        .orar-gallery-header {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 0.4rem;
         }
 
         .faq-card h5 {

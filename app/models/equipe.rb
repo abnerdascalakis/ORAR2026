@@ -1,9 +1,4 @@
 class Equipe < ApplicationRecord
-  LIMITES_POR_MODALIDADE = {
-    "Futsal" => 16,
-    "Vôlei misto" => 12
-  }.freeze
-
   belongs_to :modalidade
   belongs_to :distrito, optional: true
 
@@ -20,7 +15,7 @@ class Equipe < ApplicationRecord
   def modalidade_dentro_do_limite_de_equipes
     return if modalidade.blank?
 
-    limite = LIMITES_POR_MODALIDADE[modalidade.nome]
+    limite = modalidade.limite_equipes
     return if limite.blank?
     return if modalidade.equipes.count < limite
 
