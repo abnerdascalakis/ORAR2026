@@ -1,7 +1,9 @@
 class HomeController < ApplicationController
   EVENTO_INSCRICAO_URL = "https://ingressos.eventodaigreja.com.br/olimpiadas-regional-jovem-orar-2026-0a41006b"
+  INSCRICOES_ESGOTADAS = true
 
   def index
+    @inscricoes_esgotadas = inscricoes_esgotadas?
   end
 
   def roteiro_orar
@@ -10,11 +12,17 @@ class HomeController < ApplicationController
 
   def inscricoes
     build_inscricao_form
+    @inscricoes_esgotadas = inscricoes_esgotadas?
     @current_step = requested_step if params[:etapa].present?
     render "home/inscricoes/inscricoes"
   end
 
   def create_inscricao
+    if inscricoes_esgotadas?
+      redirect_to inscricoes_path, alert: "As inscricoes para o ORAR 2026 estao esgotadas."
+      return
+    end
+
     build_inscricao_form(inscricao_params)
     selected_modalidades = @selected_modalidade_ids.filter_map { |id| Modalidade.find_by(id: id) }
     selected_modalidades = Modalidade.para_sexo(selected_modalidades, @sexos.find { |item| item.id == @form_data[:sexo_id].to_i })
@@ -130,6 +138,10 @@ class HomeController < ApplicationController
 
   def current_event
     @current_event ||= Evento.find_by!(descricao: "ORAR 2026")
+  end
+
+  def inscricoes_esgotadas?
+    INSCRICOES_ESGOTADAS
   end
 
 end

@@ -6,8 +6,10 @@
     <div class="container">
       <div class="text-center mb-5">
         <p class="orar-section-kicker mb-2">Inscrições</p>
-        <h1 class="display-5 fw-semibold mb-2">Escolha seu lote</h1>
-        <p class="text-secondary mb-0">Garanta sua vaga no ORAR 2026 com o lote disponível no momento da inscrição.</p>
+        <h1 class="display-5 fw-semibold mb-2"><%= @inscricoes_esgotadas ? "Inscrições esgotadas" : "Escolha seu lote" %></h1>
+        <p class="text-secondary mb-0">
+          <%= @inscricoes_esgotadas ? "As vagas para o ORAR 2026 foram preenchidas. Obrigado pelo interesse em participar." : "Garanta sua vaga no ORAR 2026 com o lote disponível no momento da inscrição." %>
+        </p>
       </div>
 
       <div class="row justify-content-center">
@@ -24,14 +26,27 @@
                   </div>
                 </div>
 
-                <div class="orar-lote-preco mb-0">
-                  <span class="orar-lote-moeda">R$</span>
-                  <span class="orar-lote-valor">65,00</span>
-                </div>
+                <% if @inscricoes_esgotadas %>
+                  <div class="orar-lote-alerta mb-0" role="status">
+                    <i class="bi bi-exclamation-circle me-2" aria-hidden="true"></i>
+                    Inscrições esgotadas
+                  </div>
+                <% else %>
+                  <div class="orar-lote-preco mb-0">
+                    <span class="orar-lote-moeda">R$</span>
+                    <span class="orar-lote-valor">65,00</span>
+                  </div>
+                <% end %>
 
-                <a href="<%= inscricoes_path %>" class="btn orar-lote-botao orar-lote-botao--single">
-                 Inscreva-se
-                </a>
+                <% if @inscricoes_esgotadas %>
+                  <span class="btn orar-lote-botao orar-lote-botao--single is-disabled" aria-disabled="true">
+                    Esgotado
+                  </span>
+                <% else %>
+                  <a href="<%= inscricoes_path %>" class="btn orar-lote-botao orar-lote-botao--single">
+                   Inscreva-se
+                  </a>
+                <% end %>
               </div>
             </div>
           </article>
@@ -479,6 +494,15 @@
         background: linear-gradient(135deg, #0f5264, var(--cross-blue));
         border-color: transparent;
         color: #ffffff;
+      }
+
+      .orar-lote-botao--single.is-disabled,
+      .orar-lote-botao--single.is-disabled:hover {
+        background: rgba(255, 255, 255, 0.16);
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: none;
+        color: rgba(255, 255, 255, 0.72);
+        cursor: not-allowed;
       }
 
       .orar-home-spotify-row {
