@@ -1,9 +1,7 @@
 class HomeController < ApplicationController
   EVENTO_INSCRICAO_URL = "https://ingressos.eventodaigreja.com.br/olimpiadas-regional-jovem-orar-2026-0a41006b"
-  INSCRICOES_DISPONIVEIS = false
 
   def index
-    @inscricoes_disponiveis = INSCRICOES_DISPONIVEIS
   end
 
   def roteiro_orar
@@ -17,12 +15,6 @@ class HomeController < ApplicationController
   end
 
   def create_inscricao
-    unless inscricoes_disponiveis?
-      build_inscricao_form
-      flash.now[:alert] = "As inscrições estão indisponíveis no momento."
-      return render "home/inscricoes/inscricoes", status: :forbidden
-    end
-
     build_inscricao_form(inscricao_params)
     selected_modalidades = @selected_modalidade_ids.filter_map { |id| Modalidade.find_by(id: id) }
     selected_modalidades = Modalidade.para_sexo(selected_modalidades, @sexos.find { |item| item.id == @form_data[:sexo_id].to_i })
@@ -70,13 +62,8 @@ class HomeController < ApplicationController
 
   private
 
-  def inscricoes_disponiveis?
-    INSCRICOES_DISPONIVEIS
-  end
-
   def build_inscricao_form(values = {})
     @evento = current_event
-    @inscricoes_disponiveis = inscricoes_disponiveis?
     @sexos = Sexo.order(:nome)
     @distritos = Distrito.order(:nome)
     @modalidades = Modalidade.opcoes_agrupadas
