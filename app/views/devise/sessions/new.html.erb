@@ -22,14 +22,6 @@
                 label_html: { class: "fw-semibold text-dark" },
                 wrapper_html: { class: "mb-0" } %>
 
-    <% if devise_mapping.rememberable? %>
-      <%= f.input :remember_me,
-                  as: :boolean,
-                  label: "Lembrar de mim",
-                  wrapper_html: { class: "mb-0" },
-                  label_html: { class: "text-secondary" } %>
-    <% end %>
-
     <%= f.submit "Entrar", class: "btn orar-auth-button fw-semibold" %>
   <% end %>
 

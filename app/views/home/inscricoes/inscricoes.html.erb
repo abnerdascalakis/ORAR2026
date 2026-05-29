@@ -108,7 +108,16 @@
                   </div>
                 <% end %>
 
-                <%= form_with url: inscricoes_path, scope: :inscricao, local: true, html: { class: "needs-validation", novalidate: true, data: { turbo: false, multi_step_form_target: "form", action: "submit->multi-step-form#submitForm" } } do %>
+                <% unless @inscricoes_disponiveis %>
+                  <div class="alert alert-warning d-flex align-items-start gap-3 mb-0" role="alert">
+                    <i class="bi bi-exclamation-triangle fs-4"></i>
+                    <div>
+                      <strong>Inscrições indisponíveis no momento.</strong>
+                      <p class="mb-0">Não é possível prosseguir com uma nova inscrição agora.</p>
+                    </div>
+                  </div>
+                <% else %>
+                  <%= form_with url: inscricoes_path, scope: :inscricao, local: true, html: { class: "needs-validation", novalidate: true, data: { turbo: false, multi_step_form_target: "form", action: "submit->multi-step-form#submitForm" } } do %>
                   <section
                     class="orar-step-panel <%= @current_step.zero? ? "is-active" : "" %>"
                     data-step-index="0"
@@ -359,6 +368,7 @@
                       </button>
                     </div>
                   </section>
+                  <% end %>
                 <% end %>
               </div>
             </div>
