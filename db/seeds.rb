@@ -84,7 +84,7 @@ rename_modalidade("corrida revezamento", "Corrida revezamento masculino")
   [ "Natação revezamento masculino", 4, nil, false, "masculino" ],
   [ "Natação revezamento feminino", 4, nil, false, "feminino" ],
   [ "Bom de Bíblia misto", 5, nil, false, "misto" ],
-  [ "Bom de lição misto", 3, nil, false, "misto" ],
+  [ "Bom de lição misto", 5, nil, false, "misto" ],
   [ "Dodgeball masculino", 10, nil, false, "masculino" ],
   [ "Dodgeball feminino", 10, nil, false, "feminino" ],
   [ "Torcida", nil, nil, true, "misto" ],
