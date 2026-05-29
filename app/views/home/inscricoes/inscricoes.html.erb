@@ -9,18 +9,23 @@
             <div class="col-12 col-lg-4">
               <aside class="orar-form-sidebar h-100">
                 <span class="orar-form-kicker">ORAR 2026</span>
-                <h1 class="display-6 fw-semibold mb-3">Inscrição para o evento</h1>
+                <h1 class="display-6 fw-semibold mb-3"><%= @inscricoes_esgotadas ? "Inscrições esgotadas" : "Inscrição para o evento" %></h1>
                 <p class="text-white-50 mb-4">
-                  Preencha seus dados e escolha as modalidades em que vai participar, depois se inscreva no evento.
+                  <%= @inscricoes_esgotadas ? "As vagas para o ORAR 2026 foram preenchidas. Obrigado pelo interesse em participar." : "Preencha seus dados e escolha as modalidades em que vai participar, depois se inscreva no evento." %>
                 </p>
 
                 <div class="orar-side-card">
-                  <p class="small text-uppercase fw-semibold mb-2">Etapas</p>
-                  <ul class="list-unstyled mb-0 text-white-50">
-                    <li class="mb-2">1. Inscrição das modalidades</li>
-                    <li class="mb-2">2. Escolha das modalidades</li>
-                    <li>3. Inscrição no evento</li>
-                  </ul>
+                  <% if @inscricoes_esgotadas %>
+                    <p class="small text-uppercase fw-semibold mb-2">Aviso</p>
+                    <p class="text-white-50 mb-0">Não estamos recebendo novas inscrições no momento.</p>
+                  <% else %>
+                    <p class="small text-uppercase fw-semibold mb-2">Etapas</p>
+                    <ul class="list-unstyled mb-0 text-white-50">
+                      <li class="mb-2">1. Inscrição das modalidades</li>
+                      <li class="mb-2">2. Escolha das modalidades</li>
+                      <li>3. Inscrição no evento</li>
+                    </ul>
+                  <% end %>
                 </div>
               </aside>
             </div>
@@ -28,10 +33,18 @@
             <div class="col-12 col-lg-8">
               <div
                 class="orar-form-panel"
-                data-controller="multi-step-form"
-                data-multi-step-form-initial-step-value="<%= @current_step %>"
-                data-multi-step-form-step-count-value="3"
+                <%= %(data-controller="multi-step-form" data-multi-step-form-initial-step-value="#{@current_step}" data-multi-step-form-step-count-value="3").html_safe unless @inscricoes_esgotadas %>
               >
+                <% if @inscricoes_esgotadas %>
+                  <div class="orar-sold-out-panel" role="status">
+                    <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+                    <p class="orar-section-kicker mb-2">ORAR 2026</p>
+                    <h2 class="h3 mb-3">Inscrições esgotadas</h2>
+                    <p class="text-secondary mb-0">
+                      As vagas para o ORAR 2026 foram preenchidas. Obrigado pelo interesse em participar.
+                    </p>
+                  </div>
+                <% else %>
                 <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
                   <div>
                     <p class="orar-section-kicker mb-2">Formulário de inscrição</p>
@@ -360,6 +373,7 @@
                     </div>
                   </section>
                 <% end %>
+                <% end %>
               </div>
             </div>
           </div>
@@ -440,6 +454,25 @@
 
     .orar-form-panel {
       padding: 2.5rem;
+    }
+
+    .orar-sold-out-panel {
+      align-items: center;
+      background: #f8fbff;
+      border: 1px solid #d9e4f0;
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      min-height: 360px;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .orar-sold-out-panel > .bi {
+      color: #0f5264;
+      font-size: 3rem;
+      margin-bottom: 1rem;
     }
 
     .orar-step-badge {
