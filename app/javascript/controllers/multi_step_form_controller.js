@@ -19,6 +19,8 @@ export default class extends Controller {
 
   connect() {
     this.currentStep = this.hasInitialStepValue ? this.initialStepValue : 0
+    if (!this.hasStepTarget) return
+
     this.updateUI()
   }
 
