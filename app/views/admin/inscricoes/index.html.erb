@@ -4,14 +4,14 @@
 <% pode_ver_pagamento = !current_user&.distritais? && !current_user&.read_only_admin? %>
 
 <% actions = capture do %>
+  <%= link_to admin_root_path, class: "btn btn-outline-light" do %>
+    <i class="bi bi-arrow-left-circle me-2"></i>Voltar
+  <% end %>
+
   <% if pode_ver_acoes %>
     <%= link_to new_admin_inscricao_path, class: "btn btn-light shadow-sm" do %>
       <i class="bi bi-plus-circle me-2"></i>Nova inscrição
     <% end %>
-  <% end %>
-
-  <%= link_to admin_root_path, class: "btn btn-outline-light" do %>
-    <i class="bi bi-arrow-left-circle me-2"></i>Voltar
   <% end %>
 <% end %>
 

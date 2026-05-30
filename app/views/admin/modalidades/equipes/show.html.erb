@@ -34,7 +34,7 @@
       <i class="bi bi-info-circle fs-4"></i>
       <div>
         <strong class="d-block">Os membros sao salvos automaticamente.</strong>
-        Cada pessoa adicionada ou removida ja atualiza a equipe na hora.
+        Cada pessoa adicionada ou removida ja atualiza a equipe na hora. Quando terminar, clique em <strong>Concluir equipe</strong>.
       </div>
     </div>
   <% end %>
@@ -287,5 +287,20 @@
       </section>
     <% end %>
   </div>
+
+  <% if pode_alterar %>
+    <div class="card border-0 rounded-4 shadow-sm mt-4">
+      <div class="card-body p-4 d-flex align-items-center justify-content-between gap-3 flex-wrap">
+        <div>
+          <h2 class="h5 fw-bold mb-1">Equipe pronta?</h2>
+          <p class="text-secondary mb-0">Confira os membros atuais e finalize para voltar para a lista de equipes.</p>
+        </div>
+
+        <%= link_to admin_modalidade_path(@modalidade), class: "btn btn-success" do %>
+          <i class="bi bi-check2-circle me-2"></i>Concluir equipe
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 
 <% end %>

@@ -43,7 +43,12 @@
             minlength: 15,
             pattern: "\\(\\d{2}\\) \\d{5}-\\d{4}",
             title: "Use o formato (69) 99999-9999",
-            placeholder: "(69) 99999-9999" %>
+            placeholder: "(69) 99999-9999",
+            inputmode: "numeric",
+            data: {
+              controller: "multi-step-form",
+              action: "input->multi-step-form#formatTelefone"
+            } %>
         </div>
 
         <div class="col-12 col-lg-6">
