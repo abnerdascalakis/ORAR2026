@@ -1,4 +1,7 @@
-<%= form_with url: admin_inscricao_path(@inscricao), scope: :inscricao, method: :patch, data: { turbo: false } do |form| %>
+<% form_url = @inscricao.persisted? ? admin_inscricao_path(@inscricao) : admin_inscricoes_path %>
+<% form_method = @inscricao.persisted? ? :patch : :post %>
+
+<%= form_with url: form_url, scope: :inscricao, method: form_method, data: { turbo: false } do |form| %>
   <%= hidden_field_tag :return_to, @return_to if @return_to.present? %>
 
   <% if @error_messages.any? || @inscricao.errors.any? || @inscricao.pessoa.errors.any? %>
@@ -142,7 +145,9 @@
       <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap mb-3">
         <div>
           <h3 class="h6 fw-bold mb-1">Modalidades</h3>
-          <p class="text-secondary mb-0">Ao desmarcar uma modalidade vinculada a equipe, o participante sai do time automaticamente.</p>
+          <p class="text-secondary mb-0">
+            <%= @inscricao.persisted? ? "Ao desmarcar uma modalidade vinculada a equipe, o participante sai do time automaticamente." : "Escolha uma ou mais modalidades para concluir a inscrição." %>
+          </p>
         </div>
       </div>
 
@@ -179,7 +184,7 @@
     <%= form.button class: "btn btn-primary" do %>
       <i class="bi bi-floppy me-2"></i>Salvar inscrição
     <% end %>
-    <%= link_to admin_inscricoes_path, class: "btn btn-outline-secondary" do %>
+    <%= link_to @return_to.presence || admin_inscricoes_path, class: "btn btn-outline-secondary" do %>
       <i class="bi bi-x me-2"></i>Cancelar
     <% end %>
   </div>

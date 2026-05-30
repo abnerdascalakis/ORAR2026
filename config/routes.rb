@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace :admin do
     root "dashboard#index"
 
-    resources :inscricoes, only: [ :index, :edit, :update, :destroy ] do
+    resources :inscricoes, only: [ :index, :new, :create, :edit, :update, :destroy ] do
       patch :toggle_pago, on: :member
     end
     resources :sociedades

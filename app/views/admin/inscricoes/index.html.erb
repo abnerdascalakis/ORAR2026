@@ -1,9 +1,15 @@
 <% content_for :title, "Inscrições | Admin" %>
 <% return_to = "#{request.fullpath}#inscricoes-lista" %>
-<% pode_ver_acoes = !current_user&.distritais? %>
-<% pode_ver_pagamento = !current_user&.distritais? %>
+<% pode_ver_acoes = !current_user&.distritais? && !current_user&.read_only_admin? %>
+<% pode_ver_pagamento = !current_user&.distritais? && !current_user&.read_only_admin? %>
 
 <% actions = capture do %>
+  <% if pode_ver_acoes %>
+    <%= link_to new_admin_inscricao_path, class: "btn btn-light shadow-sm" do %>
+      <i class="bi bi-plus-circle me-2"></i>Nova inscrição
+    <% end %>
+  <% end %>
+
   <%= link_to admin_root_path, class: "btn btn-outline-light" do %>
     <i class="bi bi-arrow-left-circle me-2"></i>Voltar
   <% end %>
@@ -40,7 +46,7 @@
   <div class="card border-0 rounded-4 shadow-sm mb-4">
     <div class="card-body p-4">
       <%= search_form_for @q, url: admin_inscricoes_path, method: :get, html: { class: "row g-3 align-items-end" } do |form| %>
-        <div class="col-12 col-lg-4">
+        <div class="col-12 col-lg-3">
           <%= form.label :pessoa_nome_cont, "Nome da pessoa", class: "form-label fw-semibold" %>
           <div class="input-group">
             <span class="input-group-text"><i class="bi bi-search"></i></span>
@@ -96,9 +102,25 @@
           </div>
         </div>
 
-        <div class="col-12 col-sm-6 col-lg-3">
+        <div class="col-12 col-sm-6 col-lg-2">
           <%= form.label :pessoa_sexo_id_eq, "Sexo", class: "form-label fw-semibold" %>
           <%= form.collection_select :pessoa_sexo_id_eq, Sexo.order(:nome), :id, :nome, { include_blank: "Todos" }, class: "form-select" %>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-2">
+          <%= form.label :adventista_eq, "Adventista", class: "form-label fw-semibold" %>
+          <%= form.select :adventista_eq,
+            [["Todos", ""], ["Sim", true], ["Não", false]],
+            {},
+            class: "form-select" %>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-2">
+          <%= form.label :estado_civil_eq, "Estado civil", class: "form-label fw-semibold" %>
+          <%= form.select :estado_civil_eq,
+            [["Todos", ""]] + Inscricao::ESTADOS_CIVIS.map { |valor, label| [label, valor] },
+            {},
+            class: "form-select" %>
         </div>
 
         <div class="col-12 col-lg-2">

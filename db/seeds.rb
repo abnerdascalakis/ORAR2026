@@ -22,6 +22,12 @@ distritais.password_confirmation = "Adm.Distritais"
 distritais.admin = true
 distritais.save!
 
+pastores = User.find_or_initialize_by(email: "pastores@orar.ro")
+pastores.password = "Adm.Pastores"
+pastores.password_confirmation = "Adm.Pastores"
+pastores.admin = true
+pastores.save!
+
 evento = Evento.find_or_initialize_by(descricao: "ORAR 2026")
 evento.ano = 2026
 evento.data_inicio = Date.new(2026, 6, 4)

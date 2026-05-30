@@ -1,4 +1,5 @@
 class Admin::SociedadesController < Admin::BaseController
+  before_action :require_write_access!, except: [ :index, :show ]
   before_action :set_sociedade, only: [ :show, :edit, :update, :destroy ]
   before_action :set_distritos, only: [ :index, :new, :edit, :create, :update ]
 
