@@ -1,4 +1,5 @@
 class Admin::Modalidades::EquipesController < Admin::BaseController
+  before_action :require_write_access!, except: [ :index, :show ]
   before_action :set_modalidade
   before_action :set_equipe, only: [ :show, :edit, :update, :destroy ]
 

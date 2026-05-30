@@ -1,11 +1,14 @@
 <% content_for :title, "Sociedades | Admin" %>
+<% pode_alterar = !current_user&.read_only_admin? %>
 
 <% actions = capture do %>
   <%= link_to admin_root_path, class: "btn btn-outline-light" do %>
     <i class="bi bi-arrow-left-circle me-2"></i>Voltar
   <% end %>
-  <%= link_to new_admin_sociedade_path, class: "btn btn-light shadow-sm" do %>
-    <i class="bi bi-building-add me-2"></i>Nova sociedade
+  <% if pode_alterar %>
+    <%= link_to new_admin_sociedade_path, class: "btn btn-light shadow-sm" do %>
+      <i class="bi bi-building-add me-2"></i>Nova sociedade
+    <% end %>
   <% end %>
 <% end %>
 
@@ -100,7 +103,7 @@
             <tr>
               <th class="ps-4">Sociedade</th>
               <th>Distrito</th>
-              <th class="text-end pe-4">Ações</th>
+              <th class="text-end pe-4"><%= pode_alterar ? "Ações" : "Consulta" %></th>
             </tr>
           </thead>
           <tbody>
@@ -124,11 +127,13 @@
                     <%= link_to admin_sociedade_path(sociedade), class: "btn btn-sm btn-primary" do %>
                       <i class="bi bi-folder2-open me-1"></i>Abrir
                     <% end %>
-                    <%= link_to edit_admin_sociedade_path(sociedade), class: "btn btn-sm btn-outline-secondary" do %>
-                      <i class="bi bi-pencil-square me-1"></i>Editar
-                    <% end %>
-                    <%= link_to admin_sociedade_path(sociedade), data: { turbo_method: :delete, turbo_confirm: "Excluir esta sociedade?" }, class: "btn btn-sm btn-outline-danger" do %>
-                      <i class="bi bi-trash3 me-1"></i>Excluir
+                    <% if pode_alterar %>
+                      <%= link_to edit_admin_sociedade_path(sociedade), class: "btn btn-sm btn-outline-secondary" do %>
+                        <i class="bi bi-pencil-square me-1"></i>Editar
+                      <% end %>
+                      <%= link_to admin_sociedade_path(sociedade), data: { turbo_method: :delete, turbo_confirm: "Excluir esta sociedade?" }, class: "btn btn-sm btn-outline-danger" do %>
+                        <i class="bi bi-trash3 me-1"></i>Excluir
+                      <% end %>
                     <% end %>
                   </div>
                 </td>

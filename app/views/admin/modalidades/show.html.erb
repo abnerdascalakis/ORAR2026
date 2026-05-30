@@ -1,11 +1,12 @@
 <% content_for :title, "#{@modalidade.nome_exibicao} | Admin" %>
 <% voltar_path = admin_modalidade_voltar_path(@modalidade) %>
+<% pode_alterar = !current_user&.read_only_admin? %>
 
 <% actions = capture do %>
   <%= link_to voltar_path, class: "btn btn-outline-light" do %>
     <i class="bi bi-arrow-left-circle me-2"></i>Voltar
   <% end %>
-  <% if @modalidade.coletiva? %>
+  <% if @modalidade.coletiva? && pode_alterar %>
     <%= link_to new_admin_modalidade_equipe_path(@modalidade), class: "btn btn-light shadow-sm" do %>
       <i class="bi bi-people-fill me-2"></i>Incluir equipe
     <% end %>
@@ -149,7 +150,7 @@
               </div>
 
               <h2 class="h5 fw-bold mt-4 mb-1" style="color: #163a63;"><%= equipe.nome %></h2>
-              <p class="text-secondary mb-2">Gerencie a formacao desta equipe.</p>
+              <p class="text-secondary mb-2"><%= pode_alterar ? "Gerencie a formacao desta equipe." : "Consulte a formacao desta equipe." %></p>
               <div class="mb-4">
                 <span class="badge rounded-pill text-bg-light border">
                   <i class="bi bi-geo-alt me-1"></i>
@@ -161,11 +162,13 @@
                 <%= link_to admin_modalidade_equipe_path(@modalidade, equipe), class: "btn btn-sm btn-primary" do %>
                   <i class="bi bi-people-fill me-1"></i>Gerenciar
                 <% end %>
-                <%= link_to edit_admin_modalidade_equipe_path(@modalidade, equipe), class: "btn btn-sm btn-outline-secondary" do %>
-                  <i class="bi bi-pencil-square me-1"></i>Editar
-                <% end %>
-                <%= link_to admin_modalidade_equipe_path(@modalidade, equipe), data: { turbo_method: :delete, turbo_confirm: "Excluir esta equipe?" }, class: "btn btn-sm btn-outline-danger" do %>
-                  <i class="bi bi-trash3 me-1"></i>Excluir
+                <% if pode_alterar %>
+                  <%= link_to edit_admin_modalidade_equipe_path(@modalidade, equipe), class: "btn btn-sm btn-outline-secondary" do %>
+                    <i class="bi bi-pencil-square me-1"></i>Editar
+                  <% end %>
+                  <%= link_to admin_modalidade_equipe_path(@modalidade, equipe), data: { turbo_method: :delete, turbo_confirm: "Excluir esta equipe?" }, class: "btn btn-sm btn-outline-danger" do %>
+                    <i class="bi bi-trash3 me-1"></i>Excluir
+                  <% end %>
                 <% end %>
               </div>
             </div>
@@ -179,9 +182,11 @@
             <div class="card-body text-center text-secondary py-5">
               <i class="<%= modalidade_icon_class(@modalidade) %> fs-1 d-block mb-3"></i>
               <h2 class="h5 text-dark fw-bold">Nenhuma equipe cadastrada</h2>
-              <p class="mb-4">Crie a primeira equipe desta modalidade para comecar a adicionar membros.</p>
-              <%= link_to new_admin_modalidade_equipe_path(@modalidade), class: "btn btn-primary" do %>
-                <i class="bi bi-people-fill me-2"></i>Incluir equipe
+              <p class="mb-4"><%= pode_alterar ? "Crie a primeira equipe desta modalidade para comecar a adicionar membros." : "Ainda nao existe equipe cadastrada nesta modalidade." %></p>
+              <% if pode_alterar %>
+                <%= link_to new_admin_modalidade_equipe_path(@modalidade), class: "btn btn-primary" do %>
+                  <i class="bi bi-people-fill me-2"></i>Incluir equipe
+                <% end %>
               <% end %>
             </div>
           </div>

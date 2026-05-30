@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   DISTRITAIS_EMAIL = "distritais@orar.ro"
+  PASTORES_EMAIL = "pastores@orar.ro"
 
   def admin?
     admin
@@ -12,5 +13,13 @@ class User < ApplicationRecord
 
   def distritais?
     email == DISTRITAIS_EMAIL
+  end
+
+  def pastores?
+    email == PASTORES_EMAIL
+  end
+
+  def read_only_admin?
+    pastores?
   end
 end

@@ -1,4 +1,5 @@
 class Admin::Modalidades::Equipes::MembroEquipesController < Admin::BaseController
+  before_action :require_write_access!
   before_action :set_modalidade
   before_action :set_equipe
 

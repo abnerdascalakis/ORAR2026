@@ -11,4 +11,10 @@ class Admin::BaseController < ApplicationController
 
     redirect_to root_path, alert: "Voce nao tem permissao para acessar a area administrativa."
   end
+
+  def require_write_access!
+    return unless current_user&.read_only_admin?
+
+    redirect_to admin_root_path, alert: "Voce nao tem permissao para alterar dados."
+  end
 end

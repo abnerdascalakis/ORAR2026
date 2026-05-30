@@ -1,12 +1,15 @@
 <% content_for :title, "#{@sociedade.nome} | Admin" %>
+<% pode_alterar = !current_user&.read_only_admin? %>
 
 <% actions = capture do %>
   <%= link_to admin_sociedades_path, class: "btn btn-outline-light" do %>
     <i class="bi bi-arrow-left-circle me-2"></i>Voltar
   <% end %>
 
-  <%= link_to edit_admin_sociedade_path(@sociedade), class: "btn btn-light shadow-sm" do %>
-    <i class="bi bi-pencil-square me-2"></i>Editar sociedade
+  <% if pode_alterar %>
+    <%= link_to edit_admin_sociedade_path(@sociedade), class: "btn btn-light shadow-sm" do %>
+      <i class="bi bi-pencil-square me-2"></i>Editar sociedade
+    <% end %>
   <% end %>
 <% end %>
 
@@ -52,22 +55,24 @@
       </div>
     </div>
 
-    <div class="col-12 col-xl-5">
-      <div class="card border-0 rounded-4 shadow-sm h-100">
-        <div class="card-header bg-white border-0 rounded-top-4 px-4 pt-4 pb-0">
-          <h2 class="h5 fw-bold mb-1">Ações</h2>
-          <p class="text-secondary mb-0">Atualize ou remova este cadastro.</p>
-        </div>
+    <% if pode_alterar %>
+      <div class="col-12 col-xl-5">
+        <div class="card border-0 rounded-4 shadow-sm h-100">
+          <div class="card-header bg-white border-0 rounded-top-4 px-4 pt-4 pb-0">
+            <h2 class="h5 fw-bold mb-1">Ações</h2>
+            <p class="text-secondary mb-0">Atualize ou remova este cadastro.</p>
+          </div>
 
-        <div class="card-body p-4 d-flex gap-2 flex-wrap align-items-start">
-          <%= link_to edit_admin_sociedade_path(@sociedade), class: "btn btn-primary" do %>
-            <i class="bi bi-pencil-square me-2"></i>Editar
-          <% end %>
-          <%= link_to admin_sociedade_path(@sociedade), data: { turbo_method: :delete, turbo_confirm: "Excluir esta sociedade?" }, class: "btn btn-outline-danger" do %>
-            <i class="bi bi-trash3 me-2"></i>Excluir
-          <% end %>
+          <div class="card-body p-4 d-flex gap-2 flex-wrap align-items-start">
+            <%= link_to edit_admin_sociedade_path(@sociedade), class: "btn btn-primary" do %>
+              <i class="bi bi-pencil-square me-2"></i>Editar
+            <% end %>
+            <%= link_to admin_sociedade_path(@sociedade), data: { turbo_method: :delete, turbo_confirm: "Excluir esta sociedade?" }, class: "btn btn-outline-danger" do %>
+              <i class="bi bi-trash3 me-2"></i>Excluir
+            <% end %>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
   </div>
 <% end %>
