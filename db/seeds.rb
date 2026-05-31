@@ -86,7 +86,7 @@ rename_modalidade("corrida revezamento", "Corrida revezamento masculino")
 [
   [ "Futsal masculino", 10, 16, false, "masculino" ],
   [ "Futsal feminino", 10, 16, false, "feminino" ],
-  [ "Vôlei misto", 12, 12, false, "misto" ],
+  [ "Vôlei misto", 12, 16, false, "misto" ],
   [ "Natação revezamento masculino", 4, nil, false, "masculino" ],
   [ "Natação revezamento feminino", 4, nil, false, "feminino" ],
   [ "Bom de Bíblia misto", 5, nil, false, "misto" ],
