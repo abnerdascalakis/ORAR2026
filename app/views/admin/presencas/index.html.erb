@@ -1,0 +1,132 @@
+<% content_for :title, "Presenças | Admin" %>
+
+<% actions = capture do %>
+  <%= link_to admin_root_path, class: "btn btn-outline-light" do %>
+    <i class="bi bi-arrow-left-circle me-2"></i>Voltar
+  <% end %>
+
+  <%= link_to admin_leitor_qr_path(operacao: "presenca"), class: "btn btn-light shadow-sm" do %>
+    <i class="bi bi-qr-code-scan me-2"></i>Abrir leitor
+  <% end %>
+<% end %>
+
+<%= render layout: "shared/admin_shell", locals: {
+  title: "Presenças bipadas",
+  subtitle: "Visualize os participantes que tiveram presença registrada pelo QR Code.",
+  breadcrumbs: [
+    { label: "Home", path: admin_root_path },
+    { label: "Presenças" }
+  ],
+  actions: actions
+} do %>
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-md-4">
+      <div class="card admin-data-card border-0 rounded-4 shadow-sm h-100">
+        <div class="card-body p-4">
+          <span class="text-secondary d-block">Presenças registradas</span>
+          <strong class="h3 mb-0"><%= @total_presencas %></strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <div class="card admin-data-card border-0 rounded-4 shadow-sm h-100">
+        <div class="card-body p-4">
+          <span class="text-secondary d-block">Inscrições do evento</span>
+          <strong class="h3 mb-0"><%= @total_inscricoes %></strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <div class="card admin-data-card border-0 rounded-4 shadow-sm h-100">
+        <div class="card-body p-4">
+          <span class="text-secondary d-block">Ainda sem presença</span>
+          <strong class="h3 mb-0"><%= @total_inscricoes - @total_presencas %></strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card border-0 rounded-4 shadow-sm mb-4">
+    <div class="card-body p-4">
+      <%= form_with url: admin_presencas_path, method: :get, data: { turbo: false }, html: { class: "row g-3 align-items-end" } do |form| %>
+        <div class="col-12 col-lg-5">
+          <%= form.label :nome, "Pesquisar por nome", class: "form-label fw-semibold" %>
+          <%= form.search_field :nome, value: @nome_filtro, class: "form-control", placeholder: "Nome do participante" %>
+        </div>
+
+        <div class="col-12 col-lg-4">
+          <%= form.label :distrito_id, "Distrito", class: "form-label fw-semibold" %>
+          <%= form.collection_select :distrito_id,
+            @distritos,
+            :id,
+            :nome,
+            { include_blank: "Todos os distritos", selected: @distrito_filtro&.id },
+            { class: "form-select" } %>
+        </div>
+
+        <div class="col-12 col-lg-3 d-flex gap-2">
+          <button type="submit" class="btn btn-primary flex-fill">
+            <i class="bi bi-search me-1"></i>Filtrar
+          </button>
+
+          <%= link_to admin_presencas_path, class: "btn btn-outline-secondary", title: "Limpar filtros" do %>
+            <i class="bi bi-x-lg"></i>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="card border-0 rounded-4 shadow-sm">
+    <div class="card-header bg-white border-0 rounded-top-4 px-4 pt-4 pb-0">
+      <h2 class="h5 fw-bold mb-1">Registros de presença</h2>
+      <p class="text-secondary mb-0">Cada inscrição aparece no máximo uma vez por evento.</p>
+    </div>
+
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-4">Participante</th>
+              <th>Distrito</th>
+              <th>Horário bipado</th>
+              <th>Operador</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @presencas.each do |presenca| %>
+              <tr>
+                <td class="ps-4">
+                  <strong class="d-block"><%= presenca.inscricao.pessoa.nome %></strong>
+                  <span class="text-secondary small"><%= presenca.inscricao.pessoa.telefone %></span>
+                </td>
+                <td><%= presenca.inscricao.distrito.nome %></td>
+                <td><%= l(presenca.registrada_em, format: :short) %></td>
+                <td><%= presenca.user.email %></td>
+              </tr>
+            <% end %>
+
+            <% if @presencas.empty? %>
+              <tr>
+                <td colspan="4" class="text-center text-secondary py-5">
+                  <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+                  Nenhuma presença registrada.
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <% if @pagy_presencas.pages > 1 %>
+      <div class="card-footer bg-white border-0 px-4 py-3 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+        <%== @pagy_presencas.info_tag %>
+        <%== @pagy_presencas.series_nav(:bootstrap, aria_label: "Paginação de presenças") %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

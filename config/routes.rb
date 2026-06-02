@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     end
     resources :sociedades
     resources :refeicoes
+    resources :presencas, only: [ :index ]
     get "leitor-qr", to: "leitor_qrs#index", as: :leitor_qr
     post "leitor-qr", to: "leitor_qrs#create"
 
