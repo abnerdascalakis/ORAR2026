@@ -1,66 +1,91 @@
 <% content_for :title, "Informações Gerais - ORAR 2026" %>
+<%
+  documentos_principais = [
+    {
+      titulo: "Programação ORAR 2026",
+      etiqueta: "Programação",
+      icone: "bi-calendar-event",
+      arquivo: "ProgramaçãoORAR2026.pdf",
+      descricao: "Confira a programação oficial do ORAR 2026 com horários e atividades para acompanhar o evento do começo ao fim.",
+      botao: "Baixar programação"
+    }
+  ]
+
+  regras_modalidades = [
+    { titulo: "Futsal", arquivo: "FUTSAL-REGRAS.pdf", icone: "fa-solid fa-futbol" },
+    { titulo: "Vôlei", arquivo: "VÔLEI-REGRAS.pdf", icone: "fa-solid fa-volleyball" },
+    { titulo: "Natação", arquivo: "NATAÇÃO-REGRAS.pdf", icone: "fa-solid fa-person-swimming" },
+    { titulo: "Corrida", arquivo: "CORRIDA-REGRAS.pdf", icone: "fa-solid fa-person-running" },
+    { titulo: "Dodgeball", arquivo: "DODGEBALL-REGRAS.pdf", icone: "fa-solid fa-baseball" }
+  ]
+
+  pdf_path = ->(arquivo) { "/pdfs/#{ERB::Util.url_encode(arquivo)}" }
+%>
 
 <main class="orar-docs-page py-5">
   <div class="container orar-docs-container">
     <header class="text-center mb-5">
       <p class="orar-section-kicker mb-2">Documentação</p>
       <h1 class="display-5 fw-semibold text-marinho mb-3">Informações Gerais</h1>
-      <p class="lead text-claro mb-0">Acesse a documentação completa do evento ORAR 2026.</p>
+      <p class="lead text-claro mb-0">Acesse a programação e as regras das modalidades do ORAR 2026.</p>
     </header>
 
     <div class="row g-4">
-      <div class="col-12 col-lg-6">
-        <article class="card orar-doc-card h-100 border-0 shadow-sm">
-          <div class="card-body p-4 p-lg-5 d-flex flex-column">
-            <span class="badge orar-doc-badge align-self-start mb-3">
-              <i class="bi bi-file-earmark-pdf me-2" aria-hidden="true"></i>Documentação Oficial
-            </span>
-            <h2 class="h3 text-marinho mb-3">Boletim Informativo ORAR</h2>
-            <p class="text-secondary mb-4">
-              Acesse o boletim informativo completo com programação, horários, locais e demais orientações importantes do evento.
-            </p>
-            <div class="orar-doc-preview rounded-4 border mb-4">
-              <i class="bi bi-file-earmark-pdf-fill" aria-hidden="true"></i>
-              <span>Clique para visualizar ou baixar o PDF</span>
+      <% documentos_principais.each do |documento| %>
+        <div class="col-12 col-lg-8 mx-auto">
+          <article class="card orar-doc-card h-100 border-0 shadow-sm">
+            <div class="card-body p-4 p-lg-5 d-flex flex-column">
+              <span class="badge orar-doc-badge align-self-start mb-3">
+                <i class="bi <%= documento[:icone] %> me-2" aria-hidden="true"></i><%= documento[:etiqueta] %>
+              </span>
+              <h2 class="h3 text-marinho mb-3"><%= documento[:titulo] %></h2>
+              <p class="text-secondary mb-4"><%= documento[:descricao] %></p>
+              <div class="orar-doc-preview rounded-4 border mb-4">
+                <i class="bi bi-file-earmark-pdf-fill" aria-hidden="true"></i>
+                <span>Clique para visualizar ou baixar o PDF</span>
+              </div>
+              <div class="d-flex gap-2 mt-auto">
+                <a href="<%= pdf_path.call(documento[:arquivo]) %>" class="btn btn-outline-primary flex-fill" target="_blank" rel="noopener">
+                  <i class="bi bi-eye me-2" aria-hidden="true"></i>Visualizar PDF
+                </a>
+                <a href="<%= pdf_path.call(documento[:arquivo]) %>" class="btn btn-marinho flex-fill" download>
+                  <i class="bi bi-download me-2" aria-hidden="true"></i><%= documento[:botao] %>
+                </a>
+              </div>
             </div>
-            <div class="d-flex gap-2 mt-auto">
-              <a href="/pdfs/Boletim%20informativo%20ORAR%202026.pdf" class="btn btn-outline-primary flex-fill" target="_blank" rel="noopener">
-                <i class="bi bi-eye me-2" aria-hidden="true"></i>Visualizar PDF
-              </a>
-              <a href="/pdfs/Boletim%20informativo%20ORAR%202026.pdf" class="btn btn-marinho flex-fill" download>
-                <i class="bi bi-download me-2" aria-hidden="true"></i>Baixar boletim
-              </a>
-            </div>
-          </div>
-        </article>
+          </article>
+        </div>
+      <% end %>
+    </div>
+
+    <section class="orar-rules-section mt-5">
+      <div class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-3 mb-4">
+        <div>
+          <p class="orar-section-kicker mb-2">Modalidades</p>
+          <h2 class="h3 text-marinho mb-0">Regras das modalidades</h2>
+        </div>
       </div>
 
-      <div class="col-12 col-lg-6">
-        <article class="card orar-doc-card h-100 border-0 shadow-sm">
-          <div class="card-body p-4 p-lg-5 d-flex flex-column">
-            <span class="badge orar-doc-badge align-self-start mb-3">
-              <i class="bi bi-signpost-2 me-2" aria-hidden="true"></i>Guia Prático
-            </span>
-            <h2 class="h3 text-marinho mb-3">Cronograma do Evento</h2>
-            <p class="text-secondary mb-4">
-              Confira a sequência das atividades, intervalos e apresentações para se organizar melhor durante o ORAR 2026.
-            </p>
-            <div class="orar-doc-preview rounded-4 border mb-4">
-              <i class="bi bi-file-earmark-pdf-fill" aria-hidden="true"></i>
-              <span>Clique para visualizar ou baixar o PDF</span>
-            </div>
-            <div class="d-flex gap-2 mt-auto">
-              <a href="/pdfs/Cronograma%20do%20evento.pdf" class="btn btn-outline-primary flex-fill" target="_blank" rel="noopener">
-                <i class="bi bi-eye me-2" aria-hidden="true"></i>Visualizar PDF
-              </a>
-              <a href="/pdfs/Cronograma%20do%20evento.pdf" class="btn btn-marinho flex-fill" download>
-                <i class="bi bi-download me-2" aria-hidden="true"></i>Baixar cronograma
-              </a>
-            </div>
+      <div class="row g-3">
+        <% regras_modalidades.each do |regra| %>
+          <div class="col-6 col-lg-4 col-xl">
+            <article class="card orar-rule-card h-100 border-0 shadow-sm">
+              <div class="card-body p-3 d-flex align-items-center gap-3">
+                <span class="orar-rule-icon" aria-hidden="true">
+                  <i class="<%= regra[:icone] %>"></i>
+                </span>
+                <div class="orar-rule-copy">
+                  <h3 class="h6 text-marinho mb-1"><%= regra[:titulo] %></h3>
+                  <a href="<%= pdf_path.call(regra[:arquivo]) %>" target="_blank" rel="noopener" class="stretched-link">
+                    Ver regras
+                  </a>
+                </div>
+              </div>
+            </article>
           </div>
-        </article>
+        <% end %>
       </div>
-    </div>
+    </section>
   </div>
 </main>
 
@@ -97,7 +122,7 @@
   }
 
   .orar-doc-card {
-    border-radius: 24px;
+    border-radius: 8px;
     box-shadow: 0 18px 40px rgba(28, 54, 84, 0.08);
   }
 
@@ -131,9 +156,87 @@
     font-size: 2rem;
   }
 
+  .orar-rules-section {
+    border-top: 1px solid rgba(143, 175, 206, 0.3);
+    padding-top: 2rem;
+  }
+
+  .orar-rule-card {
+    border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .orar-rule-card:hover,
+  .orar-rule-card:focus-within {
+    box-shadow: 0 14px 32px rgba(28, 54, 84, 0.12) !important;
+    transform: translateY(-2px);
+  }
+
+  .orar-rule-icon {
+    align-items: center;
+    background: #d9e6f5;
+    border-radius: 8px;
+    color: #163a63;
+    display: inline-flex;
+    flex: 0 0 48px;
+    font-size: 1.25rem;
+    height: 48px;
+    justify-content: center;
+    width: 48px;
+  }
+
+  .orar-rule-copy {
+    min-width: 0;
+  }
+
+  .orar-rule-copy h3 {
+    font-weight: 700;
+  }
+
+  .orar-rule-copy a {
+    color: #2e5f95;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .orar-rule-copy a:hover,
+  .orar-rule-copy a:focus {
+    color: #163a63;
+    text-decoration: underline;
+  }
+
   @media (max-width: 575.98px) {
     .orar-docs-container {
       padding-top: calc(var(--orar-navbar-height) + 0.5rem);
+    }
+
+    .orar-doc-card .d-flex.gap-2 {
+      flex-direction: column;
+    }
+
+    .orar-rule-card .card-body {
+      align-items: flex-start !important;
+      flex-direction: column;
+      gap: 0.75rem !important;
+      min-height: 132px;
+      padding: 0.9rem !important;
+    }
+
+    .orar-rule-icon {
+      flex-basis: 42px;
+      font-size: 1.1rem;
+      height: 42px;
+      width: 42px;
+    }
+
+    .orar-rule-copy h3 {
+      font-size: 0.95rem;
+      line-height: 1.2;
+    }
+
+    .orar-rule-copy a {
+      font-size: 0.84rem;
     }
   }
 </style>
