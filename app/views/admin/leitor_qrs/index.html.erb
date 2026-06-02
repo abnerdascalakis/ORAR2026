@@ -1,0 +1,92 @@
+<% content_for :title, "Leitor QR | Admin" %>
+
+<% actions = capture do %>
+  <%= link_to admin_root_path, class: "btn btn-outline-light" do %>
+    <i class="bi bi-arrow-left-circle me-2"></i>Voltar
+  <% end %>
+
+  <%= link_to admin_refeicoes_path, class: "btn btn-light shadow-sm" do %>
+    <i class="bi bi-cup-hot me-2"></i>Refeicoes
+  <% end %>
+
+  <%= link_to credenciais_admin_inscricoes_path, class: "btn btn-light shadow-sm" do %>
+    <i class="bi bi-printer me-2"></i>Gerar QR Code
+  <% end %>
+<% end %>
+
+<%= render layout: "shared/admin_shell", locals: {
+  title: "Leitor QR",
+  subtitle: "Registre presença ou libere alimentação por refeição usando o QR Code da inscrição.",
+  breadcrumbs: [
+    { label: "Home", path: admin_root_path },
+    { label: "Leitor QR" }
+  ],
+  actions: actions
+} do %>
+  <div class="row g-4 justify-content-center">
+    <div class="col-12 col-xl-8">
+      <div class="card border-0 rounded-4 shadow-sm">
+        <div class="card-body p-4" data-controller="qr-reader">
+          <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap mb-4">
+            <div>
+              <h2 class="h5 fw-bold mb-1">Bipagem</h2>
+              <p class="text-secondary mb-0">A leitura usa o token assinado da inscrição.</p>
+            </div>
+            <button type="button" class="btn btn-outline-primary" data-action="qr-reader#toggleCamera">
+              <i class="bi bi-camera-video me-2"></i>Camera
+            </button>
+          </div>
+
+          <video
+            class="w-100 rounded-4 bg-dark d-none mb-3"
+            style="aspect-ratio: 16 / 9; object-fit: cover;"
+            playsinline
+            muted
+            data-qr-reader-target="video"
+          ></video>
+
+          <div class="alert alert-warning d-none" data-qr-reader-target="warning"></div>
+
+          <%= form_with url: admin_leitor_qr_path, method: :post, data: { turbo: false, qr_reader_target: "form" } do |form| %>
+            <div class="mb-3">
+              <%= form.label :operacao, "Operacao", class: "form-label fw-semibold" %>
+              <%= form.select :operacao,
+                [["Registrar presenca", "presenca"], ["Liberar alimentacao", "alimentacao"]],
+                { selected: @operacao },
+                class: "form-select form-select-lg",
+                data: { action: "change->qr-reader#syncOperation", qr_reader_target: "operation" } %>
+            </div>
+
+            <div class="mb-3" data-qr-reader-target="mealWrapper">
+              <%= form.label :refeicao_id, "Refeicao", class: "form-label fw-semibold" %>
+              <%= form.collection_select :refeicao_id,
+                @refeicoes,
+                :id,
+                :nome_com_data,
+                { prompt: "Selecione a refeicao", selected: @refeicao_id },
+                class: "form-select form-select-lg" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :token, "Token ou conteudo do QR", class: "form-label fw-semibold" %>
+              <div class="input-group input-group-lg">
+                <span class="input-group-text"><i class="bi bi-qr-code"></i></span>
+                <%= form.text_field :token,
+                  value: @token,
+                  class: "form-control",
+                  autocomplete: "off",
+                  autofocus: true,
+                  placeholder: "Cole ou leia o QR Code",
+                  data: { qr_reader_target: "token" } %>
+              </div>
+            </div>
+
+            <%= form.button class: "btn btn-primary btn-lg w-100" do %>
+              <i class="bi bi-check2-circle me-2"></i>Validar credencial
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

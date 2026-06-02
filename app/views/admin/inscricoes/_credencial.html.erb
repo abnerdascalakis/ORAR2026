@@ -1,0 +1,21 @@
+<% leitor_url = admin_leitor_qr_url(token: inscricao.credencial_token) %>
+
+<article class="credit-card">
+  <div class="credit-card__stripe"></div>
+
+  <div class="credit-card__body">
+    <div class="credit-card__top">
+      <strong class="credit-card__name"><%= inscricao.pessoa.nome %></strong>
+      <span class="credit-card__district"><%= inscricao.distrito.nome %></span>
+    </div>
+
+    <div class="credit-card__qr" aria-label="QR Code do crédito">
+      <%= raw qr_code_svg(leitor_url, module_size: 2) %>
+    </div>
+
+    <div class="credit-card__footer">
+      <span>ID <%= inscricao.id %></span>
+      <span><%= inscricao.evento.descricao %></span>
+    </div>
+  </div>
+</article>

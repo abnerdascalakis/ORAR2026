@@ -1,0 +1,224 @@
+<% content_for :title, "Créditos | Admin" %>
+
+<% content_for :head do %>
+  <style>
+    :root {
+      color: #163a63;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      background: #f4f7fb;
+      margin: 0;
+      min-height: 100%;
+      padding: 0;
+    }
+
+    .credits-toolbar {
+      align-items: center;
+      background: #163a63;
+      color: #fff;
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      padding: 16px 24px;
+    }
+
+    .credits-toolbar h1 {
+      font-size: 20px;
+      line-height: 1.2;
+      margin: 0;
+    }
+
+    .credits-toolbar p {
+      color: rgba(255, 255, 255, 0.78);
+      margin: 4px 0 0;
+    }
+
+    .credits-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .credits-button {
+      background: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      border-radius: 6px;
+      color: #163a63;
+      cursor: pointer;
+      display: inline-flex;
+      font: inherit;
+      font-weight: 700;
+      padding: 9px 12px;
+      text-decoration: none;
+    }
+
+    .credits-sheet {
+      background: #fff;
+      display: grid;
+      gap: 2mm;
+      grid-auto-rows: 55mm;
+      grid-template-columns: repeat(4, 48mm);
+      margin: 16px auto;
+      min-height: 285mm;
+      padding: 6mm;
+      width: 210mm;
+    }
+
+    .credit-card {
+      --credit-border: #006fba;
+      border: 0.3mm solid var(--credit-border);
+      border-radius: 2mm;
+      height: 55mm;
+      overflow: hidden;
+      width: 48mm;
+    }
+
+    .credit-card__stripe {
+      background:
+        linear-gradient(
+          90deg,
+          #006fba 0 16.66%,
+          #a9def4 16.66% 33.33%,
+          #ffd51f 33.33% 50%,
+          #ff6f2c 50% 66.66%,
+          #008f55 66.66% 83.33%,
+          #00c8d7 83.33% 100%
+        );
+      height: 3mm;
+    }
+
+    .credit-card__body {
+      display: grid;
+      gap: 1mm;
+      grid-template-rows: auto auto 1fr;
+      padding: 1.8mm 2.2mm 2mm;
+    }
+
+    .credit-card__footer span {
+      color: #5f6f82;
+      display: block;
+      font-size: 6.3pt;
+      line-height: 1.1;
+    }
+
+    .credit-card__top {
+      text-align: center;
+    }
+
+    .credit-card__name {
+      color: #163a63;
+      display: -webkit-box;
+      font-size: 8.2pt;
+      font-weight: 800;
+      line-height: 1.05;
+      min-height: 8mm;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .credit-card__district {
+      color: #06343c;
+      display: block;
+      font-size: 7pt;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-top: 0.8mm;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .credit-card__qr {
+      align-items: center;
+      border: 0.35mm solid var(--credit-border);
+      border-radius: 1.4mm;
+      display: flex;
+      height: 36mm;
+      justify-content: center;
+      justify-self: center;
+      padding: 1mm;
+      width: 36mm;
+    }
+
+    .credit-card__qr svg {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+
+    .credit-card__footer {
+      align-items: center;
+      border-top: 0.3mm solid var(--credit-border);
+      display: flex;
+      justify-content: space-between;
+      padding-top: 1mm;
+    }
+
+    .credits-empty {
+      color: #5f6f82;
+      grid-column: 1 / -1;
+      padding: 24px;
+      text-align: center;
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+
+      html,
+      body {
+        background: #fff;
+        height: auto;
+        width: auto;
+      }
+
+      .credits-toolbar {
+        display: none;
+      }
+
+      .credits-sheet {
+        margin: 0;
+        min-height: 297mm;
+        padding: 6mm;
+        width: 210mm;
+      }
+
+      .credit-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+<% end %>
+
+<header class="credits-toolbar">
+  <div>
+    <h1>Créditos</h1>
+    <p><%= @inscricoes.size %> QR Code(s) pronto(s) para impressão.</p>
+  </div>
+
+  <div class="credits-actions">
+    <%= link_to "Voltar", admin_leitor_qr_path, class: "credits-button" %>
+    <button type="button" class="credits-button" onclick="window.print()">Imprimir</button>
+  </div>
+</header>
+
+<main class="credits-sheet">
+  <% @inscricoes.each do |inscricao| %>
+    <%= render "credencial", inscricao: inscricao %>
+  <% end %>
+
+  <% if @inscricoes.empty? %>
+    <div class="credits-empty">Nenhuma inscrição encontrada para imprimir.</div>
+  <% end %>
+</main>

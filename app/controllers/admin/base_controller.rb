@@ -17,4 +17,8 @@ class Admin::BaseController < ApplicationController
 
     redirect_to admin_root_path, alert: "Voce nao tem permissao para alterar dados."
   end
+
+  def current_event
+    @current_event ||= Evento.find_by!(descricao: "ORAR 2026")
+  end
 end

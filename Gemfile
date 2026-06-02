@@ -76,3 +76,5 @@ gem "simple_form"
 gem "ransack"
 
 gem "pagy"
+
+gem "rqrcode"

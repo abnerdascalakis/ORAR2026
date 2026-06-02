@@ -30,6 +30,19 @@ module ApplicationHelper
     categorias_admin_modalidades_path(nome_base: modalidade.nome_base)
   end
 
+  def qr_code_svg(content, module_size: 5)
+    RQRCode::QRCode
+      .new(content)
+      .as_svg(
+        color: "000",
+        shape_rendering: "crispEdges",
+        module_size: module_size,
+        standalone: true,
+        use_path: true,
+        viewbox: true
+      )
+  end
+
   def responsive_asset_picture(
     source,
     alt:,
