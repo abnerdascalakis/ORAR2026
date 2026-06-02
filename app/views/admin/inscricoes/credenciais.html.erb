@@ -62,9 +62,9 @@
     .credits-sheet {
       background: #fff;
       display: grid;
-      gap: 2mm;
-      grid-auto-rows: 55mm;
-      grid-template-columns: repeat(4, 48mm);
+      gap: 1.2mm;
+      grid-auto-rows: 47mm;
+      grid-template-columns: repeat(5, 38.4mm);
       margin: 16px auto;
       min-height: 285mm;
       padding: 6mm;
@@ -74,10 +74,10 @@
     .credit-card {
       --credit-border: #006fba;
       border: 0.3mm solid var(--credit-border);
-      border-radius: 2mm;
-      height: 55mm;
+      border-radius: 1.6mm;
+      height: 47mm;
       overflow: hidden;
-      width: 48mm;
+      width: 38.4mm;
     }
 
     .credit-card__stripe {
@@ -91,20 +91,20 @@
           #008f55 66.66% 83.33%,
           #00c8d7 83.33% 100%
         );
-      height: 3mm;
+      height: 2.2mm;
     }
 
     .credit-card__body {
       display: grid;
-      gap: 1mm;
+      gap: 0.8mm;
       grid-template-rows: auto auto 1fr;
-      padding: 1.8mm 2.2mm 2mm;
+      padding: 1.2mm 1.4mm 1.4mm;
     }
 
     .credit-card__footer span {
       color: #5f6f82;
       display: block;
-      font-size: 6.3pt;
+      font-size: 5pt;
       line-height: 1.1;
     }
 
@@ -115,10 +115,10 @@
     .credit-card__name {
       color: #163a63;
       display: -webkit-box;
-      font-size: 8.2pt;
+      font-size: 7pt;
       font-weight: 800;
       line-height: 1.05;
-      min-height: 8mm;
+      min-height: 6.5mm;
       overflow: hidden;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
@@ -127,10 +127,10 @@
     .credit-card__district {
       color: #06343c;
       display: block;
-      font-size: 7pt;
+      font-size: 6.2pt;
       font-weight: 700;
       line-height: 1.1;
-      margin-top: 0.8mm;
+      margin-top: 0.5mm;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -139,13 +139,13 @@
     .credit-card__qr {
       align-items: center;
       border: 0.35mm solid var(--credit-border);
-      border-radius: 1.4mm;
+      border-radius: 1mm;
       display: flex;
-      height: 36mm;
+      height: 28mm;
       justify-content: center;
       justify-self: center;
-      padding: 1mm;
-      width: 36mm;
+      padding: 0.8mm;
+      width: 28mm;
     }
 
     .credit-card__qr svg {
@@ -159,7 +159,7 @@
       border-top: 0.3mm solid var(--credit-border);
       display: flex;
       justify-content: space-between;
-      padding-top: 1mm;
+      padding-top: 0.7mm;
     }
 
     .credits-empty {
@@ -204,7 +204,15 @@
 <header class="credits-toolbar">
   <div>
     <h1>Créditos</h1>
-    <p><%= @inscricoes.size %> QR Code(s) pronto(s) para impressão.</p>
+    <p>
+      <%= @inscricoes.size %> QR Code(s) pronto(s) para impressão.
+      <% if @nome_filtro.present? %>
+        Nome: <%= @nome_filtro %>.
+      <% end %>
+      <% if @distritos_filtro.present? %>
+        Distritos: <%= @distritos_filtro.map(&:nome).to_sentence %>.
+      <% end %>
+    </p>
   </div>
 
   <div class="credits-actions">

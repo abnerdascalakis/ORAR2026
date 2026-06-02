@@ -3,6 +3,7 @@ class Admin::LeitorQrsController < Admin::BaseController
 
   def index
     @refeicoes = current_event.refeicoes.ordenadas
+    @distritos = Distrito.order(:nome)
     @operacao = params[:operacao].presence || "presenca"
     @token = params[:token].to_s
     @refeicao_id = params[:refeicao_id].to_s

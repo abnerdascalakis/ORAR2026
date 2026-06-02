@@ -675,6 +675,20 @@ h6,
   z-index: 30;
 }
 
+.admin-qr-picker__districts {
+  border: 1px solid rgba(94, 134, 181, 0.3);
+  border-radius: 8px;
+  height: min(260px, 34vh);
+  overflow-y: auto;
+}
+
+.admin-qr-picker__actions {
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
 @media (min-width: 992px) {
   .admin-sidebar {
     position: fixed;

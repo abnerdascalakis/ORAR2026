@@ -15,6 +15,8 @@ class Admin::InscricoesController < Admin::BaseController
 
   def credenciais
     @q = inscricoes_scope.ransack(params[:q])
+    @nome_filtro = params.dig(:q, :pessoa_nome_cont).to_s.strip
+    @distritos_filtro = Distrito.where(id: distrito_filter_ids).order(:nome)
     @inscricoes = ordered_inscricoes(@q.result)
     render layout: "print"
   end
@@ -221,6 +223,10 @@ class Admin::InscricoesController < Admin::BaseController
 
   def return_to_location
     url_from(params[:return_to]).presence || admin_inscricoes_path
+  end
+
+  def distrito_filter_ids
+    Array(params.dig(:q, :distrito_id_in)).presence || Array(params.dig(:q, :distrito_id_eq))
   end
 
   def current_event
