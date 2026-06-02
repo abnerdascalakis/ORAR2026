@@ -50,9 +50,10 @@
           <% [
             ["bi-trophy-fill", "Modalidades", admin_modalidades_path],
             ["bi-clipboard2-check", "Inscricoes", admin_inscricoes_path],
-            ["bi-buildings", "Sociedades", admin_sociedades_path],
             ["bi-cup-hot", "Refeicoes", admin_refeicoes_path],
-            ["bi-qr-code-scan", "Leitor QR", admin_leitor_qr_path]
+            ["bi-person-check", "Presencas", admin_presencas_path],
+            ["bi-qr-code-scan", "Leitor QR", admin_leitor_qr_path],
+            ["bi-buildings", "Sociedades", admin_sociedades_path]
           ].each do |icon, label, path| %>
             <%= link_to path, class: "admin-link d-flex align-items-center justify-content-between py-2 px-2 rounded-3" do %>
               <span class="d-flex align-items-center gap-3">

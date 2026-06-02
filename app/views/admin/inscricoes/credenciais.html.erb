@@ -64,7 +64,7 @@
       display: grid;
       gap: 1.2mm;
       grid-auto-rows: 47mm;
-      grid-template-columns: repeat(5, 38.4mm);
+      grid-template-columns: repeat(4, 48.6mm);
       margin: 16px auto;
       min-height: 285mm;
       padding: 6mm;
@@ -72,33 +72,25 @@
     }
 
     .credit-card {
-      --credit-border: #006fba;
+      --credit-border: #0b2f5b;
       border: 0.3mm solid var(--credit-border);
       border-radius: 1.6mm;
       height: 47mm;
       overflow: hidden;
-      width: 38.4mm;
+      width: 48.6mm;
     }
 
     .credit-card__stripe {
-      background:
-        linear-gradient(
-          90deg,
-          #006fba 0 16.66%,
-          #a9def4 16.66% 33.33%,
-          #ffd51f 33.33% 50%,
-          #ff6f2c 50% 66.66%,
-          #008f55 66.66% 83.33%,
-          #00c8d7 83.33% 100%
-        );
+      background: #0b2f5b;
       height: 2.2mm;
     }
 
     .credit-card__body {
       display: grid;
-      gap: 0.8mm;
-      grid-template-rows: auto auto 1fr;
-      padding: 1.2mm 1.4mm 1.4mm;
+      gap: 0.25mm;
+      grid-template-rows: auto auto auto auto;
+      height: calc(47mm - 2.2mm);
+      padding: 0.7mm 1.2mm 1.4mm;
     }
 
     .credit-card__footer span {
@@ -113,25 +105,26 @@
     }
 
     .credit-card__name {
-      color: #163a63;
+      color: #0b2f5b;
       display: -webkit-box;
-      font-size: 7pt;
+      font-size: 9pt;
       font-weight: 800;
       line-height: 1.05;
-      min-height: 6.5mm;
+      min-height: 7mm;
       overflow: hidden;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
     }
 
     .credit-card__district {
-      color: #06343c;
+      color: #143f6d;
       display: block;
-      font-size: 6.2pt;
+      font-size: 7pt;
       font-weight: 700;
       line-height: 1.1;
-      margin-top: 0.5mm;
+      margin-top: 0;
       overflow: hidden;
+      text-align: center;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
@@ -141,11 +134,11 @@
       border: 0.35mm solid var(--credit-border);
       border-radius: 1mm;
       display: flex;
-      height: 28mm;
+      height: 29mm;
       justify-content: center;
       justify-self: center;
-      padding: 0.8mm;
-      width: 28mm;
+      padding: 0.5mm;
+      width: 29mm;
     }
 
     .credit-card__qr svg {
@@ -159,7 +152,7 @@
       border-top: 0.3mm solid var(--credit-border);
       display: flex;
       justify-content: space-between;
-      padding-top: 0.7mm;
+      padding-top: 0.4mm;
     }
 
     .credits-empty {
