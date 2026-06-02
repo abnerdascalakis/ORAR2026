@@ -1,0 +1,49 @@
+<%= form_with model: [ :admin, @refeicao ] do |form| %>
+  <% if @refeicao.errors.any? %>
+    <div class="alert alert-danger">
+      <strong>Confira os dados:</strong>
+      <ul class="mb-0 mt-2">
+        <% @refeicao.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row g-3">
+    <div class="col-12 col-lg-5">
+      <%= form.label :nome, "Nome da refeicao", class: "form-label fw-semibold" %>
+      <div class="input-group input-group-lg">
+        <span class="input-group-text"><i class="bi bi-cup-hot"></i></span>
+        <%= form.text_field :nome, class: "form-control", autofocus: true, placeholder: "Ex: Almoco de sabado" %>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3">
+      <%= form.label :data, "Data", class: "form-label fw-semibold" %>
+      <div class="input-group input-group-lg">
+        <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+        <%= form.date_field :data, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-2">
+      <%= form.label :horario_inicio, "Inicio", class: "form-label fw-semibold" %>
+      <%= form.time_field :horario_inicio, class: "form-control form-control-lg" %>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-2">
+      <%= form.label :horario_fim, "Fim", class: "form-label fw-semibold" %>
+      <%= form.time_field :horario_fim, class: "form-control form-control-lg" %>
+    </div>
+  </div>
+
+  <div class="d-flex gap-2 flex-wrap pt-4">
+    <%= form.button class: "btn btn-primary" do %>
+      <i class="bi bi-floppy me-2"></i>Salvar refeicao
+    <% end %>
+    <%= link_to admin_refeicoes_path, class: "btn btn-outline-secondary" do %>
+      <i class="bi bi-x me-2"></i>Cancelar
+    <% end %>
+  </div>
+<% end %>

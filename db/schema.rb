@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_22_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_01_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "consumo_alimentacoes", force: :cascade do |t|
+    t.datetime "consumido_em", null: false
+    t.datetime "created_at", null: false
+    t.bigint "inscricao_id", null: false
+    t.bigint "refeicao_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["inscricao_id", "refeicao_id"], name: "index_consumo_alimentacoes_on_inscricao_id_and_refeicao_id", unique: true
+    t.index ["inscricao_id"], name: "index_consumo_alimentacoes_on_inscricao_id"
+    t.index ["refeicao_id"], name: "index_consumo_alimentacoes_on_refeicao_id"
+    t.index ["user_id"], name: "index_consumo_alimentacoes_on_user_id"
+  end
 
   create_table "distritos", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -96,6 +109,31 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_22_120000) do
     t.index ["sexo_id"], name: "index_pessoas_on_sexo_id"
   end
 
+  create_table "presencas", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "evento_id", null: false
+    t.bigint "inscricao_id", null: false
+    t.datetime "registrada_em", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["evento_id"], name: "index_presencas_on_evento_id"
+    t.index ["inscricao_id", "evento_id"], name: "index_presencas_on_inscricao_id_and_evento_id", unique: true
+    t.index ["inscricao_id"], name: "index_presencas_on_inscricao_id"
+    t.index ["user_id"], name: "index_presencas_on_user_id"
+  end
+
+  create_table "refeicoes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "data", null: false
+    t.bigint "evento_id", null: false
+    t.time "horario_fim"
+    t.time "horario_inicio"
+    t.string "nome", null: false
+    t.datetime "updated_at", null: false
+    t.index ["evento_id", "data", "nome"], name: "index_refeicoes_on_evento_id_and_data_and_nome", unique: true
+    t.index ["evento_id"], name: "index_refeicoes_on_evento_id"
+  end
+
   create_table "sexos", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "nome"
@@ -133,6 +171,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_22_120000) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "consumo_alimentacoes", "inscricoes"
+  add_foreign_key "consumo_alimentacoes", "refeicoes"
+  add_foreign_key "consumo_alimentacoes", "users"
   add_foreign_key "equipes", "distritos"
   add_foreign_key "equipes", "modalidades"
   add_foreign_key "inscricao_modalidades", "inscricoes"
@@ -144,6 +185,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_22_120000) do
   add_foreign_key "membro_equipes", "equipes"
   add_foreign_key "membro_equipes", "inscricao_modalidades"
   add_foreign_key "pessoas", "sexos"
+  add_foreign_key "presencas", "eventos"
+  add_foreign_key "presencas", "inscricoes"
+  add_foreign_key "presencas", "users"
+  add_foreign_key "refeicoes", "eventos"
   add_foreign_key "sociedades", "distritos"
   add_foreign_key "sociedades_eventos", "eventos"
   add_foreign_key "sociedades_eventos", "sociedades"

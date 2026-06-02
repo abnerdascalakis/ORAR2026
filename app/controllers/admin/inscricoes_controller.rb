@@ -1,21 +1,29 @@
 class Admin::InscricoesController < Admin::BaseController
   before_action :require_inscricao_actions_access!, only: [ :new, :create, :edit, :update, :destroy ]
   before_action :require_pagamento_access!, only: [ :toggle_pago ]
-  before_action :set_inscricao, only: [ :edit, :update, :destroy, :toggle_pago ]
+  before_action :set_inscricao, only: [ :edit, :update, :destroy, :toggle_pago, :credencial ]
   before_action :set_form_collections, only: [ :new, :create, :edit, :update ]
 
   def index
-    @q = Inscricao
-      .includes(:modalidades, :distrito, pessoa: :sexo)
-      .joins(:pessoa, :distrito)
-      .ransack(params[:q])
+    @q = inscricoes_scope.ransack(params[:q])
     @distrito_filtro = Distrito.find_by(id: params.dig(:q, :distrito_id_eq))
 
-    inscricoes = @q.result
-      .includes(:modalidades, :distrito, pessoa: :sexo)
-      .order("pessoas.nome")
+    inscricoes = ordered_inscricoes(@q.result)
 
     @pagy_inscricoes, @inscricoes = pagy(:offset, inscricoes, limit: 12)
+  end
+
+  def credenciais
+    @q = inscricoes_scope.ransack(params[:q])
+    @nome_filtro = params.dig(:q, :pessoa_nome_cont).to_s.strip
+    @distritos_filtro = Distrito.where(id: distrito_filter_ids).order(:nome)
+    @inscricoes = ordered_inscricoes(@q.result)
+    render layout: "print"
+  end
+
+  def credencial
+    @inscricoes = [ @inscricao ]
+    render :credenciais, layout: "print"
   end
 
   def edit
@@ -126,6 +134,18 @@ class Admin::InscricoesController < Admin::BaseController
       .find(params[:id])
   end
 
+  def inscricoes_scope
+    Inscricao
+      .includes(:modalidades, :distrito, pessoa: :sexo)
+      .joins(:pessoa, :distrito)
+  end
+
+  def ordered_inscricoes(relation)
+    relation
+      .includes(:modalidades, :distrito, pessoa: :sexo)
+      .order("pessoas.nome")
+  end
+
   def set_form_collections
     @sexos = Sexo.order(:nome)
     @distritos = Distrito.order(:nome)
@@ -203,6 +223,10 @@ class Admin::InscricoesController < Admin::BaseController
 
   def return_to_location
     url_from(params[:return_to]).presence || admin_inscricoes_path
+  end
+
+  def distrito_filter_ids
+    Array(params.dig(:q, :distrito_id_in)).presence || Array(params.dig(:q, :distrito_id_eq))
   end
 
   def current_event

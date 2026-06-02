@@ -6,8 +6,13 @@ Rails.application.routes.draw do
 
     resources :inscricoes, only: [ :index, :new, :create, :edit, :update, :destroy ] do
       patch :toggle_pago, on: :member
+      get :credencial, on: :member
+      get :credenciais, on: :collection
     end
     resources :sociedades
+    resources :refeicoes
+    get "leitor-qr", to: "leitor_qrs#index", as: :leitor_qr
+    post "leitor-qr", to: "leitor_qrs#create"
 
     resources :modalidades, only: [ :index, :show ] do
       collection do

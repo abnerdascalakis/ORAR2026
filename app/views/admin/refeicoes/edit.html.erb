@@ -1,0 +1,25 @@
+<% content_for :title, "Editar refeição | Admin" %>
+
+<% actions = capture do %>
+  <%= link_to admin_refeicao_path(@refeicao), class: "btn btn-outline-light" do %>
+    <i class="bi bi-arrow-left-circle me-2"></i>Voltar
+  <% end %>
+<% end %>
+
+<%= render layout: "shared/admin_shell", locals: {
+  title: "Editar refeição",
+  subtitle: @refeicao.nome_com_data,
+  breadcrumbs: [
+    { label: "Home", path: admin_root_path },
+    { label: "Refeições", path: admin_refeicoes_path },
+    { label: @refeicao.nome, path: admin_refeicao_path(@refeicao) },
+    { label: "Editar" }
+  ],
+  actions: actions
+} do %>
+  <div class="card border-0 rounded-4 shadow-sm">
+    <div class="card-body p-4">
+      <%= render "form" %>
+    </div>
+  </div>
+<% end %>

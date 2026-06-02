@@ -190,6 +190,12 @@
                           <% end %>
                         </li>
                         <li>
+                          <%= link_to admin_leitor_qr_path(token: inscricao.credencial_token), class: "dropdown-item rounded-2 d-flex align-items-center gap-2" do %>
+                            <i class="bi bi-qr-code-scan"></i>
+                            <span>Abrir no leitor</span>
+                          <% end %>
+                        </li>
+                        <li>
                           <%= button_to admin_inscricao_path(inscricao, return_to: return_to),
                             method: :delete,
                             form: { data: { turbo: false }, class: "m-0" },

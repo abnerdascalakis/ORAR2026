@@ -22,4 +22,8 @@ class User < ApplicationRecord
   def read_only_admin?
     pastores?
   end
+
+  def operador_evento?
+    admin? && !read_only_admin?
+  end
 end
