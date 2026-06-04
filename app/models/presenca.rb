@@ -3,6 +3,6 @@ class Presenca < ApplicationRecord
   belongs_to :evento
   belongs_to :user
 
-  validates :registrada_em, presence: true
-  validates :inscricao_id, uniqueness: { scope: :evento_id }
+  validates :data, :registrada_em, presence: true
+  validates :inscricao_id, uniqueness: { scope: [ :evento_id, :data ] }
 end

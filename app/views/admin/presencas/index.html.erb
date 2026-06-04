@@ -23,7 +23,7 @@
     <div class="col-12 col-md-4">
       <div class="card admin-data-card border-0 rounded-4 shadow-sm h-100">
         <div class="card-body p-4">
-          <span class="text-secondary d-block">Presenças registradas</span>
+          <span class="text-secondary d-block">Presenças de hoje</span>
           <strong class="h3 mb-0"><%= @total_presencas %></strong>
         </div>
       </div>
@@ -41,7 +41,7 @@
     <div class="col-12 col-md-4">
       <div class="card admin-data-card border-0 rounded-4 shadow-sm h-100">
         <div class="card-body p-4">
-          <span class="text-secondary d-block">Ainda sem presença</span>
+          <span class="text-secondary d-block">Ainda sem presença hoje</span>
           <strong class="h3 mb-0"><%= @total_inscricoes - @total_presencas %></strong>
         </div>
       </div>
@@ -82,7 +82,7 @@
   <div class="card border-0 rounded-4 shadow-sm">
     <div class="card-header bg-white border-0 rounded-top-4 px-4 pt-4 pb-0">
       <h2 class="h5 fw-bold mb-1">Registros de presença</h2>
-      <p class="text-secondary mb-0">Cada inscrição aparece no máximo uma vez por evento.</p>
+      <p class="text-secondary mb-0">Cada inscrição aparece no máximo uma vez por dia.</p>
     </div>
 
     <div class="card-body p-0">
@@ -92,6 +92,7 @@
             <tr>
               <th class="ps-4">Participante</th>
               <th>Distrito</th>
+              <th>Data</th>
               <th>Horário bipado</th>
               <th>Operador</th>
             </tr>
@@ -104,6 +105,7 @@
                   <span class="text-secondary small"><%= presenca.inscricao.pessoa.telefone %></span>
                 </td>
                 <td><%= presenca.inscricao.distrito.nome %></td>
+                <td><%= l(presenca.data) %></td>
                 <td><%= l(presenca.registrada_em, format: :short) %></td>
                 <td><%= presenca.user.email %></td>
               </tr>
@@ -111,7 +113,7 @@
 
             <% if @presencas.empty? %>
               <tr>
-                <td colspan="4" class="text-center text-secondary py-5">
+                <td colspan="5" class="text-center text-secondary py-5">
                   <i class="bi bi-inbox fs-2 d-block mb-2"></i>
                   Nenhuma presença registrada.
                 </td>
