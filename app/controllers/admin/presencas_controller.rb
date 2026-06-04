@@ -3,8 +3,9 @@ class Admin::PresencasController < Admin::BaseController
     @distritos = Distrito.order(:nome)
     @nome_filtro = params[:nome].to_s.strip
     @distrito_filtro = Distrito.find_by(id: params[:distrito_id])
+    @data_referencia = Time.zone.today
     @total_inscricoes = current_event.inscricoes.count
-    @total_presencas = current_event.presencas.count
+    @total_presencas = current_event.presencas.where(data: @data_referencia).count
 
     presencas = current_event
       .presencas

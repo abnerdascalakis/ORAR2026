@@ -41,11 +41,12 @@ class Admin::LeitorQrsController < Admin::BaseController
   end
 
   def registrar_presenca
-    presenca = Presenca.find_or_initialize_by(inscricao: @inscricao, evento: current_event)
+    data_presenca = Time.zone.today
+    presenca = Presenca.find_or_initialize_by(inscricao: @inscricao, evento: current_event, data: data_presenca)
 
     if presenca.persisted?
       redirect_to admin_leitor_qr_path(operacao: "presenca"),
-        alert: "#{@inscricao.pessoa.nome} ja teve presenca registrada em #{I18n.l(presenca.registrada_em, format: :short)}."
+        alert: "#{@inscricao.pessoa.nome} ja teve presenca registrada hoje em #{I18n.l(presenca.registrada_em, format: :short)}."
       return
     end
 
