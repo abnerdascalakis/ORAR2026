@@ -42,19 +42,27 @@ class Admin::LeitorQrsController < Admin::BaseController
 
   def registrar_presenca
     data_presenca = Time.zone.today
-    presenca = Presenca.find_or_initialize_by(inscricao: @inscricao, evento: current_event, data: data_presenca)
+    presencas_do_dia = Presenca.where(inscricao: @inscricao, evento: current_event, data: data_presenca)
 
-    if presenca.persisted?
+    if presencas_do_dia.count >= 2
       redirect_to admin_leitor_qr_path(operacao: "presenca"),
-        alert: "#{@inscricao.pessoa.nome} ja teve presenca registrada hoje em #{I18n.l(presenca.registrada_em, format: :short)}."
+        alert: "#{@inscricao.pessoa.nome} ja teve 2 presencas registradas hoje."
       return
     end
 
-    presenca.assign_attributes(user: current_user, registrada_em: Time.current)
-    presenca.save!
+    sequencia = presencas_do_dia.maximum(:sequencia).to_i + 1
+
+    Presenca.create!(
+      inscricao: @inscricao,
+      evento: current_event,
+      data: data_presenca,
+      sequencia: sequencia,
+      user: current_user,
+      registrada_em: Time.current
+    )
 
     redirect_to admin_leitor_qr_path(operacao: "presenca"),
-      notice: "Presenca registrada para #{@inscricao.pessoa.nome}."
+      notice: "Presenca #{sequencia}/2 registrada para #{@inscricao.pessoa.nome}."
   end
 
   def registrar_consumo_alimentacao
