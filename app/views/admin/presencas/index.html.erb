@@ -51,12 +51,12 @@
   <div class="card border-0 rounded-4 shadow-sm mb-4">
     <div class="card-body p-4">
       <%= form_with url: admin_presencas_path, method: :get, data: { turbo: false }, html: { class: "row g-3 align-items-end" } do |form| %>
-        <div class="col-12 col-lg-5">
+        <div class="col-12 col-lg-4">
           <%= form.label :nome, "Pesquisar por nome", class: "form-label fw-semibold" %>
           <%= form.search_field :nome, value: @nome_filtro, class: "form-control", placeholder: "Nome do participante" %>
         </div>
 
-        <div class="col-12 col-lg-4">
+        <div class="col-12 col-lg-3">
           <%= form.label :distrito_id, "Distrito", class: "form-label fw-semibold" %>
           <%= form.collection_select :distrito_id,
             @distritos,
@@ -64,6 +64,11 @@
             :nome,
             { include_blank: "Todos os distritos", selected: @distrito_filtro&.id },
             { class: "form-select" } %>
+        </div>
+
+        <div class="col-12 col-lg-2">
+          <%= form.label :data, "Data", class: "form-label fw-semibold" %>
+          <%= form.date_field :data, value: @data_filtro, class: "form-control" %>
         </div>
 
         <div class="col-12 col-lg-3 d-flex gap-2">
@@ -92,23 +97,34 @@
             <tr>
               <th class="ps-4">Participante</th>
               <th>Distrito</th>
-              <th>Data</th>
+              <th>Registro</th>
               <th>Horário bipado</th>
               <th>Operador</th>
             </tr>
           </thead>
           <tbody>
-            <% @presencas.each do |presenca| %>
-              <tr>
-                <td class="ps-4">
-                  <strong class="d-block"><%= presenca.inscricao.pessoa.nome %></strong>
-                  <span class="text-secondary small"><%= presenca.inscricao.pessoa.telefone %></span>
+            <% @presencas.group_by(&:data).each do |data, presencas_do_dia| %>
+              <tr class="table-secondary">
+                <td colspan="5" class="ps-4 fw-semibold">
+                  <i class="bi bi-calendar-event me-2"></i><%= l(data) %>
                 </td>
-                <td><%= presenca.inscricao.distrito.nome %></td>
-                <td><%= l(presenca.data) %></td>
-                <td><%= l(presenca.registrada_em, format: :short) %></td>
-                <td><%= presenca.user.email %></td>
               </tr>
+
+              <% presencas_do_dia.group_by(&:inscricao_id).each_value do |presencas_da_inscricao| %>
+                <% presenca = presencas_da_inscricao.max_by(&:registrada_em) %>
+                <% total_registros = presencas_da_inscricao.size %>
+
+                <tr>
+                  <td class="ps-4">
+                    <strong class="d-block"><%= presenca.inscricao.pessoa.nome %></strong>
+                    <span class="text-secondary small"><%= presenca.inscricao.pessoa.telefone %></span>
+                  </td>
+                  <td><%= presenca.inscricao.distrito.nome %></td>
+                  <td><%= total_registros %>/2</td>
+                  <td><%= l(presenca.registrada_em, format: :short) %></td>
+                  <td><%= presenca.user.email %></td>
+                </tr>
+              <% end %>
             <% end %>
 
             <% if @presencas.empty? %>

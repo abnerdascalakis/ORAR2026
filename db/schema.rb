@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_03_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_04_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -115,10 +115,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_120000) do
     t.bigint "evento_id", null: false
     t.bigint "inscricao_id", null: false
     t.datetime "registrada_em", null: false
+    t.integer "sequencia", default: 1, null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["evento_id"], name: "index_presencas_on_evento_id"
-    t.index ["inscricao_id", "evento_id", "data"], name: "index_presencas_on_inscricao_id_and_evento_id_and_data", unique: true
+    t.index ["inscricao_id", "evento_id", "data", "sequencia"], name: "index_presencas_unique_por_sequencia", unique: true
     t.index ["inscricao_id"], name: "index_presencas_on_inscricao_id"
     t.index ["user_id"], name: "index_presencas_on_user_id"
   end
